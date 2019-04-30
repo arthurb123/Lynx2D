@@ -1,21 +1,46 @@
-this.Initialize = function(title) {
+this.Initialize = function(target) {
     //Setup canvas
+
     this.CONTEXT.CANVAS = document.createElement('canvas');
     this.CONTEXT.CANVAS.id = 'lynx-canvas';
-    this.CONTEXT.CANVAS.style = 'background-color: #282828; position: absolute; top: 0px; left: 0px;';
+    this.CONTEXT.CANVAS.style = 'background-color: #282828;';
     this.CONTEXT.CANVAS.oncontextmenu = function(e) { e.preventDefault(); return false; };
     
     //Setup graphics
+    
     this.CONTEXT.GRAPHICS = this.CONTEXT.CANVAS.getContext('2d');
 
-    //Append and set title
-    document.body.appendChild(this.CONTEXT.CANVAS);
-    if (title != undefined) document.title = title;
+    //Older framework usability
+
+    let targetIsString = (typeof target === 'string');
+
+    //Check if target is supplied
+    //and add to target (standard is body)
+    
+    if (target == undefined ||
+        targetIsString) {
+        if (targetIsString)
+            document.title = target;
+
+        target = document.body;
+        this.CONTEXT.CANVAS.style = 'background-color: #282828; position: absolute; top: 0px; left: 0px;';
+    }
+
+    target.appendChild(this.CONTEXT.CANVAS);
     
     //Setup window
+
     window.onresize = function() {
-        lx.CONTEXT.CANVAS.width = self.innerWidth;
-        lx.CONTEXT.CANVAS.height = self.innerHeight;
+        let width = target.offsetWidth,
+            height = target.offsetWidth;
+
+        if (target == document.body) {
+            width = self.innerWidth;
+            height = self.innerHeight;
+        }
+
+        lx.CONTEXT.CANVAS.width = width;
+        lx.CONTEXT.CANVAS.height = height;
     };
     window.onresize();
     

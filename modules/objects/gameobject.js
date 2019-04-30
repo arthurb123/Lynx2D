@@ -71,11 +71,17 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.Size = function(width, height) {
-        if (width == undefined || height == undefined) return this.SIZE;
-        else this.SIZE = {
-            W: width,
-            H: height
-        };
+        if (width == undefined && height == undefined) 
+            return this.SIZE;
+        else {
+            if (height == undefined)
+                height = width;
+
+            this.SIZE = {
+                W: width,
+                H: height
+            };
+        }
         
         return this;
     };
@@ -200,6 +206,18 @@ this.GameObject = function (sprite, x, y, w, h) {
     this.ClearAnimation = function() {
         this.ANIMATION = undefined;
         
+        return this;
+    };
+
+    this.ShowColorOverlay = function(color, duration) {
+        this.SPRITE.ShowColorOverlay(color, duration);
+
+        return this;
+    };
+
+    this.HideColorOverlay = function() {
+        this.SPRITE.HideColorOverlay();
+
         return this;
     };
     

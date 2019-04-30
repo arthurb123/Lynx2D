@@ -437,7 +437,7 @@ this.GAME = {
             
             return this.CHANNELS[CHANNEL];
         },
-        ADD: function (SRC, CHANNEL, DELAY) {
+        ADD: function (SRC, CHANNEL, DELAY, LOOPS) {
             if (!this.CAN_PLAY || SRC == "") return;
             
             if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
@@ -450,6 +450,7 @@ this.GAME = {
                         CHANNEL: CHANNEL,
                         SPATIAL: false,
                         DELAY: DELAY,
+                        LOOPS: LOOPS,
                         PLAYING: false
                     };
                     
@@ -457,7 +458,7 @@ this.GAME = {
                 }
             }
         },
-        ADD_SPATIAL: function(POS, SRC, CHANNEL, DELAY) {
+        ADD_SPATIAL: function(POS, SRC, CHANNEL, DELAY, LOOPS) {
             if (!this.CAN_PLAY || SRC == "") return;
             
             if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
@@ -471,6 +472,7 @@ this.GAME = {
                         SPATIAL: true,
                         CHANNEL: CHANNEL,
                         DELAY: DELAY,
+                        LOOPS: LOOPS,
                         PLAYING: false
                     };
                     
@@ -509,11 +511,16 @@ this.GAME = {
                     temp.src = this.SOUNDS[i].SRC;
                     temp.play_id = i;
                     temp.onended = function() {
-                        lx.GAME.AUDIO.SOUNDS[this.play_id] = undefined;
+                        if (lx.GAME.AUDIO.SOUNDS[this.play_id].LOOPS)
+                            lx.GAME.AUDIO.SOUNDS[this.play_id].AUDIO.play();
+                        else
+                            lx.GAME.AUDIO.SOUNDS[this.play_id] = undefined;
                     }
                     
-                    if (!this.SOUNDS[i].SPATIAL) temp.volume = this.CHANNELS[this.SOUNDS[i].CHANNEL];
-                    else temp.volume = this.CALCULATE_SPATIAL(this.SOUNDS[i].POS, this.SOUNDS[i].CHANNEL);
+                    if (!this.SOUNDS[i].SPATIAL) 
+                        temp.volume = this.CHANNELS[this.SOUNDS[i].CHANNEL];
+                    else 
+                        temp.volume = this.CALCULATE_SPATIAL(this.SOUNDS[i].POS, this.SOUNDS[i].CHANNEL);
                     
                     this.SOUNDS[i].PLAYING = true;
                     this.SOUNDS[i].AUDIO = temp;

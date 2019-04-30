@@ -442,7 +442,7 @@ this.GAME = {
             
             return this.CHANNELS[CHANNEL];
         },
-        ADD: function (SRC, CHANNEL, DELAY) {
+        ADD: function (SRC, CHANNEL, DELAY, LOOPS) {
             if (!this.CAN_PLAY || SRC == "") return;
             
             if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
@@ -455,6 +455,7 @@ this.GAME = {
                         CHANNEL: CHANNEL,
                         SPATIAL: false,
                         DELAY: DELAY,
+                        LOOPS: LOOPS,
                         PLAYING: false
                     };
                     
@@ -462,7 +463,7 @@ this.GAME = {
                 }
             }
         },
-        ADD_SPATIAL: function(POS, SRC, CHANNEL, DELAY) {
+        ADD_SPATIAL: function(POS, SRC, CHANNEL, DELAY, LOOPS) {
             if (!this.CAN_PLAY || SRC == "") return;
             
             if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
@@ -476,6 +477,7 @@ this.GAME = {
                         SPATIAL: true,
                         CHANNEL: CHANNEL,
                         DELAY: DELAY,
+                        LOOPS: LOOPS,
                         PLAYING: false
                     };
                     
@@ -514,11 +516,16 @@ this.GAME = {
                     temp.src = this.SOUNDS[i].SRC;
                     temp.play_id = i;
                     temp.onended = function() {
-                        lx.GAME.AUDIO.SOUNDS[this.play_id] = undefined;
+                        if (lx.GAME.AUDIO.SOUNDS[this.play_id].LOOPS)
+                            lx.GAME.AUDIO.SOUNDS[this.play_id].AUDIO.play();
+                        else
+                            lx.GAME.AUDIO.SOUNDS[this.play_id] = undefined;
                     }
                     
-                    if (!this.SOUNDS[i].SPATIAL) temp.volume = this.CHANNELS[this.SOUNDS[i].CHANNEL];
-                    else temp.volume = this.CALCULATE_SPATIAL(this.SOUNDS[i].POS, this.SOUNDS[i].CHANNEL);
+                    if (!this.SOUNDS[i].SPATIAL) 
+                        temp.volume = this.CHANNELS[this.SOUNDS[i].CHANNEL];
+                    else 
+                        temp.volume = this.CALCULATE_SPATIAL(this.SOUNDS[i].POS, this.SOUNDS[i].CHANNEL);
                     
                     this.SOUNDS[i].PLAYING = true;
                     this.SOUNDS[i].AUDIO = temp;
@@ -688,7 +695,7 @@ this.ClearLoops = function() {
     return this;
 };
 
-/* Finder */
+/* Finding */
 
 this.FindGameObjectWithCollider = function(collider) {
     for (let i = 0; i < this.GAME.BUFFER.length; i++) {
@@ -726,24 +733,49 @@ this.FindGameObjectsWithIdentifier = function(identifier) {
 
 /* Main */
 
-this.Initialize = function(title) {
+this.Initialize = function(target) {
     //Setup canvas
+
     this.CONTEXT.CANVAS = document.createElement('canvas');
     this.CONTEXT.CANVAS.id = 'lynx-canvas';
-    this.CONTEXT.CANVAS.style = 'background-color: #282828; position: absolute; top: 0px; left: 0px;';
+    this.CONTEXT.CANVAS.style = 'background-color: #282828;';
     this.CONTEXT.CANVAS.oncontextmenu = function(e) { e.preventDefault(); return false; };
     
     //Setup graphics
+    
     this.CONTEXT.GRAPHICS = this.CONTEXT.CANVAS.getContext('2d');
 
-    //Append and set title
-    document.body.appendChild(this.CONTEXT.CANVAS);
-    if (title != undefined) document.title = title;
+    //Older framework usability
+
+    let targetIsString = (typeof target === 'string');
+
+    //Check if target is supplied
+    //and add to target (standard is body)
+    
+    if (target == undefined ||
+        targetIsString) {
+        if (targetIsString)
+            document.title = target;
+
+        target = document.body;
+        this.CONTEXT.CANVAS.style = 'background-color: #282828; position: absolute; top: 0px; left: 0px;';
+    }
+
+    target.appendChild(this.CONTEXT.CANVAS);
     
     //Setup window
+
     window.onresize = function() {
-        lx.CONTEXT.CANVAS.width = self.innerWidth;
-        lx.CONTEXT.CANVAS.height = self.innerHeight;
+        let width = target.offsetWidth,
+            height = target.offsetWidth;
+
+        if (target == document.body) {
+            width = self.innerWidth;
+            height = self.innerHeight;
+        }
+
+        lx.CONTEXT.CANVAS.width = width;
+        lx.CONTEXT.CANVAS.height = height;
     };
     window.onresize();
     
@@ -1457,11 +1489,17 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.Size = function(width, height) {
-        if (width == undefined || height == undefined) return this.SIZE;
-        else this.SIZE = {
-            W: width,
-            H: height
-        };
+        if (width == undefined && height == undefined) 
+            return this.SIZE;
+        else {
+            if (height == undefined)
+                height = width;
+
+            this.SIZE = {
+                W: width,
+                H: height
+            };
+        }
         
         return this;
     };
@@ -1586,6 +1624,18 @@ this.GameObject = function (sprite, x, y, w, h) {
     this.ClearAnimation = function() {
         this.ANIMATION = undefined;
         
+        return this;
+    };
+
+    this.ShowColorOverlay = function(color, duration) {
+        this.SPRITE.ShowColorOverlay(color, duration);
+
+        return this;
+    };
+
+    this.HideColorOverlay = function() {
+        this.SPRITE.HideColorOverlay();
+
         return this;
     };
     
@@ -1799,18 +1849,25 @@ this.Scene = function(callback) {
 
 this.Sound = function (src, channel) {
     this.SRC = src;
-    this.POS = { X: 0, Y: 0 };
+    this.POS = { 
+        X: 0, 
+        Y: 0 
+    };
     this.PLAY_ID = [];
     
-    if (channel != undefined) this.CHANNEL = channel;
-    else this.CHANNEL = 0;
+    if (channel != undefined) 
+        this.CHANNEL = channel;
+    else 
+        this.CHANNEL = 0;
     
     this.Position = function(x, y) {
-        if (x == undefined || y == undefined) return this.POS;
-        else this.POS = {
-            X: x,
-            Y: y
-        };
+        if (x == undefined || y == undefined) 
+            return this.POS;
+        else 
+            this.POS = {
+                X: x,
+                Y: y
+            };
         
         return this;
     };
@@ -1824,27 +1881,44 @@ this.Sound = function (src, channel) {
         return this;
     };
     
-    this.Play = function (delay) {
-        if (this.PLAY_ID != undefined && lx.GAME.AUDIO.SOUNDS[this.PLAY_ID] != undefined)
+    this.Play = function (loops, delay) {
+        if (this.PLAY_ID != undefined && 
+            lx.GAME.AUDIO.SOUNDS[this.PLAY_ID] != undefined)
             return;
         
-        this.PLAY_ID = lx.GAME.AUDIO.ADD(this.SRC, this.CHANNEL, delay);
+        this.PLAY_ID = 
+            lx.GAME.AUDIO.ADD(
+                this.SRC, 
+                this.CHANNEL, 
+                delay, 
+                loops
+            );
         
         return this;
     };
     
-    this.PlaySpatial = function(delay) {
-        if (this.PLAY_ID != undefined && lx.GAME.AUDIO.SOUNDS[this.PLAY_ID] != undefined)
+    this.PlaySpatial = function(loops, delay) {
+        if (this.PLAY_ID != undefined && 
+            lx.GAME.AUDIO.SOUNDS[this.PLAY_ID] != undefined)
             return;
         
-        this.PLAY_ID = lx.GAME.AUDIO.ADD_SPATIAL(this.POS, this.SRC, this.CHANNEL, delay);
+        this.PLAY_ID = 
+            lx.GAME.AUDIO.ADD_SPATIAL(
+                this.POS, 
+                this.SRC, 
+                this.CHANNEL, 
+                delay, 
+                loops
+            );
         
         return this;
     };
     
     this.Channel = function(channel) {
-        if (channel != undefined) this.CHANNEL = channel;
-        else return this.CHANNEL;
+        if (channel != undefined) 
+            this.CHANNEL = channel;
+        else 
+            return this.CHANNEL;
         
         return this;
     };
@@ -1853,34 +1927,57 @@ this.Sound = function (src, channel) {
 /* Sprite Object */
 
 this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
+    //Check if no clip but a 
+    //callback is provided (compact callback)
+
+    if (c_x != undefined && 
+        typeof c_x === 'function') {
+        cb = c_x;
+        c_x = undefined;
+    }
+
+    //Load image if the source is a string
+
     if (typeof source === 'string') {
         this.IMG = new Image();
         this.IMG.onload = cb;
         this.IMG.src = source;
-    } else 
+    } 
+    
+    //Otherwise straight up accept it (for canvas usage)
+
+    else 
         this.IMG = source;
     
     this.ROTATION = 0;
+    this.OPACITY = 1;
     
-    if (c_x != undefined || c_y != undefined || c_w != undefined || c_h != undefined) this.CLIP = {
-        X: c_x,
-        Y: c_y,
-        W: c_w,
-        H: c_h
-    };
+    //Set clip if specified
+
+    if (c_x != undefined || 
+        c_y != undefined || 
+        c_w != undefined || 
+        c_h != undefined) 
+        this.CLIP = {
+            X: c_x,
+            Y: c_y,
+            W: c_w,
+            H: c_h
+        };
+
+    //Functionality
     
     this.Size = function() {
-        if (this.CLIP != undefined) {
+        if (this.CLIP != undefined) 
             return {
                 W: this.CLIP.W,
                 H: this.CLIP.H
             };
-        } else return {
-            W: this.IMG.width,
-            H: this.IMG.height
-        };
-        
-        return this;
+        else 
+            return {
+                W: this.IMG.width,
+                H: this.IMG.height
+            };
     };
     
     this.Source = function(src) {
@@ -1893,55 +1990,187 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         return this;
     }
     
-    this.Clip = function(clip_x, clip_y, clip_w, clip_h) {
-        if (clip_x == undefined || clip_y == undefined || clip_w == undefined || clip_h == undefined) return this.CLIP;
-        else this.CLIP = {
-            X: clip_x,
-            Y: clip_y,
-            W: clip_w,
-            H: clip_h
-        };
+    this.Clip = function(c_x, c_y, c_w, c_h) {
+        if (c_x == undefined || 
+            c_y == undefined || 
+            c_w == undefined || 
+            c_h == undefined) 
+            return this.CLIP;
+        else 
+            this.CLIP = {
+                X: c_x,
+                Y: c_y,
+                W: c_w,
+                H: c_h
+            };
         
         return this;
     };
     
-    this.Rotation = function(angle) {
-        if (angle == undefined) return this.ROTATION;
-        else this.ROTATION = angle;
+    this.Rotation = function(radians) {
+        if (radians == undefined) 
+            return this.ROTATION;
+        else 
+            this.ROTATION = radians;
         
         return this;
     };
     
-    this.RENDER = function(POS, SIZE, OPACITY) {
+    this.Opacity = function(factor) {
+        if (factor == undefined) 
+            return this.OPACITY;
+        else 
+            this.OPACITY = factor;
+        
+        return this;
+    };
+
+    this.ShowColorOverlay = function(color, duration) {
+        if (this.COLOR_OVERLAY == undefined && 
+            color == undefined)
+            return this;
+
+        this.SET_COLOR_OVERLAY(color);
+
+        this.SHOW_COLOR_OVERLAY = true;
+        this.COLOR_OVERLAY_DURATION = duration;
+
+        return this;
+    };
+
+    this.HideColorOverlay = function() {
+        this.SHOW_COLOR_OVERLAY = false;
+
+        return this;
+    };
+    
+    this.RENDER = function(POS, SIZE, OPACITY, TARGET) {
+        let CANVAS_SAVED = false;
+
+        //Check size and specified drawing target
+        
         if (SIZE == undefined) 
             SIZE = this.Size();
-        
-        lx.CONTEXT.GRAPHICS.save();
-        
-        if (OPACITY != undefined)
+        if (TARGET == undefined)
+            TARGET = lx.CONTEXT.GRAPHICS;
+
+        //Check for opacity
+
+        if (OPACITY != undefined ||
+            this.OPACITY != 1) {
+            if (OPACITY == undefined)
+                OPACITY = this.OPACITY;
+            
             lx.CONTEXT.GRAPHICS.globalAlpha = OPACITY;
-        
-        if (this.CLIP == undefined) {
-            if (this.ROTATION == 0) 
-                lx.CONTEXT.GRAPHICS.drawImage(this.IMG, POS.X, POS.Y, SIZE.W, SIZE.H);
-            else {
-                lx.CONTEXT.GRAPHICS.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
-                lx.CONTEXT.GRAPHICS.rotate(this.ROTATION);
-                lx.CONTEXT.GRAPHICS.drawImage(this.IMG, -SIZE.W/2, -SIZE.H/2, SIZE.W, SIZE.H);
-            }
+            
+            lx.CONTEXT.GRAPHICS.save();
+            CANVAS_SAVED = true;
         }
-        else {
-            if (this.ROTATION == 0) 
-                lx.CONTEXT.GRAPHICS.drawImage(this.IMG, this.CLIP.X, this.CLIP.Y, this.CLIP.W, this.CLIP.H, POS.X, POS.Y, SIZE.W, SIZE.H);
-            else {
-                lx.CONTEXT.GRAPHICS.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
-                lx.CONTEXT.GRAPHICS.rotate(this.ROTATION);
-                lx.CONTEXT.GRAPHICS.drawImage(this.IMG, this.CLIP.X, this.CLIP.Y, this.CLIP.W, this.CLIP.H, -SIZE.W/2, -SIZE.H/2, SIZE.W, SIZE.H);
-            }
-        }
+
+        //Check for color overlay
+
+        let IMG = this.IMG;
+        if (this.SHOW_COLOR_OVERLAY)
+            IMG = this.COLOR_OVERLAY;
+
+        //Draw respectively
         
-        lx.CONTEXT.GRAPHICS.restore();
-    }
+        if (this.CLIP == undefined || this.SHOW_COLOR_OVERLAY) 
+            //Full image (or color overlay)
+
+            if (this.ROTATION == 0) 
+                TARGET.drawImage(IMG, POS.X, POS.Y, SIZE.W, SIZE.H);
+            else {
+                if (!CANVAS_SAVED)
+                    TARGET.save();
+                
+                TARGET.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
+                TARGET.rotate(this.ROTATION);
+                TARGET.drawImage(IMG, -SIZE.W/2, -SIZE.H/2, SIZE.W, SIZE.H);
+            }
+        else 
+            //Clipped image
+
+            if (this.ROTATION == 0) 
+                TARGET.drawImage(this.IMG, this.CLIP.X, this.CLIP.Y, this.CLIP.W, this.CLIP.H, POS.X, POS.Y, SIZE.W, SIZE.H);
+            else {
+                if (!CANVAS_SAVED)
+                    TARGET.save();
+                
+                TARGET.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
+                TARGET.rotate(this.ROTATION);
+                TARGET.drawImage(this.IMG, this.CLIP.X, this.CLIP.Y, this.CLIP.W, this.CLIP.H, -SIZE.W/2, -SIZE.H/2, SIZE.W, SIZE.H);
+            }
+        
+        //Restore canvas if necessary
+
+        if (CANVAS_SAVED)
+            TARGET.restore();
+
+        //Handle color overlay duration if needed
+
+        if (TARGET != lx.CONTEXT.GRAPHICS &&
+            this.COLOR_OVERLAY_DURATION != undefined)
+        {
+            this.COLOR_OVERLAY_DURATION--;
+
+            if (this.COLOR_OVERLAY_DURATION <= 0)
+                this.HideColorOverlay();
+        }
+    };
+
+    this.SET_COLOR_OVERLAY = function(COLOR) {
+        if (COLOR != undefined) {
+            let SAVE_ID = COLOR;
+
+            if (this.CLIP != undefined) {
+                let ID = 'C'+COLOR+'X'+this.CLIP.X+'Y'+this.CLIP.Y+'W'+this.CLIP.W+'H'+this.CLIP.H;
+
+                if (this.CLIPPED_COLOR_OVERLAYS[ID] != undefined) {
+                    this.COLOR_OVERLAY = this.CLIPPED_COLOR_OVERLAYS[ID];
+
+                    return;
+                }
+                else
+                    SAVE_ID = ID;
+            } else {
+                if (this.COLOR_OVERLAY != undefined &&
+                    this.COLOR_OVERLAY._SAVE_ID === COLOR)
+                    return;
+
+                SAVE_ID = COLOR;
+            }
+
+            let SIZE = this.Size();
+
+            let COLOR_OVERLAY = document.createElement('canvas');
+            
+            COLOR_OVERLAY.width = SIZE.W;
+            COLOR_OVERLAY.height = SIZE.H;
+
+            let COLOR_OVERLAY_GFX = COLOR_OVERLAY.getContext('2d');
+
+            COLOR_OVERLAY_GFX.fillStyle = COLOR;
+            COLOR_OVERLAY_GFX.fillRect(0, 0, SIZE.W, SIZE.H);
+            COLOR_OVERLAY_GFX.globalCompositeOperation = 'destination-atop';
+
+            this.RENDER(
+                { X: 0, Y: 0 }, 
+                SIZE, 
+                1, 
+                COLOR_OVERLAY_GFX
+            );
+
+            if (SAVE_ID != undefined &&
+                this.CLIP != undefined)
+                this.CLIPPED_COLOR_OVERLAYS[SAVE_ID] = COLOR_OVERLAY;
+
+            COLOR_OVERLAY._SAVE_ID = SAVE_ID;
+            this.COLOR_OVERLAY = COLOR_OVERLAY;
+        }
+
+        return this;
+    };
 };
 
 /* Richtext Object */
