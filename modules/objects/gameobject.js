@@ -1,3 +1,13 @@
+/**
+ * Lynx2D GameObject
+ * @class
+ * @param {Sprite} sprite - The sprite of the GameObject, can be undefined.
+ * @param {number}        x - The X position.
+ * @param {number}        y - The Y position.
+ * @param {number}        w - The width.
+ * @param {number}        h - The height.
+ */
+
 this.GameObject = function (sprite, x, y, w, h) {
     this.SPRITE = sprite;
     this.BUFFER_ID = -1;
@@ -63,12 +73,25 @@ this.GameObject = function (sprite, x, y, w, h) {
         }
     };
     
+    /** 
+     * Get/Set the GameObject's identifier.
+     * @param {string} ID - Sets identifier if specified.
+     * @return {string} Gets identifier if left empty.
+    */
+    
     this.Identifier = function (ID) {
         if (ID == undefined) return this.ID;
         else this.ID = ID;
         
         return this;
     };
+    
+    /** 
+     * Get/Set the GameObject's size.
+     * @param {number} width - Sets width if specified, also sets height if the height is not specified.
+     * @param {number} height - Sets height if specified.
+     * @return {object} Gets { W, H } if left empty.
+    */
     
     this.Size = function(width, height) {
         if (width == undefined && height == undefined) 
@@ -86,6 +109,13 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
+    /** 
+     * Get/Set the GameObject's position.
+     * @param {number} x - Sets x position if specified.
+     * @param {number} y - Sets y position if specified.
+     * @return {object} Gets { X, Y } if left empty.
+    */
+    
     this.Position = function(x, y) {
         if (x == undefined || y == undefined) return this.POS;
         else this.POS = {
@@ -95,6 +125,13 @@ this.GameObject = function (sprite, x, y, w, h) {
         
         return this;
     };
+    
+    /** 
+     * Get/Set the GameObject's movement velocity. (can exceed max velocity upon set)
+     * @param {number} vx - Sets x velocity if specified.
+     * @param {number} vy - Sets y velocity if specified.
+     * @return {object} Gets { VX, VY } if left empty.
+    */
     
     this.Movement = function(vx, vy) {
         if (vx == undefined || vy == undefined) return {
@@ -109,6 +146,12 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
+    /** 
+     * Get/Set the GameObject's rotation (in radians).
+     * @param {number} angle - Sets new rotation if specified.
+     * @return {number} Gets rotation if left empty.
+    */
+    
     this.Rotation = function(angle) {
         if (this.SPRITE == undefined || this.SPRITE == null) return -1;
         
@@ -118,14 +161,14 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    this.Opacity = function(factor) {
-        if (factor == undefined) 
-            return this.OPACITY;
-        else 
-            this.OPACITY = factor;
-        
-        return this;
-    };
+    /** 
+     * Get/Set the clip of the GameObject's Sprite.
+     * @param {number} c_x - Sets clip x position if specified.
+     * @param {number} c_y - Sets clip y position if specified.
+     * @param {number} c_w - Sets clip width if specified.
+     * @param {number} c_h - Sets clip height if specified.
+     * @return {object} Gets { CX, CY, CW, CH } if left empty.
+    */
     
     this.Clip = function(c_x, c_y, c_w, c_h) {
         if (this.SPRITE == undefined || this.SPRITE == null) return -1;
@@ -148,6 +191,83 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
+    /** 
+     * Shows the GameObject on the specified layer.
+     * @param {number} layer - The layer the GameObject should be shown on.
+    */
+    
+    this.Show = function(layer) {
+        if (this.BUFFER_ID != -1) 
+            this.Hide();
+        
+        this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
+        this.BUFFER_LAYER = layer;
+        
+        if (this.COLLIDER != undefined) this.COLLIDER.Enable();
+        
+        return this;
+    };
+    
+    /** 
+     * Hide the GameObject.
+    */
+    
+    this.Hide = function() {
+        if (this.BUFFER_ID == -1) return;
+        
+        lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
+        this.BUFFER_ID = -1;
+        this.BUFFER_LAYER = 0;
+        
+        if (this.COLLIDER != undefined) this.COLLIDER.Disable();
+        
+        return this;
+    };
+        
+    /** 
+     * Focusses the GameObject.
+    */
+        
+    this.Focus = function() {
+        lx.GAME.FOCUS_GAMEOBJECT(this);  
+        
+        return this;
+    };
+    
+    /** 
+     * Get/Set the GameObject's opacity.
+     * @param {number} opacity - Sets opacity if specified (0-1). 
+     * @return {number} Gets opacity if left empty.
+    */
+    
+    this.Opacity = function(opacity) {
+        if (opacity == undefined) 
+            return this.OPACITY;
+        else 
+            this.OPACITY = opacity;
+        
+        return this;
+    };
+    
+    /** 
+     * Adds velocity to the GameObject.
+     * @param {number} vel_x - The x velocity to add.
+     * @param {number} vel_y - The y velocity to add.
+    */
+    
+    this.AddVelocity = function(vel_x, vel_y) {
+        this.MOVEMENT.APPLY(vel_x, vel_y);
+        
+        return this;
+    };
+        
+    /** 
+     * Get/Set the GameObject's max velocities.
+     * @param {number} max_vel_x - Sets max x velocity if specified. (Max x velocity also applies to the max y velocity if it is undefined) 
+     * @param {number} max_vel_y - Sets max y velocity if specified. 
+     * @return {object} Gets { VX, VY } if left empty.
+    */
+    
     this.MaxVelocity = function(max_vel_x, max_vel_y) {
         if (max_vel_x == undefined &&
             max_vel_y == undefined) 
@@ -164,6 +284,27 @@ this.GameObject = function (sprite, x, y, w, h) {
         
         return this;
     };
+    
+    /** 
+     * Get/Set if the GameObject decelerates.
+     * @param {boolean} decelerates - Sets if movement decelerates.
+     * @return {boolean} Gets if movement decelerates if left empty.
+    */
+    
+    this.MovementDecelerates = function(decelerates) {
+        if (decelerates != undefined)
+            this.MOVEMENT.DECELERATES = decelerates;  
+        else
+            return this.MOVEMENT.DECELERATES;
+        
+        return this;
+    };
+    
+    /** 
+     * Get/Set the GameObject's weight, this affects movement deceleration (1 by default).
+     * @param {number} weight - Sets weight if specified. 
+     * @return {number} Gets weight if left empty.
+    */
 
     this.Weight = function(weight) {
         if (weight == undefined)
@@ -174,64 +315,13 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    this.Show = function(layer) {
-        if (this.BUFFER_ID != -1) this.Hide();
-        
-        this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
-        this.BUFFER_LAYER = layer;
-        
-        if (this.COLLIDER != undefined) this.COLLIDER.Enable();
-        
-        return this;
-    };
-    
-    this.Hide = function() {
-        if (this.BUFFER_ID == -1) return;
-        
-        lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
-        this.BUFFER_ID = -1;
-        this.BUFFER_LAYER = 0;
-        
-        if (this.COLLIDER != undefined) this.COLLIDER.Disable();
-        
-        return this;
-    };
-    
-    this.ShowAnimation = function(animation) {
-        this.ANIMATION = animation;
-        
-        return this;
-    };
-    
-    this.ClearAnimation = function() {
-        this.ANIMATION = undefined;
-        
-        return this;
-    };
-
-    this.ShowColorOverlay = function(color, duration) {
-        this.SPRITE.ShowColorOverlay(color, duration);
-
-        return this;
-    };
-
-    this.HideColorOverlay = function() {
-        this.SPRITE.HideColorOverlay();
-
-        return this;
-    };
-    
-    this.AddVelocity = function(vel_x, vel_y) {
-        this.MOVEMENT.APPLY(vel_x, vel_y);
-        
-        return this;
-    };
-    
-    this.MovementDecelerates = function(boolean) {
-        this.MOVEMENT.DECELERATES = boolean;  
-        
-        return this;
-    };
+    /** 
+     * Creates a standard top down controller for the GameObject.
+     * @param {number} x_speed - The x acceleration speed.
+     * @param {number} y_speed - The y acceleration speed.
+     * @param {number} max_vel_x - The max x velocity. (Max x velocity also applies to the max y velocity if it is undefined) 
+     * @param {number} max_vel_y - The max y velocity.
+    */
     
     this.SetTopDownController = function(x_speed, y_speed, max_vel_x, max_vel_y) {    
         lx.CONTEXT.CONTROLLER.TARGET = this;
@@ -245,15 +335,43 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    this.SetSideWaysController = function(speed, max_vel_x, max_vel_y) {
+    /** 
+     * Creates a standard top down controller for the GameObject.
+     * @param {number} speed - The (x) acceleration speed.
+     * @param {number} max_vel - The max (x and y) velocity.
+    */
+    
+    this.SetSideWaysController = function(speed, max_vel) {
         lx.CONTEXT.CONTROLLER.TARGET = this;
         lx.OnKey('A', function() { lx.CONTEXT.CONTROLLER.TARGET.AddVelocity(-speed, 0); });
         lx.OnKey('D', function() { lx.CONTEXT.CONTROLLER.TARGET.AddVelocity(speed, 0); });
         
-        this.MaxVelocity(max_vel_x, max_vel_y);
+        this.MaxVelocity(max_vel);
         
         return this;
     };
+    
+    /** 
+     * Creates a standard collider based on the GameObject's size.
+     * @param {boolean} is_static - If static the collider can not be moved.
+     * @param {function} callback - The collision callback, provides collision data as an object.
+    */
+    
+    this.CreateCollider = function(is_static, callback) {
+        this.COLLIDER = new lx.Collider(this.Position().X, this.Position().Y, this.Size().W, this.Size().H, is_static, callback);
+        this.COLLIDER.OFFSET = {
+            X: 0,
+            Y: 0
+        };
+        this.COLLIDER.Enable();
+        
+        return this;
+    };
+    
+    /** 
+     * Applies a collider to the GameObject.
+     * @param {Collider} collider - The collider to be applied.
+    */
     
     this.ApplyCollider = function(collider) {
         if (collider == undefined) return;
@@ -272,6 +390,10 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
+    /** 
+     * Removes the GameObject's Collider.
+    */
+    
     this.ClearCollider = function() {
         if (this.COLLIDER == undefined) return;
         
@@ -281,22 +403,56 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    this.CreateCollider = function(is_static, callback) {
-        this.COLLIDER = new lx.Collider(this.Position().X, this.Position().Y, this.Size().W, this.Size().H, is_static, callback);
-        this.COLLIDER.OFFSET = {
-            X: 0,
-            Y: 0
-        };
-        this.COLLIDER.Enable();
+        /** 
+     * Displays an Animation on the GameObject instead of it's Sprite.
+     * @param {Animation} animation - The animation to show.
+    */
+    
+    this.ShowAnimation = function(animation) {
+        this.ANIMATION = animation;
         
         return this;
     };
     
-    this.Focus = function() {
-        lx.GAME.FOCUS_GAMEOBJECT(this);  
+    /**
+     * Clears the current Animation and restores the Sprite.
+    */
+    
+    this.ClearAnimation = function() {
+        this.ANIMATION = undefined;
         
         return this;
     };
+    
+    /** 
+     * Displays a color overlay on the GameObject.
+     * @param {string} color - The color to be overlayed.
+     * @param {number} duration - The duration of the color overlay, can be undefined.
+    */
+
+    this.ShowColorOverlay = function(color, duration) {
+        if (this.ANIMATION != undefined) 
+            this.ANIMATION.GET_CURRENT_FRAME().ShowColorOverlay(color, duration);
+        else
+            this.SPRITE.ShowColorOverlay(color, duration);
+
+        return this;
+    };
+    
+    /** 
+     * Hides the current color overlay on the GameObject.
+    */
+
+    this.HideColorOverlay = function() {
+        this.SPRITE.HideColorOverlay();
+
+        return this;
+    };
+    
+    /** 
+     * Places a callback function in the GameObject's update loop.
+     * @param {function} callback - The callback to be looped.
+    */
     
     this.Loops = function(callback) {
         this.LOOPS = callback;
@@ -304,11 +460,20 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
+    /** 
+     * Clears the update callback function being looped.
+    */
+    
     this.ClearLoops = function() {
         this.LOOPS = undefined;
         
         return this;
     };
+    
+    /** 
+     * Places a callback function in the GameObject's render loop.
+     * @param {function} callback - The callback to be looped, provides rendering data as an object.
+    */
     
     this.Draws = function(callback) {
         this.DRAWS = callback;  
@@ -316,11 +481,21 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
+    /** 
+     * Clears the rendering callback function being looped.
+    */
+    
     this.ClearDraws = function() {
         this.DRAWS = undefined;  
         
         return this;
     };
+    
+    /** 
+     * Adds a mouse click event listener to the GameObject.
+     * @param {number}   button - The button that triggers the event (0-2).
+     * @param {function} callback - The event callback, provides mouse data as an object.
+    */
     
     this.OnMouse = function(button, callback) {
         if (this.CLICK_ID[button] != undefined) {
@@ -333,6 +508,11 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
+    /** 
+     * Removes the mouse click event listener on the specified button.
+     * @param {number}   button - The button that triggers the event (0-2).
+    */
+    
     this.RemoveMouse = function(button) {
         if (this.CLICK_ID[button] == undefined) return this;
         else lx.GAME.REMOVE_GO_MOUSE_EVENT(this.CLICK_ID[button]);
@@ -340,6 +520,10 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
 
+    /** 
+     * Removes all mouse click event listeners.
+    */
+    
     this.ClearMouse = function() {
         for (let i = 0; i < this.CLICK_ID.length; i++)  
             this.RemoveMouse(i);

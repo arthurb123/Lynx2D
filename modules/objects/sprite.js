@@ -1,3 +1,14 @@
+/**
+ * lx.Sprite - Lynx2D Sprite
+ * @constructor
+ * @param {string} source - The source to an image file (can also be a HTML canvas).
+ * @param {number} c_x - The clip x can be a number, a callback function for once the sprite has loaded, or be left undefined.
+ * @param {number} c_y - The clip y position, can be left undefined.
+ * @param {number} c_w - The clip width, can be left undefined.
+ * @param {number} c_h - The clip height, can be left undefined.
+ * @param {function} cb - a callback function for once the sprite has loaded, can be left undefined.
+ */
+
 this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
     //Check if no clip but a 
     //callback is provided (compact callback)
