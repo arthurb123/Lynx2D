@@ -1,7 +1,17 @@
+/**
+ * Lynx2D Scene
+ * @class
+ * @param {function} callback - The callback that gets executed once the Scene loads.
+ */
+
 this.Scene = function(callback) {
     this.SAVED_STATE_AVAILABLE = false;
     this.CALLBACK = callback;
     
+    /** 
+     * Saves the Scene's current state and content.
+    */
+
     this.Save = function() {
         this.BUFFER = lx.GAME.BUFFER;
         this.UI = lx.GAME.UI;
@@ -15,6 +25,10 @@ this.Scene = function(callback) {
         
         this.SAVED_STATE_AVAILABLE = true;
     };
+
+    /** 
+     * Restores the Scene's current state and content.
+    */
     
     this.Restore = function() {
         if (!this.SAVED_STATE_AVAILABLE) {

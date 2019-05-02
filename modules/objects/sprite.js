@@ -1,5 +1,5 @@
 /**
- * lx.Sprite - Lynx2D Sprite
+ * Lynx2D Sprite
  * @constructor
  * @param {string} source - The source to an image file (can also be a HTML canvas).
  * @param {number} c_x - The clip x can be a number, a callback function for once the sprite has loaded, or be left undefined.
@@ -18,22 +18,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         cb = c_x;
         c_x = undefined;
     }
-
-    //Load image if the source is a string
-
-    if (typeof source === 'string') {
-        this.IMG = new Image();
-        this.IMG.onload = cb;
-        this.IMG.src = source;
-    } 
-    
-    //Otherwise straight up accept it (for canvas usage)
-
-    else 
-        this.IMG = source;
-    
-    this.ROTATION = 0;
-    this.OPACITY = 1;
     
     //Set clip if specified
 
@@ -48,7 +32,10 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
             H: c_h
         };
 
-    //Functionality
+    /** 
+     * Get the Sprite's size or current clipped size.
+     * @return {object} Gets { W, H }.
+    */
     
     this.Size = function() {
         if (this.CLIP != undefined) 
@@ -62,16 +49,52 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
                 H: this.IMG.height
             };
     };
+
+    /** 
+     * Get/Set the Sprite's size.
+     * @param {string} src - Sets image source if specified.
+     * @return {string} Gets image source if left empty.
+    */
     
     this.Source = function(src) {
-        if (src == undefined) return this.IMG.src;
+        if (src == undefined) {
+            if (this.IMG.src == undefined) {
+                console.log('SpriteSourceError - Sprite has no source.');
+                return;
+            }
+
+            return this.IMG.src;
+        }
         else {
-            this.IMG = new Image();
-            this.IMG.src = src;
+            //Load image if the source is a string
+
+            if (typeof src === 'string') {
+                this.IMG = new Image();
+                this.IMG.onload = cb;
+                this.IMG.src = src;
+            } 
+            
+            //Otherwise straight up accept it (for canvas usage)
+
+            else 
+                this.IMG = src;
         }
         
         return this;
-    }
+    };
+    
+    //Set source
+
+    this.Source(source);
+
+    /** 
+     * Get/Set the clip of the Sprite.
+     * @param {number} c_x - Sets clip x position if specified.
+     * @param {number} c_y - Sets clip y position if specified.
+     * @param {number} c_w - Sets clip width if specified.
+     * @param {number} c_h - Sets clip height if specified.
+     * @return {object} Gets { X, Y, W, H } if left empty.
+    */
     
     this.Clip = function(c_x, c_y, c_w, c_h) {
         if (c_x == undefined || 
@@ -89,15 +112,27 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         
         return this;
     };
+
+    /** 
+     * Get/Set the Sprite's rotation (in radians).
+     * @param {number} angle - Sets rotation angle if specified.
+     * @return {object} Gets rotation angle if specified.
+    */
     
-    this.Rotation = function(radians) {
-        if (radians == undefined) 
+    this.Rotation = function(angle) {
+        if (angle == undefined) 
             return this.ROTATION;
         else 
-            this.ROTATION = radians;
+            this.ROTATION = angle;
         
         return this;
     };
+
+    /** 
+     * Get/Set the Sprite's opacity.
+     * @param {number} opacity - Sets opacity if specified (0-1). 
+     * @return {number} Gets opacity if left empty.
+    */
     
     this.Opacity = function(factor) {
         if (factor == undefined) 
@@ -107,6 +142,12 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         
         return this;
     };
+
+    /** 
+     * Displays a color overlay on the Sprite.
+     * @param {string} color - The color to be overlayed.
+     * @param {number} duration - The duration of the color overlay, can be undefined.
+    */
 
     this.ShowColorOverlay = function(color, duration) {
         if (this.COLOR_OVERLAY == undefined && 
@@ -120,6 +161,10 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
 
         return this;
     };
+
+    /** 
+     * Hides the current color overlay on the GameObject.
+    */
 
     this.HideColorOverlay = function() {
         this.SHOW_COLOR_OVERLAY = false;

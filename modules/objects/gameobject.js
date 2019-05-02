@@ -72,6 +72,21 @@ this.GameObject = function (sprite, x, y, w, h) {
             }
         }
     };
+
+    /** 
+     * Get/Set the GameObject's Sprite.
+     * @param {Sprite} sprite - Sets sprite if specified.
+     * @return {Sprite} Gets sprite if left empty.
+    */
+    
+    this.Sprite = function (sprite) {
+        if (sprite == undefined) 
+            return this.SPRITE;
+        else 
+            this.SPRITE = sprite;
+        
+        return this;
+    };
     
     /** 
      * Get/Set the GameObject's identifier.
@@ -167,7 +182,7 @@ this.GameObject = function (sprite, x, y, w, h) {
      * @param {number} c_y - Sets clip y position if specified.
      * @param {number} c_w - Sets clip width if specified.
      * @param {number} c_h - Sets clip height if specified.
-     * @return {object} Gets { CX, CY, CW, CH } if left empty.
+     * @return {object} Gets { X, Y, W, H } if left empty.
     */
     
     this.Clip = function(c_x, c_y, c_w, c_h) {
@@ -353,8 +368,8 @@ this.GameObject = function (sprite, x, y, w, h) {
     
     /** 
      * Creates a standard collider based on the GameObject's size.
-     * @param {boolean} is_static - If static the collider can not be moved.
-     * @param {function} callback - The collision callback, provides collision data as an object.
+     * @param {boolean} is_static - If static is true the collider can not be moved.
+     * @param {function} callback - The collision callback, provides collision data as an object. (can be undefined)
     */
     
     this.CreateCollider = function(is_static, callback) {

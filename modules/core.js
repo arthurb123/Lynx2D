@@ -156,17 +156,34 @@ this.GAME = {
     
         //Colliders
 
+        let COLLIDED = {};
         this.COLLIDERS.forEach(function(coll1) {
             if (coll1 != undefined) 
                 lx.GAME.COLLIDERS.forEach(function(coll2) {
                     if (coll2 != undefined && 
                         coll1.COLLIDER_ID != coll2.COLLIDER_ID) 
                         try {
-                            //Check for collision
-
-                            let collision = coll2.CheckCollision(coll1);
+                            let collision = false;
+                            
+                            //Check if collision already occurred
+                            
+                            if (COLLIDED[coll2.COLLIDER_ID+'-'+coll1.COLLIDER_ID])
+                                collision = COLLIDED[coll2.COLLIDER_ID+'-'+coll1.COLLIDER_ID];
+                                
+                            //Otherwise check for collision
+                                
+                            else
+                                collision = coll2.CheckCollision(coll1);
 
                             if (collision) {
+                                //Set collided
+                                
+                                if (!COLLIDED[coll2.COLLIDER_ID+'-'+coll1.COLLIDER_ID])
+                                    COLLIDED[coll1.COLLIDER_ID+'-'+coll2.COLLIDER_ID] = {
+                                        direction: collision.direction,
+                                        gameObject: lx.FindGameObjectWithCollider(coll2)
+                                    };
+                                
                                 //Callback on collision to
                                 //both colliders
 
