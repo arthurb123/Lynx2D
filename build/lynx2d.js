@@ -1035,17 +1035,6 @@ this.Animation = function (sprite_collection, speed) {
 
 /* Collider Object */
 
-/**
- * Lynx2D Collider
- * @constructor
- * @param {number} x - The collider x position (or x offset).
- * @param {number} y - The collider y position (or y offset).
- * @param {number} w - The collider width.
- * @param {number} h - The collider height.
- * @param {boolean} is_static - If static is true the collider can not be moved.
- * @param {function} callback - The collision callback, provides collision data as an object. (Can be undefined)
- */
-
 this.Collider = function (x, y, w, h, is_static, callback) {
     this.POS = {
         X: x,
@@ -1070,13 +1059,6 @@ this.Collider = function (x, y, w, h, is_static, callback) {
     else 
         this.OnCollide = function() {};
     
-    /** 
-     * Get/Set the Collider's size.
-     * @param {number} width - Sets the collider width if specified.
-     * @param {number} height - Sets the collider height if specified.
-     * @return {object} Gets { W, H } if left empty.
-    */
-
     this.Size = function(width, height) {
         if (width == undefined || height == undefined) 
             return this.SIZE;
@@ -1089,12 +1071,6 @@ this.Collider = function (x, y, w, h, is_static, callback) {
         return this;
     };
 
-    /** 
-     * Get/Set if the Collider is static. (Can not be moved by other colliders)
-     * @param {boolean} is_static - Sets if the collider is static if specified.
-     * @return {boolean} Gets if the collider is static if left empty.
-    */
-    
     this.Static = function(is_static) {
         if (is_static == undefined) 
             return this.STATIC;
@@ -1104,12 +1080,6 @@ this.Collider = function (x, y, w, h, is_static, callback) {
         return this;
     };
 
-    /** 
-     * Get/Set if the Collider is solid. (Does not pass through other colliders)
-     * @param {boolean} is_solid - Sets if the collider is solid if specified.
-     * @return {boolean} Gets if the collider is solid if left empty.
-    */
-    
     this.Solid = function(is_solid) {
         if (is_solid == undefined) 
             return this.SOLID;
@@ -1119,13 +1089,6 @@ this.Collider = function (x, y, w, h, is_static, callback) {
         return this;
     };
 
-    /** 
-     * Get/Set the Collider's position (or offset).
-     * @param {number} x - Sets x position if specified.
-     * @param {number} y - Sets y position if specified.
-     * @return {object} Gets { X, Y } if left empty.
-    */
-    
     this.Position = function(x, y) {
         if (x == undefined || y == undefined) 
             return this.POS;
@@ -1138,12 +1101,6 @@ this.Collider = function (x, y, w, h, is_static, callback) {
         return this;
     };
 
-    /** 
-     * Get/Set the Collider's identifier.
-     * @param {string} ID - Sets identifier if specified.
-     * @return {string} Gets identifier if left empty.
-    */
-    
     this.Identifier = function(ID) {
         if (ID == undefined) 
             return this.IDENTIFIER;
@@ -1153,10 +1110,6 @@ this.Collider = function (x, y, w, h, is_static, callback) {
         return this;
     };
 
-    /** 
-     * Enables the Collider.
-    */
-    
     this.Enable = function() {
         if (this.ENABLED) 
             return;
@@ -1168,10 +1121,6 @@ this.Collider = function (x, y, w, h, is_static, callback) {
         return this;
     };
 
-    /** 
-     * Disables the Collider.
-    */
-    
     this.Disable = function() {
         if (!this.ENABLED) return;
         
@@ -1486,16 +1435,6 @@ this.Emitter = function(sprite, x, y, amount, duration) {
 
 /* Gameobject Object */
 
-/**
- * Lynx2D GameObject
- * @class
- * @param {Sprite} sprite - The sprite of the GameObject, can be undefined.
- * @param {number}        x - The X position.
- * @param {number}        y - The Y position.
- * @param {number}        w - The width.
- * @param {number}        h - The height.
- */
-
 this.GameObject = function (sprite, x, y, w, h) {
     this.SPRITE = sprite;
     this.BUFFER_ID = -1;
@@ -1561,12 +1500,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         }
     };
 
-    /** 
-     * Get/Set the GameObject's Sprite.
-     * @param {Sprite} sprite - Sets sprite if specified.
-     * @return {Sprite} Gets sprite if left empty.
-    */
-    
     this.Sprite = function (sprite) {
         if (sprite == undefined) 
             return this.SPRITE;
@@ -1576,25 +1509,12 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Get/Set the GameObject's identifier.
-     * @param {string} ID - Sets identifier if specified.
-     * @return {string} Gets identifier if left empty.
-    */
-    
     this.Identifier = function (ID) {
         if (ID == undefined) return this.ID;
         else this.ID = ID;
         
         return this;
     };
-    
-    /** 
-     * Get/Set the GameObject's size.
-     * @param {number} width - Sets width if specified, also sets height if the height is not specified.
-     * @param {number} height - Sets height if specified.
-     * @return {object} Gets { W, H } if left empty.
-    */
     
     this.Size = function(width, height) {
         if (width == undefined && height == undefined) 
@@ -1612,13 +1532,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Get/Set the GameObject's position.
-     * @param {number} x - Sets x position if specified.
-     * @param {number} y - Sets y position if specified.
-     * @return {object} Gets { X, Y } if left empty.
-    */
-    
     this.Position = function(x, y) {
         if (x == undefined || y == undefined) return this.POS;
         else this.POS = {
@@ -1628,13 +1541,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         
         return this;
     };
-    
-    /** 
-     * Get/Set the GameObject's movement velocity. (can exceed max velocity upon set)
-     * @param {number} vx - Sets x velocity if specified.
-     * @param {number} vy - Sets y velocity if specified.
-     * @return {object} Gets { VX, VY } if left empty.
-    */
     
     this.Movement = function(vx, vy) {
         if (vx == undefined || vy == undefined) return {
@@ -1649,12 +1555,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Get/Set the GameObject's rotation (in radians).
-     * @param {number} angle - Sets new rotation if specified.
-     * @return {number} Gets rotation if left empty.
-    */
-    
     this.Rotation = function(angle) {
         if (this.SPRITE == undefined || this.SPRITE == null) return -1;
         
@@ -1663,15 +1563,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         
         return this;
     };
-    
-    /** 
-     * Get/Set the clip of the GameObject's Sprite.
-     * @param {number} c_x - Sets clip x position if specified.
-     * @param {number} c_y - Sets clip y position if specified.
-     * @param {number} c_w - Sets clip width if specified.
-     * @param {number} c_h - Sets clip height if specified.
-     * @return {object} Gets { X, Y, W, H } if left empty.
-    */
     
     this.Clip = function(c_x, c_y, c_w, c_h) {
         if (this.SPRITE == undefined || this.SPRITE == null) return -1;
@@ -1694,11 +1585,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Shows the GameObject on the specified layer.
-     * @param {number} layer - The layer the GameObject should be shown on.
-    */
-    
     this.Show = function(layer) {
         if (this.BUFFER_ID != -1) 
             this.Hide();
@@ -1710,10 +1596,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         
         return this;
     };
-    
-    /** 
-     * Hide the GameObject.
-    */
     
     this.Hide = function() {
         if (this.BUFFER_ID == -1) return;
@@ -1727,21 +1609,11 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
         
-    /** 
-     * Focusses the GameObject.
-    */
-        
     this.Focus = function() {
         lx.GAME.FOCUS_GAMEOBJECT(this);  
         
         return this;
     };
-    
-    /** 
-     * Get/Set the GameObject's opacity.
-     * @param {number} opacity - Sets opacity if specified (0-1). 
-     * @return {number} Gets opacity if left empty.
-    */
     
     this.Opacity = function(opacity) {
         if (opacity == undefined) 
@@ -1752,25 +1624,12 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Adds velocity to the GameObject.
-     * @param {number} vel_x - The x velocity to add.
-     * @param {number} vel_y - The y velocity to add.
-    */
-    
     this.AddVelocity = function(vel_x, vel_y) {
         this.MOVEMENT.APPLY(vel_x, vel_y);
         
         return this;
     };
         
-    /** 
-     * Get/Set the GameObject's max velocities.
-     * @param {number} max_vel_x - Sets max x velocity if specified. (Max x velocity also applies to the max y velocity if it is undefined) 
-     * @param {number} max_vel_y - Sets max y velocity if specified. 
-     * @return {object} Gets { VX, VY } if left empty.
-    */
-    
     this.MaxVelocity = function(max_vel_x, max_vel_y) {
         if (max_vel_x == undefined &&
             max_vel_y == undefined) 
@@ -1788,12 +1647,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Get/Set if the GameObject decelerates.
-     * @param {boolean} decelerates - Sets if movement decelerates.
-     * @return {boolean} Gets if movement decelerates if left empty.
-    */
-    
     this.MovementDecelerates = function(decelerates) {
         if (decelerates != undefined)
             this.MOVEMENT.DECELERATES = decelerates;  
@@ -1803,12 +1656,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Get/Set the GameObject's weight, this affects movement deceleration (1 by default).
-     * @param {number} weight - Sets weight if specified. 
-     * @return {number} Gets weight if left empty.
-    */
-
     this.Weight = function(weight) {
         if (weight == undefined)
             return this.MOVEMENT.WEIGHT;
@@ -1817,14 +1664,6 @@ this.GameObject = function (sprite, x, y, w, h) {
 
         return this;
     };
-    
-    /** 
-     * Creates a standard top down controller for the GameObject.
-     * @param {number} x_speed - The x acceleration speed.
-     * @param {number} y_speed - The y acceleration speed.
-     * @param {number} max_vel_x - The max x velocity. (Max x velocity also applies to the max y velocity if it is undefined) 
-     * @param {number} max_vel_y - The max y velocity.
-    */
     
     this.SetTopDownController = function(x_speed, y_speed, max_vel_x, max_vel_y) {    
         lx.CONTEXT.CONTROLLER.TARGET = this;
@@ -1838,12 +1677,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Creates a standard top down controller for the GameObject.
-     * @param {number} speed - The (x) acceleration speed.
-     * @param {number} max_vel - The max (x and y) velocity.
-    */
-    
     this.SetSideWaysController = function(speed, max_vel) {
         lx.CONTEXT.CONTROLLER.TARGET = this;
         lx.OnKey('A', function() { lx.CONTEXT.CONTROLLER.TARGET.AddVelocity(-speed, 0); });
@@ -1853,12 +1686,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         
         return this;
     };
-    
-    /** 
-     * Creates a standard collider based on the GameObject's size.
-     * @param {boolean} is_static - If static is true the collider can not be moved.
-     * @param {function} callback - The collision callback, provides collision data as an object. (can be undefined)
-    */
     
     this.CreateCollider = function(is_static, callback) {
         this.COLLIDER = new lx.Collider(this.Position().X, this.Position().Y, this.Size().W, this.Size().H, is_static, callback);
@@ -1870,11 +1697,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         
         return this;
     };
-    
-    /** 
-     * Applies a collider to the GameObject.
-     * @param {Collider} collider - The collider to be applied.
-    */
     
     this.ApplyCollider = function(collider) {
         if (collider == undefined) return;
@@ -1893,10 +1715,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Removes the GameObject's Collider.
-    */
-    
     this.ClearCollider = function() {
         if (this.COLLIDER == undefined) return;
         
@@ -1906,20 +1724,11 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-        /** 
-     * Displays an Animation on the GameObject instead of it's Sprite.
-     * @param {Animation} animation - The animation to show.
-    */
-    
     this.ShowAnimation = function(animation) {
         this.ANIMATION = animation;
         
         return this;
     };
-    
-    /**
-     * Clears the current Animation and restores the Sprite.
-    */
     
     this.ClearAnimation = function() {
         this.ANIMATION = undefined;
@@ -1927,12 +1736,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Displays a color overlay on the GameObject.
-     * @param {string} color - The color to be overlayed.
-     * @param {number} duration - The duration of the color overlay, can be undefined.
-    */
-
     this.ShowColorOverlay = function(color, duration) {
         if (this.ANIMATION != undefined) 
             this.ANIMATION.GET_CURRENT_FRAME().ShowColorOverlay(color, duration);
@@ -1942,20 +1745,11 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Hides the current color overlay on the GameObject.
-    */
-
     this.HideColorOverlay = function() {
         this.SPRITE.HideColorOverlay();
 
         return this;
     };
-    
-    /** 
-     * Places a callback function in the GameObject's update loop.
-     * @param {function} callback - The callback to be looped.
-    */
     
     this.Loops = function(callback) {
         this.LOOPS = callback;
@@ -1963,20 +1757,11 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Clears the update callback function being looped.
-    */
-    
     this.ClearLoops = function() {
         this.LOOPS = undefined;
         
         return this;
     };
-    
-    /** 
-     * Places a callback function in the GameObject's render loop.
-     * @param {function} callback - The callback to be looped, provides rendering data as an object.
-    */
     
     this.Draws = function(callback) {
         this.DRAWS = callback;  
@@ -1984,21 +1769,11 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Clears the rendering callback function being looped.
-    */
-    
     this.ClearDraws = function() {
         this.DRAWS = undefined;  
         
         return this;
     };
-    
-    /** 
-     * Adds a mouse click event listener to the GameObject.
-     * @param {number}   button - The button that triggers the event (0-2).
-     * @param {function} callback - The event callback, provides mouse data as an object.
-    */
     
     this.OnMouse = function(button, callback) {
         if (this.CLICK_ID[button] != undefined) {
@@ -2011,11 +1786,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
-    /** 
-     * Removes the mouse click event listener on the specified button.
-     * @param {number}   button - The button that triggers the event (0-2).
-    */
-    
     this.RemoveMouse = function(button) {
         if (this.CLICK_ID[button] == undefined) return this;
         else lx.GAME.REMOVE_GO_MOUSE_EVENT(this.CLICK_ID[button]);
@@ -2023,10 +1793,6 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
 
-    /** 
-     * Removes all mouse click event listeners.
-    */
-    
     this.ClearMouse = function() {
         for (let i = 0; i < this.CLICK_ID.length; i++)  
             this.RemoveMouse(i);
@@ -2076,13 +1842,259 @@ this.GameObject = function (sprite, x, y, w, h) {
         console.log('GameObjectError: Created a GameObject without a specified size.');
 };
 
-/* Scene Object */
+/* Ray Object */
 
-/**
- * Lynx2D Scene
- * @class
- * @param {function} callback - The callback that gets executed once the Scene loads.
- */
+this.Ray = class {
+    constructor(x, y) {
+        this.POS = {
+            X: x,
+            Y: y
+        };
+
+        this.DIR = {
+            X: 0,
+            Y: 0
+        };
+        
+        this.Position = function(x, y) {
+            if (x != undefined && y != undefined)
+                this.POS = {
+                    X: x,
+                    Y: y
+                };
+            else 
+                return this.POS;
+            
+            return this;
+        };
+
+        this.Direction = function(x, y) {
+            if (x != undefined && y != undefined) {
+                this.DIR = {
+                    X: x - this.POS.X,
+                    Y: y - this.POS.Y
+                };
+
+                let MAGNITUDE = Math.sqrt(this.DIR.X*this.DIR.X + this.DIR.Y*this.DIR.Y);
+
+                this.DIR.X /= MAGNITUDE;
+                this.DIR.Y /= MAGNITUDE;
+            } else 
+                return this.DIR;
+            
+            return this;
+        };
+
+        this.Cast = function(target) {
+            if (target.COLLIDER == undefined)
+                return false;
+
+            return this.CHECK_INTERSECTION_BOX(target.COLLIDER, false);
+        };
+        
+        this.CastPoint = function(target) {
+            if (target.COLLIDER == undefined)
+                return false;
+
+            return this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, true);
+        };
+
+        this.CastPoints = function(target) {
+            if (target.COLLIDER == undefined)
+                return false;
+
+            return this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, false);
+        };
+        
+        this.CastPointRadially = function(target, degrees) {
+            let old_dir = this.DIR,
+                points = [];
+            
+            for (let c = 0; c < 360; c+=degrees) {
+                this.DIR = {
+                    X: Math.cos(c*Math.PI/180),
+                    Y: Math.sin(c*Math.PI/180)
+                };
+                
+                let result = this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, true);
+                
+                if (result)
+                    points.push(result);
+            };
+            
+            this.DIR = old_dir;
+            
+            return points;
+        };
+        
+        this.CastPointsRadially = function(target, degrees) {
+            let old_dir = this.DIR,
+                points = [];
+            
+            for (let c = 0; c < 360; c+=degrees) {
+                this.DIR = {
+                    X: Math.cos(c*Math.PI/180),
+                    Y: Math.sin(c*Math.PI/180)
+                };
+                
+                let result = this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, false);
+                
+                if (result)
+                    points.push.apply(points, result);
+            };
+            
+            this.DIR = old_dir;
+            
+            return points;
+        };
+
+        this.CastPointRadiallyMultiple = function(targets, degrees) {
+            let old_dir = this.DIR,
+                points = [];
+            
+            for (let c = 0; c < 360; c+=degrees) {
+                this.DIR = {
+                    X: Math.cos(c*Math.PI/180),
+                    Y: Math.sin(c*Math.PI/180)
+                };
+                
+                let results = [];
+                
+                for (let t = 0; t < targets.length; t++) {
+                    let result = this.CHECK_INTERSECTION_BOX(targets[t].COLLIDER, true, true);
+
+                    if (result)
+                        results.push(result);
+                }
+
+                let closest = Infinity,
+                    closestPoint;
+
+                for (let r = 0; r < results.length; r++) {
+                    let x = results[r].X-this.POS.X,
+                        y = results[r].Y-this.POS.Y;
+
+                    let d = Math.sqrt(x*x + y*y);
+
+                    if (d < closest) {
+                        closest = d;
+                        closestPoint = results[r];
+                    }
+                }
+                
+                if (closestPoint != undefined)
+                    points.push(closestPoint);
+            };
+            
+            this.DIR = old_dir;
+            
+            return points;
+        };
+
+        this.GET_VECTOR = function() {
+            return {
+                X: this.POS.X,
+                Y: this.POS.Y,
+                X1: this.POS.X + this.DIR.X,
+                Y1: this.POS.Y + this.DIR.Y
+            };
+        };
+
+        this.CHECK_INTERSECTION_BOX = function(TARGET, GET_POSITIONS, GET_FIRST_POSITION) {
+            let LINES = [],
+                RESULT = false;
+
+            if (TARGET.SIZE != undefined) {
+                let LXT = { X: TARGET.POS.X, Y: TARGET.POS.Y, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y },
+                    LYL = { X: TARGET.POS.X, Y: TARGET.POS.Y, X1: TARGET.POS.X, Y1: TARGET.POS.Y+TARGET.SIZE.H },
+                    LXB = { X: TARGET.POS.X, Y: TARGET.POS.Y+TARGET.SIZE.H, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y+TARGET.SIZE.H },
+                    LYR = { X: TARGET.POS.X+TARGET.SIZE.W, Y: TARGET.POS.Y, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y+TARGET.SIZE.H };
+                
+                if (this.POS.X < TARGET.POS.X) {
+                    LINES.push(LYL);
+                    LYL = undefined;
+                } else {
+                    LINES.push(LYR);
+                    LYR = undefined;
+                }
+                
+                if (this.POS.Y < TARGET.POS.Y) {
+                    LINES.push(LXT);
+                    LXT = undefined;
+                } else {
+                    LINES.push(LXB);
+                    LXB = undefined;
+                }
+                
+                if (LYL == undefined)
+                    LINES.push(LYR);
+                else if (LYR == undefined)
+                    LINES.push(LYL);
+                
+                if (LXB == undefined)
+                    LINES.push(LXT);
+                else if (LXT == undefined)
+                    LINES.push(LXB);
+            } else 
+                return RESULT;
+
+            for (let L = 0; L < LINES.length; L++) {
+                let LINE = LINES[L];
+
+                let LINE_RESULT = this.CHECK_INTERSECTION_LINE(LINE, GET_POSITIONS);
+                
+                if (LINE_RESULT) {
+                    if (GET_POSITIONS && !RESULT)
+                        RESULT = [];
+                    else if (!GET_POSITIONS) {
+                        RESULT = true;
+
+                        break;
+                    }
+
+                    if (GET_POSITIONS) 
+                        RESULT.push(LINE_RESULT);
+                }
+            }
+            
+            if (GET_POSITIONS && RESULT && GET_FIRST_POSITION)
+                RESULT = RESULT[0];
+
+            return RESULT;
+        };
+
+        this.CHECK_INTERSECTION_LINE = function(LINE, GET_POSITION) {
+            let VECTOR = this.GET_VECTOR();
+            
+            let RESULT = false,
+                DEN = (LINE.X-LINE.X1) * (VECTOR.Y-VECTOR.Y1) - (LINE.Y-LINE.Y1) * (VECTOR.X-VECTOR.X1);
+
+            if (DEN === 0)
+                return false;
+
+            let T = ((LINE.X-VECTOR.X) * (VECTOR.Y-VECTOR.Y1) - (LINE.Y-VECTOR.Y) * (VECTOR.X-VECTOR.X1)) / DEN,
+                U = -((LINE.X-LINE.X1) * (LINE.Y-VECTOR.Y) - (LINE.Y-LINE.Y1) * (LINE.X-VECTOR.X)) / DEN;
+
+            if (T > 0 && T < 1 && U > 0) {
+                if (GET_POSITION) {
+                    RESULT = {
+                        X: LINE.X + T * (LINE.X1 - LINE.X),
+                        Y: LINE.Y + T * (LINE.Y1 - LINE.Y)
+                    };
+
+                    if (lx.GAME.FOCUS != undefined)
+                        RESULT = lx.GAME.TRANSLATE_FROM_FOCUS(RESULT);
+                }
+                else
+                    RESULT = true;
+            }
+
+            return RESULT;
+        };
+    }
+};
+
+/* Scene Object */
 
 this.Scene = function(callback) {
     this.SAVED_STATE_AVAILABLE = false;
@@ -2106,10 +2118,6 @@ this.Scene = function(callback) {
         this.SAVED_STATE_AVAILABLE = true;
     };
 
-    /** 
-     * Restores the Scene's current state and content.
-    */
-    
     this.Restore = function() {
         if (!this.SAVED_STATE_AVAILABLE) {
             console.log(lx.GAME.LOG.TIMEFORMAT() + 'Scene could not be restored, there is no saved state available.');
@@ -2130,13 +2138,6 @@ this.Scene = function(callback) {
 
 /* Sound Object */
 
-/**
- * Lynx2D Sound
- * @class
- * @param {string} src - The source of the audio file.
- * @param {number} channel - The channel the sound plays on, can be undefined (default is 0).
- */
-
 this.Sound = function (src, channel) {
     this.SRC = src;
     this.POS = { 
@@ -2152,12 +2153,6 @@ this.Sound = function (src, channel) {
     else 
         this.CHANNEL = 0;
         
-    /** 
-     * Get/Set the Sound's Channel.
-     * @param {number} channel - Sets the channel if specified.
-     * @return {number} Gets current channel if left empty.
-    */
-
     this.Channel = function(channel) {
         if (channel != undefined) 
             this.CHANNEL = channel;
@@ -2167,12 +2162,6 @@ this.Sound = function (src, channel) {
         return this;
     };
 
-    /** 
-     * Play the Sound.
-     * @param {boolean} loops - Loops the sound after ending if specified, can be undefined.
-     * @param {number} delay - Plays the sound after a delay if specified, can be undefined.
-    */
-    
     this.Play = function (loops, delay) {
         if (this.PLAY_ID != undefined && 
             lx.GAME.AUDIO.SOUNDS[this.PLAY_ID] != undefined)
@@ -2189,12 +2178,6 @@ this.Sound = function (src, channel) {
         return this;
     };
 
-    /** 
-     * Play the Sound spatially, according to the Sound's position.
-     * @param {boolean} loops - Loops the sound after ending if specified, can be undefined.
-     * @param {number} delay - Plays the sound after a delay if specified, can be undefined.
-    */
-    
     this.PlaySpatial = function(loops, delay) {
         if (this.PLAY_ID != undefined && 
             lx.GAME.AUDIO.SOUNDS[this.PLAY_ID] != undefined)
@@ -2212,10 +2195,6 @@ this.Sound = function (src, channel) {
         return this;
     };
 
-    /**
-     * Stops the Sound if playing.
-     */
-
     this.Stop = function() {
         if (this.PLAY_ID != undefined)
             lx.GAME.AUDIO.REMOVE(this.PLAY_ID);  
@@ -2225,13 +2204,6 @@ this.Sound = function (src, channel) {
         return this;
     };
 
-    /** 
-     * Get/Set the Sound's Position.
-     * @param {number} x - Sets x position if specified.
-     * @param {number} y - Sets y position if specified.
-     * @return {object} Gets { X, Y } if left empty.
-    */
-    
     this.Position = function(x, y) {
         if (x == undefined || y == undefined) 
             return this.POS;
@@ -2246,17 +2218,6 @@ this.Sound = function (src, channel) {
 };
 
 /* Sprite Object */
-
-/**
- * Lynx2D Sprite
- * @constructor
- * @param {string} source - The source to an image file (can also be a HTML canvas).
- * @param {number} c_x - The clip x can be a number, a callback function for once the sprite has loaded, or be left undefined.
- * @param {number} c_y - The clip y position, can be left undefined.
- * @param {number} c_w - The clip width, can be left undefined.
- * @param {number} c_h - The clip height, can be left undefined.
- * @param {function} cb - a callback function for once the sprite has loaded, can be left undefined.
- */
 
 this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
     //Check if no clip but a 
@@ -2281,11 +2242,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
             H: c_h
         };
 
-    /** 
-     * Get the Sprite's size or current clipped size.
-     * @return {object} Gets { W, H }.
-    */
-    
     this.Size = function() {
         if (this.CLIP != undefined) 
             return {
@@ -2299,12 +2255,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
             };
     };
 
-    /** 
-     * Get/Set the Sprite's size.
-     * @param {string} src - Sets image source if specified.
-     * @return {string} Gets image source if left empty.
-    */
-    
     this.Source = function(src) {
         if (src == undefined) {
             if (this.IMG.src == undefined) {
@@ -2336,15 +2286,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
 
     this.Source(source);
 
-    /** 
-     * Get/Set the clip of the Sprite.
-     * @param {number} c_x - Sets clip x position if specified.
-     * @param {number} c_y - Sets clip y position if specified.
-     * @param {number} c_w - Sets clip width if specified.
-     * @param {number} c_h - Sets clip height if specified.
-     * @return {object} Gets { X, Y, W, H } if left empty.
-    */
-    
     this.Clip = function(c_x, c_y, c_w, c_h) {
         if (c_x == undefined || 
             c_y == undefined || 
@@ -2362,12 +2303,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         return this;
     };
 
-    /** 
-     * Get/Set the Sprite's rotation (in radians).
-     * @param {number} angle - Sets rotation angle if specified.
-     * @return {object} Gets rotation angle if specified.
-    */
-    
     this.Rotation = function(angle) {
         if (angle == undefined) 
             return this.ROTATION;
@@ -2377,12 +2312,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         return this;
     };
 
-    /** 
-     * Get/Set the Sprite's opacity.
-     * @param {number} opacity - Sets opacity if specified (0-1). 
-     * @return {number} Gets opacity if left empty.
-    */
-    
     this.Opacity = function(factor) {
         if (factor == undefined) 
             return this.OPACITY;
@@ -2391,12 +2320,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         
         return this;
     };
-
-    /** 
-     * Displays a color overlay on the Sprite.
-     * @param {string} color - The color to be overlayed.
-     * @param {number} duration - The duration of the color overlay, can be undefined.
-    */
 
     this.ShowColorOverlay = function(color, duration) {
         if (this.COLOR_OVERLAY == undefined && 
@@ -2410,10 +2333,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
 
         return this;
     };
-
-    /** 
-     * Hides the current color overlay on the GameObject.
-    */
 
     this.HideColorOverlay = function() {
         this.SHOW_COLOR_OVERLAY = false;

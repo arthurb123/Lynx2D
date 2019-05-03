@@ -1,4 +1,11 @@
-const fs = require('fs');
+const fs = require('fs'),
+      clear = require('clear');
+
+//Build preferences
+
+const buildPreferences = {
+    removeComments: true
+};
 
 //Building order
 
@@ -11,10 +18,16 @@ const buildOrder = [
 
 //Build all modules following the build order
 
-const builded = {};
+let builded = {},
+    amountOfBuilds = 0;
+
+//Setup building functionality
 
 const buildFramework = async () => {
-    console.log('Attempting to build the framework...');
+    builded = {};
+    amountOfBuilds++;
+
+    console.log('Started building the framework (Attempt ' + amountOfBuilds + ').\n');
 
     //Build main class
 
@@ -34,6 +47,11 @@ const buildFramework = async () => {
 
             let actual = buildOrder[m].substr(1, buildOrder[m].length-1),
                 dir = 'modules/' + actual + (actual.length > 0 ? '/' : '');
+ 
+            //Output
+
+            if (actual !== '')
+            console.log('\n-- ' + actual.toUpperCase() + ' --');
 
             //Add comment
 
@@ -45,6 +63,8 @@ const buildFramework = async () => {
             //Grab all files
 
             let files = await fs.readdirSync(dir);
+
+            //Build files
 
             for (let f = 0; f < files.length; f++) 
                 if (files[f].indexOf('.js') !== -1)
@@ -61,21 +81,38 @@ const buildFramework = async () => {
 
     //Save build
 
-    fs.writeFile('build/lynx2d.js', build, (err) => {
+    fs.writeFile('build/lynx2d.js', build, async (err) => {
         if (err)
             throw err;
 
-        console.log('Build successful, check build folder.');
+        console.log('\nBuild successful, check build folder.');
+
+        //Output rebuild option and wait for input
+
+        console.log('[ Press any key to rebuild ]');
+        await keypress();
+
+        clear();
+        buildFramework();
     });
 };
 
 const buildModule = async (src, isObject) => {
     if (builded[src])
         return '';
+
+    //Get start date
+
+    let startTime = new Date().getTime();
     
     //Read JS module
 
-    let js = await fs.readFileSync(src);
+    let js = await fs.readFileSync(src, 'utf-8');
+
+    //Trim comments if prefered
+
+    if (buildPreferences.removeComments) 
+        js = trimComments(js);
 
     //Add to builded
 
@@ -90,12 +127,45 @@ const buildModule = async (src, isObject) => {
     
     //Output
     
-    console.log('Builded "' + name + '"');
+    console.log('Builded "' + name + '" (' + (new Date().getTime()-startTime) + ' ms).');
 
     //Return JS module
 
     return comment + '\n\n' + js + '\n\n';
 };
+
+//Setup comment trimming functionality
+
+const trimComments = (input) => {
+    let lines = input.split('\n');
+
+    let start = -1;
+
+    for (let l = 0; l < lines.length; l++) {
+        if (lines[l].indexOf('/**') !== -1)
+            start = l;
+        else if 
+            (lines[l].indexOf('*/') !== -1 &&
+            start !== -1) {
+            for (let s = start; s < l+2; s++)
+                lines.splice(start, 1);
+
+            start = -1;
+        }
+    }
+
+    return lines.join('\n');
+};
+
+//Setup keypress functionality
+
+const keypress = async () => {
+    process.stdin.setRawMode(true)
+    return new Promise(resolve => process.stdin.once('data', () => {
+      process.stdin.setRawMode(false)
+      resolve()
+    }))
+  }
 
 //Attempt to build framework
 
