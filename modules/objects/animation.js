@@ -1,3 +1,10 @@
+/**
+ * Lynx2D Animation
+ * @constructor
+ * @param {Sprite[]} sprite_collection - An array containing (clipped) Sprites.
+ * @param {number} speed - The interval in between frames.
+ */
+
 this.Animation = function (sprite_collection, speed) {
     this.SPRITES = sprite_collection;
     this.FRAME = 0;
@@ -9,18 +16,34 @@ this.Animation = function (sprite_collection, speed) {
     this.BUFFER_ID = -1;
     this.BUFFER_LAYER = 0;
     this.UPDATES = true;
+
+    /** 
+     * Shows the Animation on the specified layer.
+     * @param {number} layer - The layer the Animation should be shown on.
+     * @param {number} x - The x position of the Animation.
+     * @param {number} y - The y position of the Animation.
+     * @param {number} w - The width of the Animation (can be undefined, or be the amount if h and amount are undefined).
+     * @param {number} h - The height of the Animation (can be undefined, this will assume the size of the frames).
+     * @param {number} amount - The amount of times the animation should play, can be undefined.
+    */
     
     this.Show = function(layer, x, y, w, h, amount) {
-        if (this.BUFFER_ID != -1) this.Hide();
+        if (this.BUFFER_ID != -1) 
+            this.Hide();
         
         this.POS = {
             X: x,
             Y: y
         };
-        this.SIZE = {
-            W: w,
-            H: h
-        };
+
+        if (h != undefined)
+            this.SIZE = {
+                W: w,
+                H: h
+            };
+        else
+            this.SIZE = undefined;
+
         this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
         this.BUFFER_LAYER = layer;
         
@@ -29,9 +52,14 @@ this.Animation = function (sprite_collection, speed) {
         
         return this;
     };
+
+    /** 
+     * Hide the Animation.
+    */
     
     this.Hide = function() {
-        if (this.BUFFER_ID == -1) return;
+        if (this.BUFFER_ID == -1) 
+            return;
         
         lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
         this.BUFFER_ID = -1;
@@ -39,10 +67,18 @@ this.Animation = function (sprite_collection, speed) {
         
         return this;
     };
+
+     /** 
+     * Get/set the Animation frame interval.
+     * @param {number} speed - Sets the frame interval if specified.
+     * @return {number} Gets frame interval if left empty.
+    */
     
     this.Speed = function(speed) {
-        if (speed != undefined) this.TIMER.STANDARD = speed;
-        else return this.TIMER.STANDARD;
+        if (speed != undefined) 
+            this.TIMER.STANDARD = speed;
+        else 
+            return this.TIMER.STANDARD;
         
         return this;
     };
@@ -52,8 +88,10 @@ this.Animation = function (sprite_collection, speed) {
     };
     
     this.RENDER = function(POS, SIZE, OPACITY) {
-        if (this.BUFFER_ID == -1) this.SPRITES[this.FRAME].RENDER(POS, SIZE, OPACITY);
-        else this.SPRITES[this.FRAME].RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, OPACITY);
+        if (this.BUFFER_ID == -1) 
+            this.SPRITES[this.FRAME].RENDER(POS, SIZE, OPACITY);
+        else 
+            this.SPRITES[this.FRAME].RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, OPACITY);
     };
     
     this.UPDATE = function() {

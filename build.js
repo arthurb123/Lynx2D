@@ -11,7 +11,14 @@ const buildPreferences = {
 
 const buildOrder = [
     'core.js',
-    '~',
+
+    'main.js',
+    'settings.js',
+    'finding.js',
+    'events.js',
+    'drawing.js',
+    'tools.js',
+    
     '~objects',
     '~ui'
 ];

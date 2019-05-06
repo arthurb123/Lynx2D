@@ -161,7 +161,6 @@ this.GAME = {
     
         //Colliders
 
-        let COLLIDED = {};
         this.COLLIDERS.forEach(function(coll1) {
             if (coll1 != undefined) 
                 lx.GAME.COLLIDERS.forEach(function(coll2) {
@@ -170,25 +169,14 @@ this.GAME = {
                         try {
                             let collision = false;
                             
-                            //Check if collision already occurred
+                            //Check for collision
                             
-                            if (COLLIDED[coll2.COLLIDER_ID+'-'+coll1.COLLIDER_ID])
-                                collision = COLLIDED[coll2.COLLIDER_ID+'-'+coll1.COLLIDER_ID];
-                                
-                            //Otherwise check for collision
-                                
-                            else
-                                collision = coll2.CheckCollision(coll1);
+                            collision = coll2.CheckCollision(coll1);
+
+                            //Act accordingly
 
                             if (collision) {
-                                //Set collided
-                                
-                                if (!COLLIDED[coll2.COLLIDER_ID+'-'+coll1.COLLIDER_ID])
-                                    COLLIDED[coll1.COLLIDER_ID+'-'+coll2.COLLIDER_ID] = {
-                                        direction: collision.direction,
-                                        gameObject: lx.FindGameObjectWithCollider(coll2)
-                                    };
-                                
+    
                                 //Callback on collision to
                                 //both colliders
 
@@ -599,155 +587,6 @@ this.GAME = {
     }
 };
 
-/* Drawing */
-
-this.OnLayerDraw = function(layer, callback) {
-    this.GAME.ADD_LAYER_DRAW_EVENT(layer, callback);
-    
-    return this;
-};
-
-this.ClearLayerDraw = function(layer) {
-    this.GAME.CLEAR_LAYER_DRAW_EVENT  
-    
-    return this;
-};
-
-this.ResetLayerDraw = function() {
-    this.GAME.LAYER_DRAW_EVENTS = [];
-    
-    return this;
-};
-
-this.DrawSprite = function(sprite, x, y, w, h) {
-    if (w == undefined || h == undefined) {
-        w = sprite.Size().W;
-        h = sprite.Size().H;
-    };
-    
-    if (!lx.GAME.ON_SCREEN({
-        X: x,
-        Y: y
-    }, {
-        W: w,
-        H: h
-    }))
-        return;
-    
-    sprite.RENDER(this.GAME.TRANSLATE_FROM_FOCUS({
-        X: x, 
-        Y: y
-    }),
-    {
-        W: w,
-        H: h
-    });
-    
-    return this;
-};
-
-/* Events */
-
-this.OnKey = function(key, callback) {
-    this.GAME.ADD_EVENT('key', key.toLowerCase(), callback);
-    
-    return this;
-};
-
-this.ClearKey = function(key) {
-    this.GAME.CLEAR_EVENT('key', key.toLowerCase());
-    
-    return this;
-};
-
-this.StopKey = function(key) {
-    lx.CONTEXT.CONTROLLER.KEYS[key.toLowerCase()] = false;
-    lx.CONTEXT.CONTROLLER.STOPPED_KEYS[key.toLowerCase()] = true;
-    
-    return this;
-};
-
-this.StopMouse = function(key) {
-    lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[key] = false;
-    lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[key] = true;
-    
-    return this;
-};
-
-this.OnMouse = function(key, callback) {
-    this.GAME.ADD_EVENT('mousebutton', key, callback);
-    
-    return this;
-};
-
-this.ClearMouse = function(key) {
-    this.GAME.CLEAR_EVENT('mousebutton', key);
-    
-    return this;
-};
-
-this.OnMouseMove = function(callback) {
-    if (lx.CONTEXT.CONTROLLER == undefined) return this;
-    
-    lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER = callback;
-    
-    return this;
-};
-
-this.Loops = function(callback) {
-    this.GAME.ADD_LOOPS(callback);
-    
-    return this;
-};
-
-this.ClearLoop = function(id) {
-    this.GAME.LOOPS.splice(id, 1);
-    
-    return this;
-};
-
-this.ClearLoops = function() {
-    this.GAME.LOOPS = [];
-    
-    return this;
-};
-
-/* Finding */
-
-this.FindGameObjectWithCollider = function(collider) {
-    for (let i = 0; i < this.GAME.BUFFER.length; i++) {
-        if (this.GAME.BUFFER[i] != undefined) {
-            for (let ii = 0; ii < this.GAME.BUFFER[i].length; ii++) {
-                if (this.GAME.BUFFER[i][ii] != undefined && this.GAME.BUFFER[i][ii].COLLIDER != undefined && this.GAME.BUFFER[i][ii].COLLIDER.COLLIDER_ID == collider.COLLIDER_ID) return this.GAME.BUFFER[i][ii];
-            }
-        }   
-    }
-};
-
-this.FindGameObjectWithIdentifier = function(identifier) {
-    for (let i = 0; i < this.GAME.BUFFER.length; i++) {
-        if (this.GAME.BUFFER[i] != undefined) {
-            for (let ii = 0; ii < this.GAME.BUFFER[i].length; ii++) {
-                if (this.GAME.BUFFER[i][ii] != undefined && this.GAME.BUFFER[i][ii].ID != undefined && this.GAME.BUFFER[i][ii].ID == identifier) return this.GAME.BUFFER[i][ii];
-            }
-        }   
-    }
-};
-
-this.FindGameObjectsWithIdentifier = function(identifier) {
-    let result = [];
-    
-    for (let i = 0; i < this.GAME.BUFFER.length; i++) {
-        if (this.GAME.BUFFER[i] != undefined) {
-            for (let ii = 0; ii < this.GAME.BUFFER[i].length; ii++) {
-                if (this.GAME.BUFFER[i][ii] != undefined && this.GAME.BUFFER[i][ii].ID != undefined && this.GAME.BUFFER[i][ii].ID == identifier) result[result.length] = this.GAME.BUFFER[i][ii];
-            }
-            
-            return result;
-        }   
-    }
-};
-
 /* Main */
 
 this.Initialize = function(target) {
@@ -794,25 +633,34 @@ this.Initialize = function(target) {
         lx.CONTEXT.CANVAS.width = width;
         lx.CONTEXT.CANVAS.height = height;
     };
+
     window.onresize();
+
+    //Create standard controller
+
+    if (this.CONTEXT.CONTROLLER == undefined)
+        this.CreateController();
     
     return this;
 };
 
 this.Start = function(fps) {
     //Init game loop
+
+    if (fps == undefined)
+        fps = 60;
+
     this.GAME.INIT(fps);
     
-    //Create standard controller
-    if (this.CONTEXT.CONTROLLER == undefined) this.CreateController();
-    
     return this;
-}
+};
 
 this.Background = function(color) {
     if (this.CONTEXT.CANVAS == undefined) {
-        if (color != undefined) return this;
-        else return;
+        if (color != undefined) 
+            return this;
+        else 
+            return;
     }
     
     if (color == undefined) 
@@ -821,7 +669,23 @@ this.Background = function(color) {
         this.CONTEXT.CANVAS.style.backgroundColor = color;
     
     return this;
-}
+};
+
+this.GetDimensions = function() {
+    if (this.CONTEXT.CANVAS == undefined) {
+        console.log(this.GAME.LOG.TIMEFORMAT + 'Could not get canvas dimensions, Lynx2D is not initialized!')
+        
+        return {
+            width: self.innerWidth,
+            height: self.innerHeight
+        }
+    }
+    
+    return {
+        width: this.CONTEXT.CANVAS.width,
+        height: this.CONTEXT.CANVAS.height
+    };
+};
 
 this.LoadScene = function(scene) {
     //Clear previous data
@@ -898,22 +762,6 @@ this.CreateController = function() {
     return this;
 };
 
-this.GetDimensions = function() {
-    if (this.CONTEXT.CANVAS == undefined) {
-        console.log(this.GAME.LOG.TIMEFORMAT + 'Could not get canvas dimensions, Lynx2D is not initialized!')
-        
-        return {
-            width: self.innerWidth,
-            height: self.innerHeight
-        }
-    }
-    
-    return {
-        width: this.CONTEXT.CANVAS.width,
-        height: this.CONTEXT.CANVAS.height
-    };
-}
-
 this.GetFocus = function() {
     return this.GAME.FOCUS;
 };
@@ -924,32 +772,225 @@ this.ResetCentering = function() {
     return this;
 };
 
-this.Smoothing = function(boolean) {
-    if (boolean == undefined) return this.GAME.SETTINGS.AA;
-    else this.GAME.SETTINGS.AA = boolean;  
+/* Settings */
+
+this.Smoothing = function(smoothes) {
+    if (smoothes == undefined) 
+        return this.GAME.SETTINGS.AA;
+    else 
+        this.GAME.SETTINGS.AA = smoothes;  
     
     return this;
 };
 
 this.Framerate = function(fps) {
-    if (fps == undefined) return this.GAME.SETTINGS.FPS;
-    else this.GAME.SETTINGS.FPS = fps;  
+    if (fps == undefined) 
+        return this.GAME.SETTINGS.FPS;
+    else 
+        this.GAME.SETTINGS.FPS = fps;  
     
     return this;
 };
 
 this.ParticleLimit = function(amount) {
-    if (amount != undefined) this.GAME.SETTINGS.LIMITERS.PARTICLES = amount;
-    else return this.GAME.SETTINGS.LIMITERS.PARTICLES;
+    if (amount != undefined) 
+        this.GAME.SETTINGS.LIMITERS.PARTICLES = amount;
+    else 
+        return this.GAME.SETTINGS.LIMITERS.PARTICLES;
     
     return this;
 };
 
 this.ChannelVolume = function(channel, volume) {
-    if (channel != undefined && volume != undefined) this.GAME.AUDIO.SET_CHANNEL_VOLUME(channel, volume);
-    else if (channel != undefined) return this.GAME.AUDIO.GET_CHANNEL_VOLUME(channel);
+    if (channel != undefined && volume != undefined) 
+        this.GAME.AUDIO.SET_CHANNEL_VOLUME(channel, volume);
+    else if (channel != undefined) 
+        return this.GAME.AUDIO.GET_CHANNEL_VOLUME(channel);
     
     return this;
+};
+
+/* Finding */
+
+this.FindGameObjectWithCollider = function(collider) {
+    for (let i = 0; i < this.GAME.BUFFER.length; i++) {
+        if (this.GAME.BUFFER[i] != undefined) {
+            for (let ii = 0; ii < this.GAME.BUFFER[i].length; ii++) {
+                if (this.GAME.BUFFER[i][ii] != undefined && this.GAME.BUFFER[i][ii].COLLIDER != undefined && this.GAME.BUFFER[i][ii].COLLIDER.COLLIDER_ID == collider.COLLIDER_ID) return this.GAME.BUFFER[i][ii];
+            }
+        }   
+    }
+};
+
+this.FindGameObjectWithIdentifier = function(ID) {
+    for (let i = 0; i < this.GAME.BUFFER.length; i++) 
+        if (this.GAME.BUFFER[i] != undefined) 
+            for (let ii = 0; ii < this.GAME.BUFFER[i].length; ii++) 
+                if (this.GAME.BUFFER[i][ii] != undefined && 
+                    this.GAME.BUFFER[i][ii].Identifier() === ID) 
+                    return this.GAME.BUFFER[i][ii];
+};
+
+this.FindGameObjectsWithIdentifier = function(ID) {
+    let result = [];
+    
+    for (let i = 0; i < this.GAME.BUFFER.length; i++) 
+        if (this.GAME.BUFFER[i] != undefined) {
+            for (let ii = 0; ii < this.GAME.BUFFER[i].length; ii++)
+                if (this.GAME.BUFFER[i][ii] != undefined && 
+                    this.GAME.BUFFER[i][ii].Identifier() === ID) 
+                    result[result.length] = this.GAME.BUFFER[i][ii];
+            
+            return result;
+        }   
+};
+
+/* Events */
+
+this.OnKey = function(key, callback) {
+    this.GAME.ADD_EVENT('key', key.toLowerCase(), callback);
+    
+    return this;
+};
+
+this.ClearKey = function(key) {
+    this.GAME.CLEAR_EVENT('key', key.toLowerCase());
+    
+    return this;
+};
+
+this.StopKey = function(key) {
+    lx.CONTEXT.CONTROLLER.KEYS[key.toLowerCase()] = false;
+    lx.CONTEXT.CONTROLLER.STOPPED_KEYS[key.toLowerCase()] = true;
+    
+    return this;
+};
+
+this.OnMouse = function(button, callback) {
+    this.GAME.ADD_EVENT('mousebutton', button, callback);
+    
+    return this;
+};
+
+this.ClearMouse = function(button) {
+    this.GAME.CLEAR_EVENT('mousebutton', button);
+    
+    return this;
+};
+
+this.StopMouse = function(button) {
+    lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[button] = false;
+    lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[button] = true;
+    
+    return this;
+};
+
+this.OnMouseMove = function(callback) {
+    if (lx.CONTEXT.CONTROLLER != undefined) 
+        lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER = callback;
+    
+    return this;
+};
+
+this.ClearMouseMove = function() {
+    lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER = undefined;
+
+    return this;
+};
+
+this.Loops = function(callback) {
+    this.GAME.ADD_LOOPS(callback);
+    
+    return this;
+};
+
+this.ClearLoops = function() {
+    this.GAME.LOOPS = [];
+    
+    return this;
+};
+
+/* Drawing */
+
+this.OnLayerDraw = function(layer, callback) {
+    this.GAME.ADD_LAYER_DRAW_EVENT(layer, callback);
+    
+    return this;
+};
+
+this.ClearLayerDraw = function(layer) {
+    this.GAME.CLEAR_LAYER_DRAW_EVENT  
+    
+    return this;
+};
+
+this.ResetLayerDraw = function() {
+    this.GAME.LAYER_DRAW_EVENTS = [];
+    
+    return this;
+};
+
+this.DrawSprite = function(sprite, x, y, w, h) {
+    if (w == undefined || h == undefined) {
+        w = sprite.Size().W;
+        h = sprite.Size().H;
+    };
+    
+    if (!lx.GAME.ON_SCREEN({
+        X: x,
+        Y: y
+    }, {
+        W: w,
+        H: h
+    }))
+        return;
+    
+    sprite.RENDER(this.GAME.TRANSLATE_FROM_FOCUS({
+        X: x, 
+        Y: y
+    }),
+    {
+        W: w,
+        H: h
+    });
+    
+    return this;
+};
+
+/* Tools */
+
+this.CreateHorizontalTileSheet = function(sprite, cw, ch) {
+    let result = [];
+
+    let w = Math.round(sprite.Size().W/cw),
+        h = Math.round(sprite.Size().H/ch);
+
+    for (let y = 0; y < h; y++) {
+        if (result[y] == undefined)
+            result[y] = [];
+
+        for (let x = 0; x < w; x++)
+            result[y][x] = new lx.Sprite(sprite.IMG, x*cw, y*ch, cw, ch);
+    }
+
+    return result;
+};
+
+this.CreateVerticalTileSheet = function(sprite, cw, ch) {
+    let result = [];
+
+    let w = Math.round(sprite.Size().W/cw),
+        h = Math.round(sprite.Size().H/ch);
+
+    for (let x = 0; x < w; x++) {
+        if (result[x] == undefined)
+            result[x] = [];
+
+        for (let y = 0; y < h; y++)
+            result[x][y] = new lx.Sprite(sprite.IMG, x*cw, y*ch, cw, ch);
+    }
+
+    return result;
 };
 
 /* Animation Object */
@@ -965,18 +1006,24 @@ this.Animation = function (sprite_collection, speed) {
     this.BUFFER_ID = -1;
     this.BUFFER_LAYER = 0;
     this.UPDATES = true;
-    
+
     this.Show = function(layer, x, y, w, h, amount) {
-        if (this.BUFFER_ID != -1) this.Hide();
+        if (this.BUFFER_ID != -1) 
+            this.Hide();
         
         this.POS = {
             X: x,
             Y: y
         };
-        this.SIZE = {
-            W: w,
-            H: h
-        };
+
+        if (h != undefined)
+            this.SIZE = {
+                W: w,
+                H: h
+            };
+        else
+            this.SIZE = undefined;
+
         this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
         this.BUFFER_LAYER = layer;
         
@@ -985,9 +1032,10 @@ this.Animation = function (sprite_collection, speed) {
         
         return this;
     };
-    
+
     this.Hide = function() {
-        if (this.BUFFER_ID == -1) return;
+        if (this.BUFFER_ID == -1) 
+            return;
         
         lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
         this.BUFFER_ID = -1;
@@ -995,10 +1043,12 @@ this.Animation = function (sprite_collection, speed) {
         
         return this;
     };
-    
+
     this.Speed = function(speed) {
-        if (speed != undefined) this.TIMER.STANDARD = speed;
-        else return this.TIMER.STANDARD;
+        if (speed != undefined) 
+            this.TIMER.STANDARD = speed;
+        else 
+            return this.TIMER.STANDARD;
         
         return this;
     };
@@ -1008,8 +1058,10 @@ this.Animation = function (sprite_collection, speed) {
     };
     
     this.RENDER = function(POS, SIZE, OPACITY) {
-        if (this.BUFFER_ID == -1) this.SPRITES[this.FRAME].RENDER(POS, SIZE, OPACITY);
-        else this.SPRITES[this.FRAME].RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, OPACITY);
+        if (this.BUFFER_ID == -1) 
+            this.SPRITES[this.FRAME].RENDER(POS, SIZE, OPACITY);
+        else 
+            this.SPRITES[this.FRAME].RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, OPACITY);
     };
     
     this.UPDATE = function() {
@@ -1187,31 +1239,31 @@ this.Collider = function (x, y, w, h, is_static, callback) {
 
             if (this.SOLID && 
                 !collider.STATIC) {
-                    let go = lx.FindGameObjectWithCollider(collider);
+                let go = lx.FindGameObjectWithCollider(collider);
 
-                    if (go != undefined) {
-                        //Add the gameObject property to
-                        //the collision response
+                if (go != undefined) {
+                    //Add the gameObject property to
+                    //the collision response
 
-                        response.gameObject = go;
+                    response.gameObject = go;
 
-                        //Adjust position
+                    //Adjust position
 
-                        let pos = go.Position();
-                        switch(lowest.tag) {
-                            case 'right':
-                                go.Position(pos.X-lowest.actual, pos.Y);
-                                break;
-                            case 'left':
-                                go.Position(pos.X+lowest.actual, pos.Y);
-                                break;
-                            case 'down':
-                                go.Position(pos.X, pos.Y-lowest.actual);
-                                break;
-                            case 'up':
-                                go.Position(pos.X, pos.Y+lowest.actual);
-                                break;
-                        };
+                    let pos = go.Position();
+                    switch(lowest.tag) {
+                        case 'right':
+                            go.Position(pos.X-lowest.actual, pos.Y);
+                            break;
+                        case 'left':
+                            go.Position(pos.X+lowest.actual, pos.Y);
+                            break;
+                        case 'down':
+                            go.Position(pos.X, pos.Y-lowest.actual);
+                            break;
+                        case 'up':
+                            go.Position(pos.X, pos.Y+lowest.actual);
+                            break;
+                    };
                 }
             }
             
@@ -1251,6 +1303,10 @@ this.Emitter = function(sprite, x, y, amount, duration) {
         MIN: 8,
         MAX: 16
     };
+    this.RANGE = {
+        X: 1,
+        Y: 1
+    };
     this.TIMER = {
         STANDARD: 60,
         CURRENT: 60
@@ -1260,6 +1316,111 @@ this.Emitter = function(sprite, x, y, amount, duration) {
     this.PARTICLES = [];
     this.UPDATES = true;
     
+    this.Setup = function(min_vx, max_vx, min_vy, max_vy, min_size, max_size) {
+        this.MOVEMENT.MIN_VX = min_vx;
+        this.MOVEMENT.MAX_VX = max_vx;
+        this.MOVEMENT.MIN_VY = min_vy;
+        this.MOVEMENT.MAX_VY = max_vy;
+        this.SIZE.MIN = min_size;
+        this.SIZE.MAX = max_size;
+        
+        return this;
+    };
+
+    this.Range = function(x_range, y_range) {
+        if (x_range != undefined && y_range != undefined)
+            this.RANGE = {
+                X: x_range,
+                Y: y_range
+            };
+        else
+            return this.RANGE;
+
+        return this;
+    };
+
+    this.Speed = function(speed) {
+        if (speed != undefined) 
+            this.TIMER.STANDARD = speed;
+        else 
+            return this.TIMER.STANDARD;
+        
+        return this;
+    };
+
+    this.MovementDecelerates = function(decelerates) {
+        if (decelerates != undefined) this.MOVEMENT.DECELERATES = decelerates;
+        else return this.MOVEMENT.DECELERATES;
+        
+        return this;
+    };
+
+    this.Position = function(x, y) {
+        if (x != undefined && y != undefined) {
+            if (this.OFFSET == undefined) this.POS = {
+                X: x,
+                Y: y
+            };
+            else this.OFFSET = {
+                X: x,
+                Y: y
+            };
+        }
+        else return this.POS;
+        
+        return this;
+    };
+
+    this.Follows = function(target) {
+        if (target != undefined) {
+            this.TARGET = target;
+            this.OFFSET = this.POS;
+        }
+        else 
+        return this.TARGET;
+        
+        return this;
+    };
+
+    this.StopFollowing = function() {
+        this.TARGET = undefined; 
+        this.POS = this.OFFSET;
+        this.OFFSET = undefined;
+        
+        return this;
+    };
+
+    this.Show = function(layer) {
+        if (this.BUFFER_ID != -1) this.Hide();
+        
+        this.PARTICLES = [];
+        
+        this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
+        this.BUFFER_LAYER = layer;
+        
+        return this;
+    };
+
+    this.Hide = function() {
+        if (this.BUFFER_ID == -1) return;
+        
+        lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined; 
+        
+        this.BUFFER_ID = -1;
+        this.BUFFER_LAYER = 0;
+        
+        return this;
+    };
+
+    this.Emit = function(layer, amount) {
+        this.TIMER.CURRENT = this.TIMER.STANDARD;
+        this.HIDES_AFTER_AMOUNT = amount;
+        
+        this.Show(layer);
+        
+        return this;
+    };
+
     this.RENDER = function() {
         for (let i = 0; i < this.PARTICLES.length; i++) {
             lx.CONTEXT.GRAPHICS.save();
@@ -1276,47 +1437,62 @@ this.Emitter = function(sprite, x, y, amount, duration) {
                 Y: this.TARGET.POS.Y+this.OFFSET.Y
             };
         }
+
+        let VX = this.MOVEMENT.MAX_VX/lx.GAME.PHYSICS.STEPS,
+            VY = this.MOVEMENT.MAX_VY/lx.GAME.PHYSICS.STEPS;
         
         for (let i = 0; i < this.PARTICLES.length; i++) {
-            if (this.PARTICLES[i].TIMER.CURRENT >= this.PARTICLES[i].TIMER.STANDARD) this.PARTICLES.splice(i, 1);
+            if (this.PARTICLES[i].TIMER.CURRENT >= this.PARTICLES[i].TIMER.STANDARD) 
+                this.PARTICLES.splice(i, 1);
             else {
                 if (this.MOVEMENT.DECELERATES) {
                     if (this.PARTICLES[i].MOVEMENT.VX > 0) {
-                        if (this.PARTICLES[i].MOVEMENT.VX-this.MOVEMENT.MAX_VX/lx.GAME.PHYSICS.STEPS < 0) this.PARTICLES[i].MOVEMENT.VX = 0;
-                        else this.PARTICLES[i].MOVEMENT.VX-=this.MOVEMENT.MAX_VX/lx.GAME.PHYSICS.STEPS;
+                        if (this.PARTICLES[i].MOVEMENT.VX-VX < 0) 
+                            this.PARTICLES[i].MOVEMENT.VX = 0;
+                        else 
+                            this.PARTICLES[i].MOVEMENT.VX-=VX;
                     }
                     if (this.PARTICLES[i].MOVEMENT.VY > 0) {
-                        if (this.PARTICLES[i].MOVEMENT.VY-this.MOVEMENT.MAX_VY/lx.GAME.PHYSICS.STEPS < 0) this.PARTICLES[i].MOVEMENT.VY = 0;
-                        else this.PARTICLES[i].MOVEMENT.VY-=this.MOVEMENT.MAX_VY/lx.GAME.PHYSICS.STEPS;
+                        if (this.PARTICLES[i].MOVEMENT.VY-VY < 0) 
+                            this.PARTICLES[i].MOVEMENT.VY = 0;
+                        else 
+                            this.PARTICLES[i].MOVEMENT.VY-=VY;
                     }
                     if (this.PARTICLES[i].MOVEMENT.VX < 0) {
-                        if (this.PARTICLES[i].MOVEMENT.VX+this.MOVEMENT.MAX_VX/lx.GAME.PHYSICS.STEPS > 0) this.PARTICLES[i].MOVEMENT.VX = 0;
-                        else this.PARTICLES[i].MOVEMENT.VX+=this.MOVEMENT.MAX_VX/lx.GAME.PHYSICS.STEPS;
+                        if (this.PARTICLES[i].MOVEMENT.VX+VX > 0) 
+                            this.PARTICLES[i].MOVEMENT.VX = 0;
+                        else 
+                            this.PARTICLES[i].MOVEMENT.VX+=VX;
                     }
                     if (this.PARTICLES[i].MOVEMENT.VY < 0) {
-                        if (this.PARTICLES[i].MOVEMENT.VY+this.MOVEMENT.MAX_VY/lx.GAME.PHYSICS.STEPS > 0) this.PARTICLES[i].MOVEMENT.VY = 0;
-                        else this.PARTICLES[i].MOVEMENT.VY+=this.MOVEMENT.MAX_VY/lx.GAME.PHYSICS.STEPS;
+                        if (this.PARTICLES[i].MOVEMENT.VY+VY > 0) 
+                            this.PARTICLES[i].MOVEMENT.VY = 0;
+                        else 
+                            this.PARTICLES[i].MOVEMENT.VY+=VY;
                     }
                 }
                 
                 this.PARTICLES[i].POS.X += this.PARTICLES[i].MOVEMENT.VX;
                 this.PARTICLES[i].POS.Y += this.PARTICLES[i].MOVEMENT.VY;
+
                 this.PARTICLES[i].TIMER.CURRENT++;
-                if (this.PARTICLES[i].OPACITY > 0) this.PARTICLES[i].OPACITY-=1/this.PARTICLES[i].TIMER.STANDARD;
-                if (this.PARTICLES[i].OPACITY < 0) this.PARTICLES[i].OPACITY = 0;
+
+                if (this.PARTICLES[i].OPACITY > 0) 
+                    this.PARTICLES[i].OPACITY-=1/this.PARTICLES[i].TIMER.STANDARD;
+                if (this.PARTICLES[i].OPACITY < 0) 
+                    this.PARTICLES[i].OPACITY = 0;
             }
         }
         
         if (this.TIMER.CURRENT >= this.TIMER.STANDARD) {            
             for (let i = 0; i < this.AMOUNT;  i++) {
-                if (this.PARTICLES.length >= lx.GAME.SETTINGS.LIMITERS.PARTICLES) break;
+                if (this.PARTICLES.length >= lx.GAME.SETTINGS.LIMITERS.PARTICLES) 
+                    break;
                 
-                let id = this.PARTICLES.length;
-                
-                this.PARTICLES[id] = {
+                this.PARTICLES.unshift({
                     POS: {
-                        X: this.POS.X-this.SIZE.MAX/2,
-                        Y: this.POS.Y-this.SIZE.MAX/2
+                        X: this.POS.X-this.SIZE.MAX/2+Math.random()*this.RANGE.X-Math.random()*this.RANGE.X,
+                        Y: this.POS.Y-this.SIZE.MAX/2+Math.random()*this.RANGE.Y-Math.random()*this.RANGE.Y
                     },
                     SIZE: this.SIZE.MIN+Math.random()*(this.SIZE.MAX-this.SIZE.MIN),
                     MOVEMENT: {
@@ -1328,7 +1504,7 @@ this.Emitter = function(sprite, x, y, amount, duration) {
                         CURRENT: 0
                     },
                     OPACITY: 1
-                };
+                });
             }
             
             this.TIMER.CURRENT = 0;
@@ -1339,97 +1515,8 @@ this.Emitter = function(sprite, x, y, amount, duration) {
                     this.HIDES_AFTER_AMOUNT = undefined;
                 } else this.HIDES_AFTER_AMOUNT--;
             }
-        } else this.TIMER.CURRENT++;
-    };
-    
-    this.Setup = function(min_vx, max_vx, min_vy, max_vy, min_size, max_size) {
-        this.MOVEMENT.MIN_VX = min_vx;
-        this.MOVEMENT.MAX_VX = max_vx;
-        this.MOVEMENT.MIN_VY = min_vy;
-        this.MOVEMENT.MAX_VY = max_vy;
-        this.SIZE.MIN = min_size;
-        this.SIZE.MAX = max_size;
-        
-        return this;
-    };
-    
-    this.Speed = function(speed) {
-        if (speed != undefined) this.TIMER.STANDARD = speed;
-        else return this.TIMER.STANDARD;
-        
-        return this;
-    };
-    
-    this.MovementDecelerates = function(decelerates) {
-        if (decelerates != undefined) this.MOVEMENT.DECELERATES = decelerates;
-        else return this.MOVEMENT.DECELERATES;
-        
-        return this;
-    };
-    
-    this.Position = function(x, y) {
-        if (x != undefined && y != undefined) {
-            if (this.OFFSET == undefined) this.POS = {
-                X: x,
-                Y: y
-            };
-            else this.OFFSET = {
-                X: x,
-                Y: y
-            };
-        }
-        else return this.POS;
-        
-        return this;
-    };
-    
-    this.Follows = function(target) {
-        if (target != undefined) {
-            this.TARGET = target;
-            this.OFFSET = this.POS;
-        }
-        else return this.TARGET;
-        
-        return this;
-    };
-    
-    this.StopFollowing = function() {
-        this.TARGET = undefined; 
-        this.POS = this.OFFSET;
-        this.OFFSET = undefined;
-        
-        return this;
-    };
-    
-    this.Show = function(layer) {
-        if (this.BUFFER_ID != -1) this.Hide();
-        
-        this.PARTICLES = [];
-        
-        this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
-        this.BUFFER_LAYER = layer;
-        
-        return this;
-    };
-    
-    this.Hide = function() {
-        if (this.BUFFER_ID == -1) return;
-        
-        lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined; 
-        
-        this.BUFFER_ID = -1;
-        this.BUFFER_LAYER = 0;
-        
-        return this;
-    };
-    
-    this.Emit = function(layer, amount) {
-        this.TIMER.CURRENT = this.TIMER.STANDARD;
-        this.HIDES_AFTER_AMOUNT = amount;
-        
-        this.Show(layer);
-        
-        return this;
+        } else 
+            this.TIMER.CURRENT++;
     };
 };
 
@@ -1453,12 +1540,12 @@ this.GameObject = function (sprite, x, y, w, h) {
         VY: 0,
         VMAX_X: 2,
         VMAX_Y: 2,
-        WEIGHT: 1,
+        WEIGHT: 1.1,
         DECELERATES: true,
         UPDATE: function() {
             if (this.DECELERATES) {
-                let DX = this.VMAX_X/lx.GAME.PHYSICS.STEPS*this.WEIGHT,
-                    DY = this.VMAX_Y/lx.GAME.PHYSICS.STEPS*this.WEIGHT;
+                let DX = this.VMAX_X/(lx.GAME.PHYSICS.STEPS*this.WEIGHT),
+                    DY = this.VMAX_Y/(lx.GAME.PHYSICS.STEPS*this.WEIGHT);
 
                 if (this.VX > 0) 
                     if (this.VX-DX < 0) 
@@ -1484,18 +1571,24 @@ this.GameObject = function (sprite, x, y, w, h) {
             }
         },
         APPLY: function(VX, VY) {
-            if (VX > 0 && this.VX+VX <= this.VMAX_X || VX < 0 && this.VX+VX >= -this.VMAX_X) 
+            if (VX > 0 && this.VX+VX <= this.VMAX_X || 
+                VX < 0 && this.VX+VX >= -this.VMAX_X) 
                 this.VX+=VX;
             else if (VX != 0) {
-                if (this.VX+VX > this.VMAX_X) this.VX = this.VMAX_X;
-                else if (this.VX+VX < -this.VMAX_X) this.VX = -this.VMAX_X;
+                if (this.VX+VX > this.VMAX_X) 
+                    this.VX = this.VMAX_X;
+                else if (this.VX+VX < -this.VMAX_X) 
+                    this.VX = -this.VMAX_X;
             }
             
-            if (VY > 0 && this.VY+VY <= this.VMAX_Y || VY < 0 && this.VY+VY >= -this.VMAX_Y) 
-                this.VY+=VY;
+            if (VY > 0 && this.VY+VY <= this.VMAX_Y || 
+                VY < 0 && this.VY+VY >= -this.VMAX_Y) 
+                    this.VY+=VY;
             else if (VY != 0) {
-                if (this.VY+VY > this.VMAX_Y) this.VY = this.VMAX_Y;
-                else if (this.VY+VY < -this.VMAX_Y) this.VY = -this.VMAX_Y;
+                if (this.VY+VY > this.VMAX_Y) 
+                    this.VY = this.VMAX_Y;
+                else if (this.VY+VY < -this.VMAX_Y) 
+                    this.VY = -this.VMAX_Y;
             }
         }
     };
@@ -1533,17 +1626,20 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.Position = function(x, y) {
-        if (x == undefined || y == undefined) return this.POS;
-        else this.POS = {
-            X: x,
-            Y: y
-        };
+        if (x == undefined || y == undefined) 
+            return this.POS;
+        else 
+            this.POS = {
+                X: x,
+                Y: y
+            };
         
         return this;
     };
     
     this.Movement = function(vx, vy) {
-        if (vx == undefined || vy == undefined) return {
+        if (vx == undefined || vy == undefined) 
+        return {
             VX: this.MOVEMENT.VX,
             VY: this.MOVEMENT.VY
         };
@@ -1556,19 +1652,26 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.Rotation = function(angle) {
-        if (this.SPRITE == undefined || this.SPRITE == null) return -1;
+        if (this.SPRITE == undefined || this.SPRITE == null) 
+            return -1;
         
-        if (angle == undefined) return this.SPRITE.Rotation();
-        else this.SPRITE.Rotation(angle);
+        if (angle == undefined) 
+            return this.SPRITE.Rotation();
+        else 
+            this.SPRITE.Rotation(angle);
         
         return this;
     };
     
     this.Clip = function(c_x, c_y, c_w, c_h) {
-        if (this.SPRITE == undefined || this.SPRITE == null) return -1;
+        if (this.SPRITE == undefined || this.SPRITE == null) 
+            return -1;
         
         if (this.ANIMATION == undefined) {
-            if (c_x == undefined || c_y == undefined || c_w == undefined || c_h == undefined) 
+            if (c_x == undefined || 
+                c_y == undefined || 
+                c_w == undefined || 
+                c_h == undefined) 
                 return this.SPRITE.Clip();
             
             else 
@@ -1592,7 +1695,8 @@ this.GameObject = function (sprite, x, y, w, h) {
         this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
         this.BUFFER_LAYER = layer;
         
-        if (this.COLLIDER != undefined) this.COLLIDER.Enable();
+        if (this.COLLIDER != undefined) 
+            this.COLLIDER.Enable();
         
         return this;
     };
@@ -1688,7 +1792,10 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.CreateCollider = function(is_static, callback) {
-        this.COLLIDER = new lx.Collider(this.Position().X, this.Position().Y, this.Size().W, this.Size().H, is_static, callback);
+        let pos = this.Position(),
+            size = this.Size();
+
+        this.COLLIDER = new lx.Collider(pos.X, pos.Y, size.W, size.H, is_static, callback);
         this.COLLIDER.OFFSET = {
             X: 0,
             Y: 0
@@ -1844,254 +1951,252 @@ this.GameObject = function (sprite, x, y, w, h) {
 
 /* Ray Object */
 
-this.Ray = class {
-    constructor(x, y) {
-        this.POS = {
-            X: x,
-            Y: y
-        };
+this.Ray = function(x, y) {
+    this.POS = {
+        X: x,
+        Y: y
+    };
 
-        this.DIR = {
-            X: 0,
-            Y: 0
+    this.DIR = {
+        X: 0,
+        Y: 0
+    };
+
+    this.Position = function(x, y) {
+        if (x != undefined && y != undefined)
+            this.POS = {
+                X: x,
+                Y: y
+            };
+        else 
+            return this.POS;
+        
+        return this;
+    };
+
+    this.Direction = function(x, y) {
+        if (x != undefined && y != undefined) {
+            this.DIR = {
+                X: x - this.POS.X,
+                Y: y - this.POS.Y
+            };
+
+            let MAGNITUDE = Math.sqrt(this.DIR.X*this.DIR.X + this.DIR.Y*this.DIR.Y);
+
+            this.DIR.X /= MAGNITUDE;
+            this.DIR.Y /= MAGNITUDE;
+        } else 
+            return this.DIR;
+        
+        return this;
+    };
+
+    this.Cast = function(target) {
+        if (target.COLLIDER == undefined)
+            return false;
+
+        return this.CHECK_INTERSECTION_BOX(target.COLLIDER, false);
+    };
+
+    this.CastPoint = function(target) {
+        if (target.COLLIDER == undefined)
+            return false;
+
+        return this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, true);
+    };
+
+    this.CastPoints = function(target) {
+        if (target.COLLIDER == undefined)
+            return false;
+
+        return this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, false);
+    };
+
+    this.CastPointRadially = function(target, degrees) {
+        let old_dir = this.DIR,
+            points = [];
+        
+        for (let c = 0; c < 360; c+=degrees) {
+            this.DIR = {
+                X: Math.cos(c*Math.PI/180),
+                Y: Math.sin(c*Math.PI/180)
+            };
+            
+            let result = this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, true);
+            
+            if (result)
+                points.push(result);
         };
         
-        this.Position = function(x, y) {
-            if (x != undefined && y != undefined)
-                this.POS = {
-                    X: x,
-                    Y: y
-                };
-            else 
-                return this.POS;
+        this.DIR = old_dir;
+        
+        return points;
+    };
+
+    this.CastPointsRadially = function(target, degrees) {
+        let old_dir = this.DIR,
+            points = [];
+        
+        for (let c = 0; c < 360; c+=degrees) {
+            this.DIR = {
+                X: Math.cos(c*Math.PI/180),
+                Y: Math.sin(c*Math.PI/180)
+            };
             
-            return this;
-        };
-
-        this.Direction = function(x, y) {
-            if (x != undefined && y != undefined) {
-                this.DIR = {
-                    X: x - this.POS.X,
-                    Y: y - this.POS.Y
-                };
-
-                let MAGNITUDE = Math.sqrt(this.DIR.X*this.DIR.X + this.DIR.Y*this.DIR.Y);
-
-                this.DIR.X /= MAGNITUDE;
-                this.DIR.Y /= MAGNITUDE;
-            } else 
-                return this.DIR;
+            let result = this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, false);
             
-            return this;
-        };
-
-        this.Cast = function(target) {
-            if (target.COLLIDER == undefined)
-                return false;
-
-            return this.CHECK_INTERSECTION_BOX(target.COLLIDER, false);
+            if (result)
+                points.push.apply(points, result);
         };
         
-        this.CastPoint = function(target) {
-            if (target.COLLIDER == undefined)
-                return false;
-
-            return this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, true);
-        };
-
-        this.CastPoints = function(target) {
-            if (target.COLLIDER == undefined)
-                return false;
-
-            return this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, false);
-        };
+        this.DIR = old_dir;
         
-        this.CastPointRadially = function(target, degrees) {
-            let old_dir = this.DIR,
-                points = [];
+        return points;
+    };
+
+    this.CastPointRadiallyMultiple = function(targets, degrees) {
+        let old_dir = this.DIR,
+            points = [];
+        
+        for (let c = 0; c < 360; c+=degrees) {
+            this.DIR = {
+                X: Math.cos(c*Math.PI/180),
+                Y: Math.sin(c*Math.PI/180)
+            };
             
-            for (let c = 0; c < 360; c+=degrees) {
-                this.DIR = {
-                    X: Math.cos(c*Math.PI/180),
-                    Y: Math.sin(c*Math.PI/180)
-                };
-                
-                let result = this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, true);
-                
+            let results = [];
+            
+            for (let t = 0; t < targets.length; t++) {
+                let result = this.CHECK_INTERSECTION_BOX(targets[t].COLLIDER, true, true);
+
                 if (result)
-                    points.push(result);
-            };
-            
-            this.DIR = old_dir;
-            
-            return points;
-        };
-        
-        this.CastPointsRadially = function(target, degrees) {
-            let old_dir = this.DIR,
-                points = [];
-            
-            for (let c = 0; c < 360; c+=degrees) {
-                this.DIR = {
-                    X: Math.cos(c*Math.PI/180),
-                    Y: Math.sin(c*Math.PI/180)
-                };
-                
-                let result = this.CHECK_INTERSECTION_BOX(target.COLLIDER, true, false);
-                
-                if (result)
-                    points.push.apply(points, result);
-            };
-            
-            this.DIR = old_dir;
-            
-            return points;
-        };
+                    results.push(result);
+            }
 
-        this.CastPointRadiallyMultiple = function(targets, degrees) {
-            let old_dir = this.DIR,
-                points = [];
-            
-            for (let c = 0; c < 360; c+=degrees) {
-                this.DIR = {
-                    X: Math.cos(c*Math.PI/180),
-                    Y: Math.sin(c*Math.PI/180)
-                };
-                
-                let results = [];
-                
-                for (let t = 0; t < targets.length; t++) {
-                    let result = this.CHECK_INTERSECTION_BOX(targets[t].COLLIDER, true, true);
+            let closest = Infinity,
+                closestPoint;
 
-                    if (result)
-                        results.push(result);
-                }
+            for (let r = 0; r < results.length; r++) {
+                let x = results[r].X-this.POS.X,
+                    y = results[r].Y-this.POS.Y;
 
-                let closest = Infinity,
-                    closestPoint;
+                let d = Math.sqrt(x*x + y*y);
 
-                for (let r = 0; r < results.length; r++) {
-                    let x = results[r].X-this.POS.X,
-                        y = results[r].Y-this.POS.Y;
-
-                    let d = Math.sqrt(x*x + y*y);
-
-                    if (d < closest) {
-                        closest = d;
-                        closestPoint = results[r];
-                    }
-                }
-                
-                if (closestPoint != undefined)
-                    points.push(closestPoint);
-            };
-            
-            this.DIR = old_dir;
-            
-            return points;
-        };
-
-        this.GET_VECTOR = function() {
-            return {
-                X: this.POS.X,
-                Y: this.POS.Y,
-                X1: this.POS.X + this.DIR.X,
-                Y1: this.POS.Y + this.DIR.Y
-            };
-        };
-
-        this.CHECK_INTERSECTION_BOX = function(TARGET, GET_POSITIONS, GET_FIRST_POSITION) {
-            let LINES = [],
-                RESULT = false;
-
-            if (TARGET.SIZE != undefined) {
-                let LXT = { X: TARGET.POS.X, Y: TARGET.POS.Y, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y },
-                    LYL = { X: TARGET.POS.X, Y: TARGET.POS.Y, X1: TARGET.POS.X, Y1: TARGET.POS.Y+TARGET.SIZE.H },
-                    LXB = { X: TARGET.POS.X, Y: TARGET.POS.Y+TARGET.SIZE.H, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y+TARGET.SIZE.H },
-                    LYR = { X: TARGET.POS.X+TARGET.SIZE.W, Y: TARGET.POS.Y, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y+TARGET.SIZE.H };
-                
-                if (this.POS.X < TARGET.POS.X) {
-                    LINES.push(LYL);
-                    LYL = undefined;
-                } else {
-                    LINES.push(LYR);
-                    LYR = undefined;
-                }
-                
-                if (this.POS.Y < TARGET.POS.Y) {
-                    LINES.push(LXT);
-                    LXT = undefined;
-                } else {
-                    LINES.push(LXB);
-                    LXB = undefined;
-                }
-                
-                if (LYL == undefined)
-                    LINES.push(LYR);
-                else if (LYR == undefined)
-                    LINES.push(LYL);
-                
-                if (LXB == undefined)
-                    LINES.push(LXT);
-                else if (LXT == undefined)
-                    LINES.push(LXB);
-            } else 
-                return RESULT;
-
-            for (let L = 0; L < LINES.length; L++) {
-                let LINE = LINES[L];
-
-                let LINE_RESULT = this.CHECK_INTERSECTION_LINE(LINE, GET_POSITIONS);
-                
-                if (LINE_RESULT) {
-                    if (GET_POSITIONS && !RESULT)
-                        RESULT = [];
-                    else if (!GET_POSITIONS) {
-                        RESULT = true;
-
-                        break;
-                    }
-
-                    if (GET_POSITIONS) 
-                        RESULT.push(LINE_RESULT);
+                if (d < closest) {
+                    closest = d;
+                    closestPoint = results[r];
                 }
             }
             
-            if (GET_POSITIONS && RESULT && GET_FIRST_POSITION)
-                RESULT = RESULT[0];
-
-            return RESULT;
+            if (closestPoint != undefined)
+                points.push(closestPoint);
         };
+        
+        this.DIR = old_dir;
+        
+        return points;
+    };
 
-        this.CHECK_INTERSECTION_LINE = function(LINE, GET_POSITION) {
-            let VECTOR = this.GET_VECTOR();
+    this.GET_VECTOR = function() {
+        return {
+            X: this.POS.X,
+            Y: this.POS.Y,
+            X1: this.POS.X + this.DIR.X,
+            Y1: this.POS.Y + this.DIR.Y
+        };
+    };
+
+    this.CHECK_INTERSECTION_BOX = function(TARGET, GET_POSITIONS, GET_FIRST_POSITION) {
+        let LINES = [],
+            RESULT = false;
+
+        if (TARGET.SIZE != undefined) {
+            let LXT = { X: TARGET.POS.X, Y: TARGET.POS.Y, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y },
+                LYL = { X: TARGET.POS.X, Y: TARGET.POS.Y, X1: TARGET.POS.X, Y1: TARGET.POS.Y+TARGET.SIZE.H },
+                LXB = { X: TARGET.POS.X, Y: TARGET.POS.Y+TARGET.SIZE.H, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y+TARGET.SIZE.H },
+                LYR = { X: TARGET.POS.X+TARGET.SIZE.W, Y: TARGET.POS.Y, X1: TARGET.POS.X+TARGET.SIZE.W, Y1: TARGET.POS.Y+TARGET.SIZE.H };
             
-            let RESULT = false,
-                DEN = (LINE.X-LINE.X1) * (VECTOR.Y-VECTOR.Y1) - (LINE.Y-LINE.Y1) * (VECTOR.X-VECTOR.X1);
+            if (this.POS.X < TARGET.POS.X) {
+                LINES.push(LYL);
+                LYL = undefined;
+            } else {
+                LINES.push(LYR);
+                LYR = undefined;
+            }
+            
+            if (this.POS.Y < TARGET.POS.Y) {
+                LINES.push(LXT);
+                LXT = undefined;
+            } else {
+                LINES.push(LXB);
+                LXB = undefined;
+            }
+            
+            if (LYL == undefined)
+                LINES.push(LYR);
+            else if (LYR == undefined)
+                LINES.push(LYL);
+            
+            if (LXB == undefined)
+                LINES.push(LXT);
+            else if (LXT == undefined)
+                LINES.push(LXB);
+        } else 
+            return RESULT;
 
-            if (DEN === 0)
-                return false;
+        for (let L = 0; L < LINES.length; L++) {
+            let LINE = LINES[L];
 
-            let T = ((LINE.X-VECTOR.X) * (VECTOR.Y-VECTOR.Y1) - (LINE.Y-VECTOR.Y) * (VECTOR.X-VECTOR.X1)) / DEN,
-                U = -((LINE.X-LINE.X1) * (LINE.Y-VECTOR.Y) - (LINE.Y-LINE.Y1) * (LINE.X-VECTOR.X)) / DEN;
-
-            if (T > 0 && T < 1 && U > 0) {
-                if (GET_POSITION) {
-                    RESULT = {
-                        X: LINE.X + T * (LINE.X1 - LINE.X),
-                        Y: LINE.Y + T * (LINE.Y1 - LINE.Y)
-                    };
-
-                    if (lx.GAME.FOCUS != undefined)
-                        RESULT = lx.GAME.TRANSLATE_FROM_FOCUS(RESULT);
-                }
-                else
+            let LINE_RESULT = this.CHECK_INTERSECTION_LINE(LINE, GET_POSITIONS);
+            
+            if (LINE_RESULT) {
+                if (GET_POSITIONS && !RESULT)
+                    RESULT = [];
+                else if (!GET_POSITIONS) {
                     RESULT = true;
-            }
 
-            return RESULT;
-        };
-    }
+                    break;
+                }
+
+                if (GET_POSITIONS) 
+                    RESULT.push(LINE_RESULT);
+            }
+        }
+        
+        if (GET_POSITIONS && RESULT && GET_FIRST_POSITION)
+            RESULT = RESULT[0];
+
+        return RESULT;
+    };
+
+    this.CHECK_INTERSECTION_LINE = function(LINE, GET_POSITION) {
+        let VECTOR = this.GET_VECTOR();
+        
+        let RESULT = false,
+            DEN = (LINE.X-LINE.X1) * (VECTOR.Y-VECTOR.Y1) - (LINE.Y-LINE.Y1) * (VECTOR.X-VECTOR.X1);
+
+        if (DEN === 0)
+            return false;
+
+        let T = ((LINE.X-VECTOR.X) * (VECTOR.Y-VECTOR.Y1) - (LINE.Y-VECTOR.Y) * (VECTOR.X-VECTOR.X1)) / DEN,
+            U = -((LINE.X-LINE.X1) * (LINE.Y-VECTOR.Y) - (LINE.Y-LINE.Y1) * (LINE.X-VECTOR.X)) / DEN;
+
+        if (T > 0 && T < 1 && U > 0) {
+            if (GET_POSITION) {
+                RESULT = {
+                    X: LINE.X + T * (LINE.X1 - LINE.X),
+                    Y: LINE.Y + T * (LINE.Y1 - LINE.Y)
+                };
+
+                if (lx.GAME.FOCUS != undefined)
+                    RESULT = lx.GAME.TRANSLATE_FROM_FOCUS(RESULT);
+            }
+            else
+                RESULT = true;
+        }
+
+        return RESULT;
+    };
 };
 
 /* Scene Object */
@@ -2357,10 +2462,10 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
             if (OPACITY == undefined)
                 OPACITY = this.OPACITY;
             
-            lx.CONTEXT.GRAPHICS.globalAlpha = OPACITY;
-            
             lx.CONTEXT.GRAPHICS.save();
             CANVAS_SAVED = true;
+
+            lx.CONTEXT.GRAPHICS.globalAlpha = OPACITY;
         }
 
         //Check for color overlay
@@ -2471,8 +2576,8 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
 
 /* Richtext Object */
 
-this.UIRichText = function(string_array, x, y, size, color, font) {
-    this.TEXT = string_array;
+this.UIRichText = function(text_array, x, y, size, color, font) {
+    this.TEXT = text_array;
     this.POS = {
         X: x,
         Y: y
@@ -2480,79 +2585,114 @@ this.UIRichText = function(string_array, x, y, size, color, font) {
     this.ALIGN = 'left';
     this.LINE_HEIGHT = size/4;
 
-    if (font != undefined) this.FONT = font;
-    else this.FONT = 'Verdana';
-    if (color != undefined) this.COLOR = color;
-    else this.COLOR = 'whitesmoke';
-    if (size != undefined) this.SIZE = size;
-    else this.SIZE = 14;
-    
+    if (font != undefined) 
+        this.FONT = font;
+    else 
+        this.FONT = 'Verdana';
+    if (color != undefined) 
+        this.COLOR = color;
+    else 
+        this.COLOR = 'whitesmoke';
+    if (size != undefined) 
+        this.SIZE = size;
+    else 
+        this.SIZE = 14;
+
+    this.Show = function() {
+        if (this.UI_ID != undefined) return this;
+        
+        this.UI_ID = lx.GAME.ADD_UI_ELEMENT(this);
+        
+        return this;
+    };
+
+    this.Hide = function() {
+        if (this.UI_ID == undefined) return this;
+        
+        lx.GAME.UI[this.UI_ID] = undefined;
+        this.UI_ID = undefined;
+        
+        return this;
+    };
+
     this.Size = function(size) {
-        if (size == undefined) return this.SIZE;
-        else this.SIZE = size;
+        if (size == undefined) 
+            return this.SIZE;
+        else 
+            this.SIZE = size;
         
         return this;
     };
-    
+
     this.LineHeight = function(line_height) {
-        if (line_height == undefined) return this.LINE_HEIGHT;
-        else this.LINE_HEIGHT = line_height;
+        if (line_height == undefined) 
+            return this.LINE_HEIGHT;
+        else 
+            this.LINE_HEIGHT = line_height;
         
         return this;
     };
-    
+
     this.Position = function(x, y) {
-        if (x == undefined || y == undefined) return this.POS;
-        else this.POS = {
-            X: x,
-            Y: y
-        };
+        if (x == undefined || y == undefined) 
+            return this.POS;
+        else 
+            this.POS = {
+                X: x,
+                Y: y
+            };
         
         return this;
     };
-    
-    this.Text = function(string_array) {
-        if (string_array != undefined) this.TEXT = string_array;  
-        else return this.TEXT;
+
+    this.Text = function(text_array) {
+        if (text_array != undefined) 
+            this.TEXT = text_array;  
+        else 
+            return this.TEXT;
         
         return this;
     };
-    
-    this.TextLine = function(line, string) {
-        if (line != undefined && string != undefined) this.TEXT[line] = string;
-        else if (line != undefined) return this.TEXT[line];
+
+    this.TextLine = function(line, text) {
+        if (line != undefined && text != undefined)
+            this.TEXT[line] = text;
+        else if (line != undefined) 
+            return this.TEXT[line];
         
         return this;
     };
-    
+
     this.Alignment = function(alignment) {
-        if (alignment == undefined) return this.ALIGN;
-        else this.ALIGN = alignment;  
+        if (alignment == undefined) 
+            return this.ALIGN;
+        else 
+            this.ALIGN = alignment;  
         
         return this;
     };
-    
+
     this.Color = function(color) {
         if (color == undefined) return this.COLOR;
         else this.COLOR = color;
         
         return this;
     };
-    
+
     this.Font = function(font) {
         if (font == undefined) return this.FONT;
         else this.FONT = font;
         
         return this;
     };
-    
+
     this.Follows = function(target) {
         if (target != undefined) this.TARGET = target;
         else return this.TARGET;
         
         return this;
     };
-    
+
     this.StopFollowing = function() {
         this.TARGET = undefined;
         
@@ -2584,7 +2724,31 @@ this.UIRichText = function(string_array, x, y, size, color, font) {
     this.UPDATE = function() {
         
     };
-    
+};
+
+/* Text Object */
+
+this.UIText = function(text, x, y, size, color, font) {
+    this.TEXT = text;
+    this.POS = {
+        X: x,
+        Y: y
+    };
+    this.ALIGN = 'left';
+
+    if (font != undefined) 
+        this.FONT = font;
+    else 
+        this.FONT = 'Verdana';
+    if (color != undefined) 
+        this.COLOR = color;
+    else 
+        this.COLOR = 'whitesmoke';
+    if (size != undefined) 
+        this.SIZE = size;
+    else 
+        this.SIZE = 14;
+
     this.Show = function() {
         if (this.UI_ID != undefined) return this;
         
@@ -2592,7 +2756,7 @@ this.UIRichText = function(string_array, x, y, size, color, font) {
         
         return this;
     };
-    
+
     this.Hide = function() {
         if (this.UI_ID == undefined) return this;
         
@@ -2601,25 +2765,7 @@ this.UIRichText = function(string_array, x, y, size, color, font) {
         
         return this;
     };
-};
 
-/* Text Object */
-
-this.UIText = function(string, x, y, size, color, font) {
-    this.TEXT = string;
-    this.POS = {
-        X: x,
-        Y: y
-    };
-    this.ALIGN = 'left';
-
-    if (font != undefined) this.FONT = font;
-    else this.FONT = 'Verdana';
-    if (color != undefined) this.COLOR = color;
-    else this.COLOR = 'whitesmoke';
-    if (size != undefined) this.SIZE = size;
-    else this.SIZE = 14;
-    
     this.Size = function(size) {
         if (size == undefined) return this.SIZE;
         else this.SIZE = size;
@@ -2636,42 +2782,44 @@ this.UIText = function(string, x, y, size, color, font) {
         
         return this;
     };
-    
-    this.Text = function(string) {
-        if (string != undefined) this.TEXT = string;  
-        else return this.TEXT;
+
+    this.Text = function(text) {
+        if (text != undefined) 
+            this.TEXT = text;  
+        else 
+            return this.TEXT;
         
         return this;
     };
-    
+
     this.Alignment = function(alignment) {
         if (alignment == undefined) return this.ALIGN;
         else this.ALIGN = alignment;  
         
         return this;
     };
-    
+
     this.Color = function(color) {
         if (color == undefined) return this.COLOR;
         else this.COLOR = color;
         
         return this;
     };
-    
+
     this.Font = function(font) {
         if (font == undefined) return this.FONT;
         else this.FONT = font;
         
         return this;
     };
-    
+
     this.Follows = function(target) {
         if (target != undefined) this.TARGET = target;
         else return this.TARGET;
         
         return this;
     };
-    
+
     this.StopFollowing = function() {
         this.TARGET = undefined;
         
@@ -2699,23 +2847,6 @@ this.UIText = function(string, x, y, size, color, font) {
     this.UPDATE = function() {
         
     };
-    
-    this.Show = function() {
-        if (this.UI_ID != undefined) return this;
-        
-        this.UI_ID = lx.GAME.ADD_UI_ELEMENT(this);
-        
-        return this;
-    };
-    
-    this.Hide = function() {
-        if (this.UI_ID == undefined) return this;
-        
-        lx.GAME.UI[this.UI_ID] = undefined;
-        this.UI_ID = undefined;
-        
-        return this;
-    };
 };
 
 /* Texture Object */
@@ -2730,33 +2861,58 @@ this.UITexture = function(sprite, x, y, w, h) {
         W: w,
         H: h
     }
-    
+
+    this.Show = function() {
+        if (this.UI_ID != undefined) return this;
+        
+        this.UI_ID = lx.GAME.ADD_UI_ELEMENT(this);
+        
+        return this;
+    };
+
+    this.Hide = function() {
+        if (this.UI_ID == undefined) return this;
+        
+        lx.GAME.UI[this.UI_ID] = undefined;
+        this.UI_ID = undefined;
+        
+        return this;
+    };
+
     this.Size = function(width, height) {
-        if (width == undefined || height == undefined) return this.SIZE;
-        else this.SIZE = {
-            W: width,
-            H: height
-        };
+        if (width == undefined) 
+            return this.SIZE;
+        else {
+            if (height == undefined)
+                height = width;
+
+            this.SIZE = {
+                W: width,
+                H: height
+            };
+        }
         
         return this;
     };
-    
+
     this.Position = function(x, y) {
-        if (x == undefined || y == undefined) return this.POS;
-        else this.POS = {
-            X: x,
-            Y: y
-        };
+        if (x == undefined || y == undefined) 
+            return this.POS;
+        else 
+            this.POS = {
+                X: x,
+                Y: y
+            };
         
         return this;
     };
-    
-    this.Follows = function(gameobject) {
-        this.TARGET = gameobject;
+
+    this.Follows = function(target) {
+        this.TARGET = target;
         
         return this;
     };
-    
+
     this.StopFollowing = function() {
         this.TARGET = undefined;
         
@@ -2770,23 +2926,6 @@ this.UITexture = function(sprite, x, y, w, h) {
     
     this.UPDATE = function() {
         
-    };
-    
-    this.Show = function() {
-        if (this.UI_ID != undefined) return this;
-        
-        this.UI_ID = lx.GAME.ADD_UI_ELEMENT(this);
-        
-        return this;
-    };
-    
-    this.Hide = function() {
-        if (this.UI_ID == undefined) return this;
-        
-        lx.GAME.UI[this.UI_ID] = undefined;
-        this.UI_ID = undefined;
-        
-        return this;
     };
 };
 

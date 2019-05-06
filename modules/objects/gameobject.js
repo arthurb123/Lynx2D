@@ -26,12 +26,12 @@ this.GameObject = function (sprite, x, y, w, h) {
         VY: 0,
         VMAX_X: 2,
         VMAX_Y: 2,
-        WEIGHT: 1,
+        WEIGHT: 1.1,
         DECELERATES: true,
         UPDATE: function() {
             if (this.DECELERATES) {
-                let DX = this.VMAX_X/lx.GAME.PHYSICS.STEPS*this.WEIGHT,
-                    DY = this.VMAX_Y/lx.GAME.PHYSICS.STEPS*this.WEIGHT;
+                let DX = this.VMAX_X/(lx.GAME.PHYSICS.STEPS*this.WEIGHT),
+                    DY = this.VMAX_Y/(lx.GAME.PHYSICS.STEPS*this.WEIGHT);
 
                 if (this.VX > 0) 
                     if (this.VX-DX < 0) 
@@ -57,18 +57,24 @@ this.GameObject = function (sprite, x, y, w, h) {
             }
         },
         APPLY: function(VX, VY) {
-            if (VX > 0 && this.VX+VX <= this.VMAX_X || VX < 0 && this.VX+VX >= -this.VMAX_X) 
+            if (VX > 0 && this.VX+VX <= this.VMAX_X || 
+                VX < 0 && this.VX+VX >= -this.VMAX_X) 
                 this.VX+=VX;
             else if (VX != 0) {
-                if (this.VX+VX > this.VMAX_X) this.VX = this.VMAX_X;
-                else if (this.VX+VX < -this.VMAX_X) this.VX = -this.VMAX_X;
+                if (this.VX+VX > this.VMAX_X) 
+                    this.VX = this.VMAX_X;
+                else if (this.VX+VX < -this.VMAX_X) 
+                    this.VX = -this.VMAX_X;
             }
             
-            if (VY > 0 && this.VY+VY <= this.VMAX_Y || VY < 0 && this.VY+VY >= -this.VMAX_Y) 
-                this.VY+=VY;
+            if (VY > 0 && this.VY+VY <= this.VMAX_Y || 
+                VY < 0 && this.VY+VY >= -this.VMAX_Y) 
+                    this.VY+=VY;
             else if (VY != 0) {
-                if (this.VY+VY > this.VMAX_Y) this.VY = this.VMAX_Y;
-                else if (this.VY+VY < -this.VMAX_Y) this.VY = -this.VMAX_Y;
+                if (this.VY+VY > this.VMAX_Y) 
+                    this.VY = this.VMAX_Y;
+                else if (this.VY+VY < -this.VMAX_Y) 
+                    this.VY = -this.VMAX_Y;
             }
         }
     };
@@ -132,11 +138,13 @@ this.GameObject = function (sprite, x, y, w, h) {
     */
     
     this.Position = function(x, y) {
-        if (x == undefined || y == undefined) return this.POS;
-        else this.POS = {
-            X: x,
-            Y: y
-        };
+        if (x == undefined || y == undefined) 
+            return this.POS;
+        else 
+            this.POS = {
+                X: x,
+                Y: y
+            };
         
         return this;
     };
@@ -149,7 +157,8 @@ this.GameObject = function (sprite, x, y, w, h) {
     */
     
     this.Movement = function(vx, vy) {
-        if (vx == undefined || vy == undefined) return {
+        if (vx == undefined || vy == undefined) 
+        return {
             VX: this.MOVEMENT.VX,
             VY: this.MOVEMENT.VY
         };
@@ -168,10 +177,13 @@ this.GameObject = function (sprite, x, y, w, h) {
     */
     
     this.Rotation = function(angle) {
-        if (this.SPRITE == undefined || this.SPRITE == null) return -1;
+        if (this.SPRITE == undefined || this.SPRITE == null) 
+            return -1;
         
-        if (angle == undefined) return this.SPRITE.Rotation();
-        else this.SPRITE.Rotation(angle);
+        if (angle == undefined) 
+            return this.SPRITE.Rotation();
+        else 
+            this.SPRITE.Rotation(angle);
         
         return this;
     };
@@ -186,10 +198,14 @@ this.GameObject = function (sprite, x, y, w, h) {
     */
     
     this.Clip = function(c_x, c_y, c_w, c_h) {
-        if (this.SPRITE == undefined || this.SPRITE == null) return -1;
+        if (this.SPRITE == undefined || this.SPRITE == null) 
+            return -1;
         
         if (this.ANIMATION == undefined) {
-            if (c_x == undefined || c_y == undefined || c_w == undefined || c_h == undefined) 
+            if (c_x == undefined || 
+                c_y == undefined || 
+                c_w == undefined || 
+                c_h == undefined) 
                 return this.SPRITE.Clip();
             
             else 
@@ -218,7 +234,8 @@ this.GameObject = function (sprite, x, y, w, h) {
         this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
         this.BUFFER_LAYER = layer;
         
-        if (this.COLLIDER != undefined) this.COLLIDER.Enable();
+        if (this.COLLIDER != undefined) 
+            this.COLLIDER.Enable();
         
         return this;
     };
@@ -373,7 +390,10 @@ this.GameObject = function (sprite, x, y, w, h) {
     */
     
     this.CreateCollider = function(is_static, callback) {
-        this.COLLIDER = new lx.Collider(this.Position().X, this.Position().Y, this.Size().W, this.Size().H, is_static, callback);
+        let pos = this.Position(),
+            size = this.Size();
+
+        this.COLLIDER = new lx.Collider(pos.X, pos.Y, size.W, size.H, is_static, callback);
         this.COLLIDER.OFFSET = {
             X: 0,
             Y: 0

@@ -1,3 +1,8 @@
+/** 
+ * Initializes Lynx2D.
+ * @param {Element} target - The DOM element in which the canvas gets instantiated, can be undefined (default is body).
+*/
+
 this.Initialize = function(target) {
     //Setup canvas
 
@@ -42,25 +47,45 @@ this.Initialize = function(target) {
         lx.CONTEXT.CANVAS.width = width;
         lx.CONTEXT.CANVAS.height = height;
     };
+
     window.onresize();
+
+    //Create standard controller
+
+    if (this.CONTEXT.CONTROLLER == undefined)
+        this.CreateController();
     
     return this;
 };
 
+/** 
+ * Starts the game loop.
+ * @param {number} fps - The desired FPS, can be undefined (default is 60).
+*/
+
 this.Start = function(fps) {
     //Init game loop
+
+    if (fps == undefined)
+        fps = 60;
+
     this.GAME.INIT(fps);
     
-    //Create standard controller
-    if (this.CONTEXT.CONTROLLER == undefined) this.CreateController();
-    
     return this;
-}
+};
+
+/** 
+ * Get/Set the background color.
+ * @param {string} color - Sets the background color if specified.
+ * @return {string} Gets the background color if left empty.
+*/
 
 this.Background = function(color) {
     if (this.CONTEXT.CANVAS == undefined) {
-        if (color != undefined) return this;
-        else return;
+        if (color != undefined) 
+            return this;
+        else 
+            return;
     }
     
     if (color == undefined) 
@@ -69,7 +94,33 @@ this.Background = function(color) {
         this.CONTEXT.CANVAS.style.backgroundColor = color;
     
     return this;
-}
+};
+
+/** 
+ * Gets the dimensions of the canvas.
+ * @return {object} Gets {width, height}.
+*/
+
+this.GetDimensions = function() {
+    if (this.CONTEXT.CANVAS == undefined) {
+        console.log(this.GAME.LOG.TIMEFORMAT + 'Could not get canvas dimensions, Lynx2D is not initialized!')
+        
+        return {
+            width: self.innerWidth,
+            height: self.innerHeight
+        }
+    }
+    
+    return {
+        width: this.CONTEXT.CANVAS.width,
+        height: this.CONTEXT.CANVAS.height
+    };
+};
+
+/** 
+ * Loads a Scene, executing it's callback.
+ * @param {Scene} color - The scene to be loaded.
+*/
 
 this.LoadScene = function(scene) {
     //Clear previous data
@@ -87,6 +138,10 @@ this.LoadScene = function(scene) {
     
     return this;
 };
+
+/** 
+ * Creates a new controller.
+*/
 
 this.CreateController = function() {
     //Create a new controller
@@ -146,56 +201,21 @@ this.CreateController = function() {
     return this;
 };
 
-this.GetDimensions = function() {
-    if (this.CONTEXT.CANVAS == undefined) {
-        console.log(this.GAME.LOG.TIMEFORMAT + 'Could not get canvas dimensions, Lynx2D is not initialized!')
-        
-        return {
-            width: self.innerWidth,
-            height: self.innerHeight
-        }
-    }
-    
-    return {
-        width: this.CONTEXT.CANVAS.width,
-        height: this.CONTEXT.CANVAS.height
-    };
-}
+/** 
+ * Gets the current focus.
+ * @return {GameObject} The current focus.
+*/
 
 this.GetFocus = function() {
     return this.GAME.FOCUS;
 };
 
+/** 
+ * Resets the current focus.
+*/
+
 this.ResetCentering = function() {
     this.GAME.FOCUS = undefined;  
-    
-    return this;
-};
-
-this.Smoothing = function(boolean) {
-    if (boolean == undefined) return this.GAME.SETTINGS.AA;
-    else this.GAME.SETTINGS.AA = boolean;  
-    
-    return this;
-};
-
-this.Framerate = function(fps) {
-    if (fps == undefined) return this.GAME.SETTINGS.FPS;
-    else this.GAME.SETTINGS.FPS = fps;  
-    
-    return this;
-};
-
-this.ParticleLimit = function(amount) {
-    if (amount != undefined) this.GAME.SETTINGS.LIMITERS.PARTICLES = amount;
-    else return this.GAME.SETTINGS.LIMITERS.PARTICLES;
-    
-    return this;
-};
-
-this.ChannelVolume = function(channel, volume) {
-    if (channel != undefined && volume != undefined) this.GAME.AUDIO.SET_CHANNEL_VOLUME(channel, volume);
-    else if (channel != undefined) return this.GAME.AUDIO.GET_CHANNEL_VOLUME(channel);
     
     return this;
 };

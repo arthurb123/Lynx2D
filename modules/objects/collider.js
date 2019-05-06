@@ -201,31 +201,31 @@ this.Collider = function (x, y, w, h, is_static, callback) {
 
             if (this.SOLID && 
                 !collider.STATIC) {
-                    let go = lx.FindGameObjectWithCollider(collider);
+                let go = lx.FindGameObjectWithCollider(collider);
 
-                    if (go != undefined) {
-                        //Add the gameObject property to
-                        //the collision response
+                if (go != undefined) {
+                    //Add the gameObject property to
+                    //the collision response
 
-                        response.gameObject = go;
+                    response.gameObject = go;
 
-                        //Adjust position
+                    //Adjust position
 
-                        let pos = go.Position();
-                        switch(lowest.tag) {
-                            case 'right':
-                                go.Position(pos.X-lowest.actual, pos.Y);
-                                break;
-                            case 'left':
-                                go.Position(pos.X+lowest.actual, pos.Y);
-                                break;
-                            case 'down':
-                                go.Position(pos.X, pos.Y-lowest.actual);
-                                break;
-                            case 'up':
-                                go.Position(pos.X, pos.Y+lowest.actual);
-                                break;
-                        };
+                    let pos = go.Position();
+                    switch(lowest.tag) {
+                        case 'right':
+                            go.Position(pos.X-lowest.actual, pos.Y);
+                            break;
+                        case 'left':
+                            go.Position(pos.X+lowest.actual, pos.Y);
+                            break;
+                        case 'down':
+                            go.Position(pos.X, pos.Y-lowest.actual);
+                            break;
+                        case 'up':
+                            go.Position(pos.X, pos.Y+lowest.actual);
+                            break;
+                    };
                 }
             }
             
