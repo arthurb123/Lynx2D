@@ -66,16 +66,29 @@ fs.readFile('output/index.html', 'utf-8', (err, data) => {
             lines[l] = start + '>lx.' + end;
         }
     }
+    
+    let result = lines.join('\n');
 
     console.log('Filtered all lines!');
+    
+    //Force remove last occurence (this is a glitch, 
+    //and this workaround is bad! PLEASE IMPROVE)
+    
+    let start = result.lastIndexOf('<section class="p2'),
+        end = result.lastIndexOf('</section>');
+    
+    result = result.replace(result.substr(start, end-start), '');
 
-    //Replace style.css
+    //Replace style and split CSS files
 
-    fs.copyFileSync('style.css', 'output/assets/style.css');
+    fs.copyFileSync('data/style.css', 'output/assets/style.css');
+    fs.copyFileSync('data/split.css', 'output/assets/split.css');
 
-    console.log('Replaced stylesheet!');
+    console.log('Replaced stylesheets!');
+    
+    fs.copyFileSync('data/favicon.ico', 'output/assets/favicon.ico');
 
     console.log('Done updating docs, exporting...');
 
-    fs.writeFileSync('output/index.html', lines.join('\n'));
+    fs.writeFileSync('output/index.html', result);
 });

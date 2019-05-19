@@ -17,14 +17,15 @@ this.UITexture = function(sprite, x, y, w, h) {
     if (w != undefined && h != undefined) this.SIZE = {
         W: w,
         H: h
-    }
+    };
 
     /** 
      * Shows the Texture.
     */
 
     this.Show = function() {
-        if (this.UI_ID != undefined) return this;
+        if (this.UI_ID != undefined) 
+            return this;
         
         this.UI_ID = lx.GAME.ADD_UI_ELEMENT(this);
         
@@ -36,7 +37,8 @@ this.UITexture = function(sprite, x, y, w, h) {
     */
     
     this.Hide = function() {
-        if (this.UI_ID == undefined) return this;
+        if (this.UI_ID == undefined) 
+            return this;
         
         lx.GAME.UI[this.UI_ID] = undefined;
         this.UI_ID = undefined;
