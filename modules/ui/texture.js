@@ -1,7 +1,7 @@
 /**
  * Lynx2D UI Texture
  * @constructor
- * @param {Sprite} sprite - The Sprite for the Texture.
+ * @param {Sprite} sprite - The Sprite for the Texture, or a color string.
  * @param {number} x - The texture x position.
  * @param {number} y - The texture y position.
  * @param {number} w - The texture width.
@@ -108,12 +108,56 @@ this.UITexture = function(sprite, x, y, w, h) {
         return this;
     };
     
+    /** 
+     * Places a callback function in the UITexture's update loop.
+     * @param {function} callback - The callback to be looped.
+    */
+    
+    this.Loops = function(callback) {
+        this.LOOPS = callback;
+        
+        return this;
+    };
+    
+    /** 
+     * Clears the update callback function being looped.
+    */
+    
+    this.ClearLoops = function() {
+        this.LOOPS = undefined;
+        
+        return this;
+    };
+    
     this.RENDER = function() {
-        if (this.TARGET != undefined) this.SPRITE.RENDER(lx.GAME.TRANSLATE_FROM_FOCUS({ X: this.TARGET.POS.X+this.POS.X, Y: this.TARGET.POS.Y+this.POS.Y }), this.SIZE);
-        else this.SPRITE.RENDER(this.POS, this.SIZE);
+        if (this.TARGET != undefined) {
+            let POS = lx.GAME.TRANSLATE_FROM_FOCUS({ X: this.TARGET.POS.X+this.POS.X, Y: this.TARGET.POS.Y+this.POS.Y })
+
+            if (typeof this.SPRITE === 'string')
+            {
+                lx.CONTEXT.GRAPHICS.save();
+                lx.CONTEXT.GRAPHICS.fillStyle = this.SPRITE;
+                lx.CONTEXT.GRAPHICS.fillRect(POS.X, POS.Y, this.SIZE.W, this.SIZE.H);
+                lx.CONTEXT.GRAPHICS.restore();
+            }
+            else
+                this.SPRITE.RENDER(POS, this.SIZE);
+        }
+        else {
+            if (typeof this.SPRITE === 'string')
+            {
+                lx.CONTEXT.GRAPHICS.save();
+                lx.CONTEXT.GRAPHICS.fillStyle = this.SPRITE;
+                lx.CONTEXT.GRAPHICS.fillRect(this.POS.X, this.POS.Y, this.SIZE.W, this.SIZE.H);
+                lx.CONTEXT.GRAPHICS.restore();
+            }
+            else
+                this.SPRITE.RENDER(this.POS, this.SIZE);
+        }
     };
     
     this.UPDATE = function() {
-        
+        if (this.LOOPS != undefined)
+            this.LOOPS();
     };
 };

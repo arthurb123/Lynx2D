@@ -1,3 +1,11 @@
+/** 
+ * Cuts a sprite horizontally into a tilesheet.
+ * @param {Sprite} sprite - The sprite to cut.
+ * @param {number} cw - The clip/tile width.
+ * @param {number} ch - The clip/tile height.
+ * @return {Sprite[][]} A 2D array containg all cut tiles as Sprites.
+*/
+
 this.CreateHorizontalTileSheet = function(sprite, cw, ch) {
     let result = [];
 
@@ -14,6 +22,14 @@ this.CreateHorizontalTileSheet = function(sprite, cw, ch) {
 
     return result;
 };
+
+/** 
+ * Cuts a sprite vertically into a tilesheet.
+ * @param {Sprite} sprite - The sprite to cut.
+ * @param {number} cw - The clip/tile width.
+ * @param {number} ch - The clip/tile height.
+ * @return {Sprite[][]} A 2D array containg all cut tiles as Sprites.
+*/
 
 this.CreateVerticalTileSheet = function(sprite, cw, ch) {
     let result = [];

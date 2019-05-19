@@ -124,8 +124,9 @@ this.GAME = {
         this.EVENTS.forEach(function(obj) {
             if (obj != undefined) 
                 if (obj.TYPE == 'key' && lx.CONTEXT.CONTROLLER.KEYS[obj.EVENT] || 
-                    obj.TYPE == 'mousebutton' && lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[obj.EVENT]) 
-                    for (var i = 0; i < obj.CALLBACK.length; i++) 
+                    obj.TYPE == 'mousebutton' && 
+                    lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[obj.EVENT]) 
+                    for (let i = 0; i < obj.CALLBACK.length; i++) 
                         if (obj.CALLBACK[i] != undefined) 
                             try {
                                 obj.CALLBACK[i]({ 
@@ -236,7 +237,7 @@ this.GAME = {
         
         //Render buffer
 
-        for (var i = 0; i < this.BUFFER.length; i++) {
+        for (let i = 0; i < this.BUFFER.length; i++) {
             try {
                 if (this.BUFFER[i] != undefined) 
                     this.BUFFER[i].forEach(function(obj) {
@@ -245,7 +246,7 @@ this.GAME = {
                     });
 
                 if (this.LAYER_DRAW_EVENTS[i] != undefined) 
-                    for (var ii = 0; ii < this.LAYER_DRAW_EVENTS[i].length; ii++)
+                    for (let ii = 0; ii < this.LAYER_DRAW_EVENTS[i].length; ii++)
                         if (this.LAYER_DRAW_EVENTS[i][ii] != undefined) 
                             this.LAYER_DRAW_EVENTS[i][ii](lx.CONTEXT.GRAPHICS);
             } catch (err) {
@@ -276,7 +277,7 @@ this.GAME = {
         
         //User Interface
 
-        for (var i = 0; i < this.UI.length; i++) 
+        for (let i = 0; i < this.UI.length; i++) 
             if (this.UI[i] != undefined) 
                 if (this.UI[i].UI_ID != undefined) 
                     this.UI[i].RENDER();
@@ -294,7 +295,7 @@ this.GAME = {
         if (this.BUFFER[LAYER] == undefined) 
             this.BUFFER[LAYER] = [];
         
-        for (var i = 0; i < this.BUFFER[LAYER].length+1; i++) 
+        for (let i = 0; i < this.BUFFER[LAYER].length+1; i++) 
             if (this.BUFFER[LAYER][i] == undefined) {
                 this.BUFFER[LAYER][i] = OBJECT;
                 return i;
@@ -302,57 +303,63 @@ this.GAME = {
     },
     ADD_LOOPS: function(CALLBACK) {
         if (CALLBACK == undefined) 
-            return;
+            return -1;
         
-        for (var i = 0; i < this.LOOPS.length+1; i++) 
+        for (let i = 0; i < this.LOOPS.length+1; i++) 
             if (this.LOOPS[i] == undefined) {
                 this.LOOPS[i] = CALLBACK;
-                break;
+                return i;
             }
     },
     ADD_EVENT: function(TYPE, EVENT, CALLBACK) {
-        for (var i = 0; i < this.EVENTS.length; i++) {
+        for (let i = 0; i < this.EVENTS.length; i++)
             if (this.EVENTS[i] != undefined && 
                 this.EVENTS[i].TYPE == TYPE && 
-                this.EVENTS[i].EVENT == EVENT) {
-                this.EVENTS[i].CALLBACK[this.EVENTS[i].CALLBACK.length] = CALLBACK;
-                return;   
-            }
-        }
+                this.EVENTS[i].EVENT == EVENT) 
+                for (let ii = 0; ii <= this.EVENTS[i].CALLBACK.length; ii++)
+                    if (this.EVENTS[i].CALLBACK[ii] == undefined) {
+                        this.EVENTS[i].CALLBACK[ii] = CALLBACK;
+
+                        return ii;
+                    }
             
-        for (var i = 0; i < this.EVENTS.length+1; i++) {
+        for (let i = 0; i < this.EVENTS.length+1; i++) 
             if (this.EVENTS[i] == undefined) {
                 this.EVENTS[i] = {
                     TYPE: TYPE,
                     EVENT: EVENT,
                     CALLBACK: [CALLBACK]
                 };
+                
                 return i;
             }
-        }
     },
     INVALIDATE_EVENT: function(TYPE, EVENT) {
-        for (var i = 0; i < this.EVENTS.length; i++) 
+        for (let i = 0; i < this.EVENTS.length; i++) 
             if (this.EVENTS[i] != undefined && 
                 this.EVENTS[i].TYPE == TYPE && 
                 this.EVENTS[i].EVENT == EVENT) 
-                for (var ii = 0; ii < this.EVENTS[i].CALLBACK.length; ii++)
+                for (let ii = 0; ii < this.EVENTS[i].CALLBACK.length; ii++)
                     if (this.EVENTS[i].CALLBACK[ii] != undefined) 
                         this.EVENTS[i].CALLBACK[ii]({
                             mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
                             state: 0
                         });
     },
-    CLEAR_EVENT: function(TYPE, EVENT) {
-        for (var i = 0; i < this.EVENTS.length; i++) {
+    CLEAR_EVENT: function(TYPE, EVENT, CB_ID) {
+        for (let i = 0; i < this.EVENTS.length; i++) {
             if (this.EVENTS[i].TYPE == TYPE && this.EVENTS[i].EVENT == EVENT) {
-                this.EVENTS[i] = undefined;
+                if (CB_ID != undefined)
+                    this.EVENTS[i].CALLBACK[CB_ID] = undefined;
+                else
+                    this.EVENTS.splice(i, 1);
+                
                 return;   
             }
         }
     },
     ADD_COLLIDER: function(COLLIDER) {
-        for (var i = 0; i < this.COLLIDERS.length+1; i++) {
+        for (let i = 0; i < this.COLLIDERS.length+1; i++) {
             if (this.COLLIDERS[i] == undefined) {
                 this.COLLIDERS[i] = COLLIDER;
                 return i;
@@ -360,7 +367,7 @@ this.GAME = {
         }
     },
     ADD_UI_ELEMENT: function(UI_ELEMENT) {
-        for (var i = 0; i < this.UI.length+1; i++) {
+        for (let i = 0; i < this.UI.length+1; i++) {
             if (this.UI[i] == undefined) {
                 this.UI[i] = UI_ELEMENT;
                 return i;
@@ -423,7 +430,7 @@ this.GAME = {
         if (this.BUFFER[LAYER] == undefined) this.BUFFER[LAYER] = [];
         if (this.LAYER_DRAW_EVENTS[LAYER] == undefined) this.LAYER_DRAW_EVENTS[LAYER] = [];
         
-        for (var i = 0; i < this.LAYER_DRAW_EVENTS[LAYER].length+1; i++) {
+        for (let i = 0; i < this.LAYER_DRAW_EVENTS[LAYER].length+1; i++) {
             if (this.LAYER_DRAW_EVENTS[LAYER][i] == undefined) {
                 this.LAYER_DRAW_EVENTS[LAYER][i] = CALLBACK;
                 return i;
@@ -452,7 +459,7 @@ this.GAME = {
             
             if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
             
-            for (var i = 0; i <= this.SOUNDS.length; i++) {
+            for (let i = 0; i <= this.SOUNDS.length; i++) {
                 if (this.SOUNDS[i] == undefined) {
                     this.SOUNDS[i] = {
                         CUR: 0,
@@ -473,7 +480,7 @@ this.GAME = {
             
             if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
             
-            for (var i = 0; i <= this.SOUNDS.length; i++) {
+            for (let i = 0; i <= this.SOUNDS.length; i++) {
                 if (this.SOUNDS[i] == undefined) {
                     this.SOUNDS[i] = {
                         CUR: 0,
@@ -492,7 +499,7 @@ this.GAME = {
         },
         CALCULATE_SPATIAL: function(POS, CHANNEL) {
             POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
-            var VOL = 1-(Math.abs(POS.X - lx.GetDimensions().width/2)/lx.GetDimensions().width + Math.abs(POS.Y - lx.GetDimensions().height/2)/lx.GetDimensions().height);
+            let VOL = 1-(Math.abs(POS.X - lx.GetDimensions().width/2)/lx.GetDimensions().width + Math.abs(POS.Y - lx.GetDimensions().height/2)/lx.GetDimensions().height);
             
             if (VOL < 0) VOL = 0;
             else if (VOL > this.CHANNELS[CHANNEL]) VOL = this.CHANNELS[CHANNEL];
@@ -502,7 +509,7 @@ this.GAME = {
         UPDATE: function () {
             if (!this.CAN_PLAY) return;
             
-            for (var i = 0; i < this.SOUNDS.length; i++) {
+            for (let i = 0; i < this.SOUNDS.length; i++) {
                 if (this.SOUNDS[i] == undefined) 
                     continue;
                 
@@ -516,7 +523,7 @@ this.GAME = {
                 
                 this.SOUNDS[i].CUR++;
                 if (this.SOUNDS[i].DELAY == undefined || this.SOUNDS[i].CUR >= this.SOUNDS[i].DELAY) {
-                    var temp = new Audio();
+                    let temp = new Audio();
                     temp.type = 'audio/mpeg';
                     temp.src = this.SOUNDS[i].SRC;
                     temp.play_id = i;
@@ -549,7 +556,7 @@ this.GAME = {
         }
     },
     ADD_GO_MOUSE_EVENT: function (GO, BUTTON, CALLBACK) {
-        for (var i = 0; i < this.GO_MOUSE_EVENTS.length+1; i++)
+        for (let i = 0; i < this.GO_MOUSE_EVENTS.length+1; i++)
             if (this.GO_MOUSE_EVENTS[i] == undefined) {
                 this.GO_MOUSE_EVENTS[i] = {
                     GO: GO,
@@ -566,12 +573,18 @@ this.GAME = {
         this.GO_MOUSE_EVENTS[ID] = undefined;
     },
     HANDLE_MOUSE_CLICK: function (BUTTON) {
-        for (var i = 0; i < this.GO_MOUSE_EVENTS.length; i++)
+        for (let i = 0; i < this.GO_MOUSE_EVENTS.length; i++)
             if (this.GO_MOUSE_EVENTS[i] != undefined && this.GO_MOUSE_EVENTS[i].BUTTON == BUTTON)
                 if (this.GO_MOUSE_EVENTS[i].GO == undefined)
                     this.GO_MOUSE_EVENTS[i] = undefined;
-                else if (lx.GAME.GET_MOUSE_IN_BOX(this.GO_MOUSE_EVENTS[i].GO.POS, this.GO_MOUSE_EVENTS[i].GO.SIZE))
-                    this.GO_MOUSE_EVENTS[i].CALLBACK();
+                else if (lx.GAME.GET_MOUSE_IN_BOX(
+                    this.GO_MOUSE_EVENTS[i].GO.POS, 
+                    this.GO_MOUSE_EVENTS[i].GO.SIZE
+                ))
+                this.GO_MOUSE_EVENTS[i].CALLBACK({
+                    mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
+                    state: 1
+                });
                     
         //...
     },
@@ -723,11 +736,19 @@ this.CreateController = function() {
     this.GAME.EVENTS = [];
     
     //Append event listeners
+    
+    //Key events
+    
     document.addEventListener('keydown', function(EVENT) { 
         lx.GAME.AUDIO.CAN_PLAY = true; 
         
         if (lx.CONTEXT.CONTROLLER.STOPPED_KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()]) return; 
-        lx.CONTEXT.CONTROLLER.KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()] = true; 
+        
+        if (EVENT.keyCode === 27)
+                lx.CONTEXT.CONTROLLER.KEYS['escape'] = true;
+        
+        lx.CONTEXT.CONTROLLER.KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()] = true;
+        lx.CONTEXT.CONTROLLER.KEYS[EVENT.keyCode] = true;
     });
     
     document.addEventListener('keyup', function(EVENT) { 
@@ -735,18 +756,26 @@ this.CreateController = function() {
             lx.GAME.INVALIDATE_EVENT('key', String.fromCharCode(EVENT.keyCode).toLowerCase());
         
         lx.CONTEXT.CONTROLLER.STOPPED_KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()] = false; 
-        lx.CONTEXT.CONTROLLER.KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()] = false; 
+        
+        if (EVENT.keyCode === 27)
+            lx.CONTEXT.CONTROLLER.KEYS['escape'] = false;
+        
+        lx.CONTEXT.CONTROLLER.KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()] = false;
+        lx.CONTEXT.CONTROLLER.KEYS[EVENT.keyCode] = false;
     });
     
-    document.addEventListener('mousedown', function(EVENT) { 
+    //Mouse events
+    
+    this.CONTEXT.CANVAS.addEventListener('mousedown', function(EVENT) { 
         lx.GAME.AUDIO.CAN_PLAY = true; 
         
         if (lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[EVENT.button]) return; 
+        
         lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[EVENT.button] = true; 
         lx.GAME.HANDLE_MOUSE_CLICK(EVENT.button); 
     });
     
-    document.addEventListener('mouseup', function(EVENT) { 
+    this.CONTEXT.CANVAS.addEventListener('mouseup', function(EVENT) { 
         if (!lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[EVENT.button])
             lx.GAME.INVALIDATE_EVENT('mousebutton', EVENT.button);
         
@@ -758,6 +787,29 @@ this.CreateController = function() {
         lx.CONTEXT.CONTROLLER.MOUSE.POS = { X: EVENT.pageX, Y: EVENT.pageY }; 
         if (lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER != undefined) lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER(lx.CONTEXT.CONTROLLER.MOUSE.POS); 
     });
+    
+    //Touch events
+    
+    const options = {
+        passive: true
+    };
+
+    this.CONTEXT.CANVAS.addEventListener('touchstart', function(EVENT) {
+        lx.GAME.AUDIO.CAN_PLAY = true;
+
+        lx.CONTEXT.CONTROLLER.MOUSE.POS = { X: EVENT.pageX, Y: EVENT.pageY };
+
+        if (lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[0]) return;
+        lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[0] = true;
+        lx.GAME.HANDLE_MOUSE_CLICK(0);
+    }, options);
+    this.CONTEXT.CANVAS.addEventListener('touchend', function(EVENT) {
+        if (!lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[0])
+            lx.GAME.INVALIDATE_EVENT('mousebutton', 0);
+
+        lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[0] = false;
+        lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[0] = false;
+    }, options);
     
     return this;
 };
@@ -848,7 +900,10 @@ this.FindGameObjectsWithIdentifier = function(ID) {
 /* Events */
 
 this.OnKey = function(key, callback) {
-    this.GAME.ADD_EVENT('key', key.toLowerCase(), callback);
+    if (isNaN(key))
+        this.GAME.ADD_EVENT('key', key.toLowerCase(), callback);
+    else
+        this.GAME.ADD_EVENT('key', key, callback);
     
     return this;
 };
@@ -1053,6 +1108,18 @@ this.Animation = function (sprite_collection, speed) {
         return this;
     };
     
+    this.Loops = function(callback) {
+        this.LOOPS = callback;
+        
+        return this;
+    };
+    
+    this.ClearLoops = function() {
+        this.LOOPS = undefined;
+        
+        return this;
+    };
+    
     this.GET_CURRENT_FRAME = function() {
         return this.SPRITES[this.FRAME];
     };
@@ -1082,6 +1149,9 @@ this.Animation = function (sprite_collection, speed) {
                 }
             }
         }
+        
+        if (this.LOOPS != undefined)
+            this.LOOPS();
     };
 };
 
@@ -1905,15 +1975,65 @@ this.GameObject = function (sprite, x, y, w, h) {
             this.RemoveMouse(i);
     };
     
+    this.OnHover = function(callback) {
+        if (this.ON_HOVER != undefined) {
+            console.log(lx.GAME.LOG.TIMEFORMAT() + 'GameObject already has a mousehover handler.');
+
+            return this;
+        } else
+            this.ON_HOVER = callback;
+
+        return this;
+    };
+    
+    this.OnHoverDraw = function(callback) {
+        if (this.ON_HOVER_DRAW != undefined) {
+            console.log(lx.GAME.LOG.TIMEFORMAT() + 'GameObject already has a mousehover draw handler.');
+
+            return this;
+        } else
+            this.ON_HOVER_DRAW = callback;
+
+        return this;
+    };
+    
+    this.RemoveHover = function() {
+        this.ON_HOVER = undefined;
+
+        return this;
+    };
+    
+    this.RemoveHoverDraw = function() {
+        this.ON_HOVER_DRAW = undefined;
+
+        return this;
+    };
+    
     this.RENDER = function() {  
         if (this.SPRITE == undefined || this.SPRITE == null) 
             return;
         
         if (lx.GAME.ON_SCREEN(this.POS, this.SIZE)) {
             if (this.ANIMATION == undefined) 
-                this.SPRITE.RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, this.OPACITY);
+                this.SPRITE.RENDER(
+                    lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
+                    this.SIZE, 
+                    this.OPACITY
+                );
             else 
-                this.ANIMATION.RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, this.OPACITY);
+                this.ANIMATION.RENDER(
+                    lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
+                    this.SIZE, 
+                    this.OPACITY
+                );
+            
+            if (this.ON_HOVER_DRAW != undefined &&
+                lx.GAME.GET_MOUSE_IN_BOX(this.POS, this.SIZE))
+                this.ON_HOVER({
+                    graphics: lx.CONTEXT.GRAPHICS,
+                    position: this.POS,
+                    size: this.SIZE
+                });
             
             if (this.DRAWS != undefined) 
                 this.DRAWS({
@@ -1925,10 +2045,16 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.UPDATE = function() {
-        if (this.LOOPS != undefined) 
-            this.LOOPS();
         if (this.ANIMATION != undefined) 
             this.ANIMATION.UPDATE();
+        if (this.LOOPS != undefined) 
+            this.LOOPS();
+        if (this.ON_HOVER != undefined &&
+            lx.GAME.GET_MOUSE_IN_BOX(this.POS, this.SIZE))
+            this.ON_HOVER({
+                position: this.POS,
+                size: this.SIZE
+            });
 
         this.MOVEMENT.UPDATE();
 
@@ -2325,6 +2451,8 @@ this.Sound = function (src, channel) {
 /* Sprite Object */
 
 this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
+    this.CLIPPED_COLOR_OVERLAYS = {};
+    
     //Check if no clip but a 
     //callback is provided (compact callback)
 
@@ -2374,7 +2502,14 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
 
             if (typeof src === 'string') {
                 this.IMG = new Image();
-                this.IMG.onload = cb;
+                
+                if (cb != undefined) {
+                    let S = this;
+                    this.IMG.onload = function() {
+                        cb(S);
+                    };
+                }
+                
                 this.IMG.src = src;
             } 
             
@@ -2510,7 +2645,7 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
 
         //Handle color overlay duration if needed
 
-        if (TARGET != lx.CONTEXT.GRAPHICS &&
+        if (TARGET == lx.CONTEXT.GRAPHICS &&
             this.COLOR_OVERLAY_DURATION != undefined)
         {
             this.COLOR_OVERLAY_DURATION--;
@@ -2699,6 +2834,18 @@ this.UIRichText = function(text_array, x, y, size, color, font) {
         return this;
     };
     
+    this.Loops = function(callback) {
+        this.LOOPS = callback;
+        
+        return this;
+    };
+    
+    this.ClearLoops = function() {
+        this.LOOPS = undefined;
+        
+        return this;
+    };
+    
     this.RENDER = function() {
         lx.CONTEXT.GRAPHICS.save();
         lx.CONTEXT.GRAPHICS.font = this.SIZE + 'px ' + this.FONT;
@@ -2722,7 +2869,8 @@ this.UIRichText = function(text_array, x, y, size, color, font) {
     };
     
     this.UPDATE = function() {
-        
+        if (this.LOOPS != undefined)
+            this.LOOPS();
     };
 };
 
@@ -2812,6 +2960,22 @@ this.UIText = function(text, x, y, size, color, font) {
         
         return this;
     };
+    
+    this.SetShadow = function(color, offset_x, offset_y) {
+        this.SHADOW = {
+            C: color,
+            X: offset_x,
+            Y: offset_y
+        };
+        
+        return this;
+    };
+    
+    this.ClearShadow = function() {
+        this.SHADOW = undefined;
+        
+        return this;
+    };
 
     this.Follows = function(target) {
         if (target != undefined) this.TARGET = target;
@@ -2826,11 +2990,29 @@ this.UIText = function(text, x, y, size, color, font) {
         return this;
     };
     
+    this.Loops = function(callback) {
+        this.LOOPS = callback;
+        
+        return this;
+    };
+    
+    this.ClearLoops = function() {
+        this.LOOPS = undefined;
+        
+        return this;
+    };
+    
     this.RENDER = function() {
         lx.CONTEXT.GRAPHICS.save();
         lx.CONTEXT.GRAPHICS.font = this.SIZE + 'px ' + this.FONT;
         lx.CONTEXT.GRAPHICS.fillStyle = this.COLOR;
         lx.CONTEXT.GRAPHICS.textAlign = this.ALIGN;
+        
+        if (this.SHADOW != undefined) {
+            lx.CONTEXT.GRAPHICS.shadowColor = this.SHADOW.C;
+            lx.CONTEXT.GRAPHICS.shadowOffsetX = this.SHADOW.X;
+            lx.CONTEXT.GRAPHICS.shadowOffsetY = this.SHADOW.Y;
+        }
         
         if (this.TARGET != undefined) {
             if (lx.GAME.FOCUS != undefined) {
@@ -2845,7 +3027,8 @@ this.UIText = function(text, x, y, size, color, font) {
     };
     
     this.UPDATE = function() {
-        
+        if (this.LOOPS != undefined)
+            this.LOOPS();
     };
 };
 
@@ -2919,13 +3102,48 @@ this.UITexture = function(sprite, x, y, w, h) {
         return this;
     };
     
+    this.Loops = function(callback) {
+        this.LOOPS = callback;
+        
+        return this;
+    };
+    
+    this.ClearLoops = function() {
+        this.LOOPS = undefined;
+        
+        return this;
+    };
+    
     this.RENDER = function() {
-        if (this.TARGET != undefined) this.SPRITE.RENDER(lx.GAME.TRANSLATE_FROM_FOCUS({ X: this.TARGET.POS.X+this.POS.X, Y: this.TARGET.POS.Y+this.POS.Y }), this.SIZE);
-        else this.SPRITE.RENDER(this.POS, this.SIZE);
+        if (this.TARGET != undefined) {
+            let POS = lx.GAME.TRANSLATE_FROM_FOCUS({ X: this.TARGET.POS.X+this.POS.X, Y: this.TARGET.POS.Y+this.POS.Y })
+
+            if (typeof this.SPRITE === 'string')
+            {
+                lx.CONTEXT.GRAPHICS.save();
+                lx.CONTEXT.GRAPHICS.fillStyle = this.SPRITE;
+                lx.CONTEXT.GRAPHICS.fillRect(POS.X, POS.Y, this.SIZE.W, this.SIZE.H);
+                lx.CONTEXT.GRAPHICS.restore();
+            }
+            else
+                this.SPRITE.RENDER(POS, this.SIZE);
+        }
+        else {
+            if (typeof this.SPRITE === 'string')
+            {
+                lx.CONTEXT.GRAPHICS.save();
+                lx.CONTEXT.GRAPHICS.fillStyle = this.SPRITE;
+                lx.CONTEXT.GRAPHICS.fillRect(this.POS.X, this.POS.Y, this.SIZE.W, this.SIZE.H);
+                lx.CONTEXT.GRAPHICS.restore();
+            }
+            else
+                this.SPRITE.RENDER(this.POS, this.SIZE);
+        }
     };
     
     this.UPDATE = function() {
-        
+        if (this.LOOPS != undefined)
+            this.LOOPS();
     };
 };
 

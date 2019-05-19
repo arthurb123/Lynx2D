@@ -5,7 +5,10 @@
 */
 
 this.OnKey = function(key, callback) {
-    this.GAME.ADD_EVENT('key', key.toLowerCase(), callback);
+    if (isNaN(key))
+        this.GAME.ADD_EVENT('key', key.toLowerCase(), callback);
+    else
+        this.GAME.ADD_EVENT('key', key, callback);
     
     return this;
 };

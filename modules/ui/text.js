@@ -138,6 +138,33 @@ this.UIText = function(text, x, y, size, color, font) {
         
         return this;
     };
+    
+    /**
+     * Set the text shadow.
+     * @param {string} color - The color of the shadow.
+     * @param {number} offset_x - The shadow x offset.
+     * @param {number} offset_y - The shadow y offset.
+    */
+    
+    this.SetShadow = function(color, offset_x, offset_y) {
+        this.SHADOW = {
+            C: color,
+            X: offset_x,
+            Y: offset_y
+        };
+        
+        return this;
+    };
+    
+    /**
+     * Clear the text shadow.
+    */
+    
+    this.ClearShadow = function() {
+        this.SHADOW = undefined;
+        
+        return this;
+    };
 
     /** 
      * Get/set the Text's following target.
@@ -162,11 +189,38 @@ this.UIText = function(text, x, y, size, color, font) {
         return this;
     };
     
+    /** 
+     * Places a callback function in the UIText's update loop.
+     * @param {function} callback - The callback to be looped.
+    */
+    
+    this.Loops = function(callback) {
+        this.LOOPS = callback;
+        
+        return this;
+    };
+    
+    /** 
+     * Clears the update callback function being looped.
+    */
+    
+    this.ClearLoops = function() {
+        this.LOOPS = undefined;
+        
+        return this;
+    };
+    
     this.RENDER = function() {
         lx.CONTEXT.GRAPHICS.save();
         lx.CONTEXT.GRAPHICS.font = this.SIZE + 'px ' + this.FONT;
         lx.CONTEXT.GRAPHICS.fillStyle = this.COLOR;
         lx.CONTEXT.GRAPHICS.textAlign = this.ALIGN;
+        
+        if (this.SHADOW != undefined) {
+            lx.CONTEXT.GRAPHICS.shadowColor = this.SHADOW.C;
+            lx.CONTEXT.GRAPHICS.shadowOffsetX = this.SHADOW.X;
+            lx.CONTEXT.GRAPHICS.shadowOffsetY = this.SHADOW.Y;
+        }
         
         if (this.TARGET != undefined) {
             if (lx.GAME.FOCUS != undefined) {
@@ -181,6 +235,7 @@ this.UIText = function(text, x, y, size, color, font) {
     };
     
     this.UPDATE = function() {
-        
+        if (this.LOOPS != undefined)
+            this.LOOPS();
     };
 };

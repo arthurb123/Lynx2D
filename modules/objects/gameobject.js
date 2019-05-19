@@ -564,15 +564,83 @@ this.GameObject = function (sprite, x, y, w, h) {
             this.RemoveMouse(i);
     };
     
+    /** 
+     * Adds a on mouse hover update callback.
+     * @param {function} callback - The event callback, provides GameObject data { position, size }.
+    */
+    
+    this.OnHover = function(callback) {
+        if (this.ON_HOVER != undefined) {
+            console.log(lx.GAME.LOG.TIMEFORMAT() + 'GameObject already has a mousehover handler.');
+
+            return this;
+        } else
+            this.ON_HOVER = callback;
+
+        return this;
+    };
+    
+    /** 
+     * Adds a on mouse hover draw callback.
+     * @param {function} callback - The event callback, provides drawing and GameObject data { graphics, position, size }.
+    */
+
+    this.OnHoverDraw = function(callback) {
+        if (this.ON_HOVER_DRAW != undefined) {
+            console.log(lx.GAME.LOG.TIMEFORMAT() + 'GameObject already has a mousehover draw handler.');
+
+            return this;
+        } else
+            this.ON_HOVER_DRAW = callback;
+
+        return this;
+    };
+    
+    /** 
+     * Removes the on mouse hover update callback.
+    */
+    
+    this.RemoveHover = function() {
+        this.ON_HOVER = undefined;
+
+        return this;
+    };
+    
+    /** 
+     * Removes the on mouse hover draw callback.
+    */
+
+    this.RemoveHoverDraw = function() {
+        this.ON_HOVER_DRAW = undefined;
+
+        return this;
+    };
+    
     this.RENDER = function() {  
         if (this.SPRITE == undefined || this.SPRITE == null) 
             return;
         
         if (lx.GAME.ON_SCREEN(this.POS, this.SIZE)) {
             if (this.ANIMATION == undefined) 
-                this.SPRITE.RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, this.OPACITY);
+                this.SPRITE.RENDER(
+                    lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
+                    this.SIZE, 
+                    this.OPACITY
+                );
             else 
-                this.ANIMATION.RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, this.OPACITY);
+                this.ANIMATION.RENDER(
+                    lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
+                    this.SIZE, 
+                    this.OPACITY
+                );
+            
+            if (this.ON_HOVER_DRAW != undefined &&
+                lx.GAME.GET_MOUSE_IN_BOX(this.POS, this.SIZE))
+                this.ON_HOVER({
+                    graphics: lx.CONTEXT.GRAPHICS,
+                    position: this.POS,
+                    size: this.SIZE
+                });
             
             if (this.DRAWS != undefined) 
                 this.DRAWS({
@@ -584,10 +652,16 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.UPDATE = function() {
-        if (this.LOOPS != undefined) 
-            this.LOOPS();
         if (this.ANIMATION != undefined) 
             this.ANIMATION.UPDATE();
+        if (this.LOOPS != undefined) 
+            this.LOOPS();
+        if (this.ON_HOVER != undefined &&
+            lx.GAME.GET_MOUSE_IN_BOX(this.POS, this.SIZE))
+            this.ON_HOVER({
+                position: this.POS,
+                size: this.SIZE
+            });
 
         this.MOVEMENT.UPDATE();
 

@@ -223,6 +223,30 @@
                         #ClearMouse
                       </a></li>
                       
+                      <li><a
+                        href='#gameobjectonhover'
+                        class='regular pre-open'>
+                        #OnHover
+                      </a></li>
+                      
+                      <li><a
+                        href='#gameobjectonhoverdraw'
+                        class='regular pre-open'>
+                        #OnHoverDraw
+                      </a></li>
+                      
+                      <li><a
+                        href='#gameobjectremovehover'
+                        class='regular pre-open'>
+                        #RemoveHover
+                      </a></li>
+                      
+                      <li><a
+                        href='#gameobjectremovehoverdraw'
+                        class='regular pre-open'>
+                        #RemoveHoverDraw
+                      </a></li>
+                      
                     </ul>
                   
                   
@@ -473,6 +497,18 @@
                         #Speed
                       </a></li>
                       
+                      <li><a
+                        href='#animationloops'
+                        class='regular pre-open'>
+                        #Loops
+                      </a></li>
+                      
+                      <li><a
+                        href='#animationclearloops'
+                        class='regular pre-open'>
+                        #ClearLoops
+                      </a></li>
+                      
                     </ul>
                   
                   
@@ -700,6 +736,18 @@
                       </a></li>
                       
                       <li><a
+                        href='#uitextsetshadow'
+                        class='regular pre-open'>
+                        #SetShadow
+                      </a></li>
+                      
+                      <li><a
+                        href='#uitextclearshadow'
+                        class='regular pre-open'>
+                        #ClearShadow
+                      </a></li>
+                      
+                      <li><a
                         href='#uitextfollows'
                         class='regular pre-open'>
                         #Follows
@@ -709,6 +757,18 @@
                         href='#uitextstopfollowing'
                         class='regular pre-open'>
                         #StopFollowing
+                      </a></li>
+                      
+                      <li><a
+                        href='#uitextloops'
+                        class='regular pre-open'>
+                        #Loops
+                      </a></li>
+                      
+                      <li><a
+                        href='#uitextclearloops'
+                        class='regular pre-open'>
+                        #ClearLoops
                       </a></li>
                       
                     </ul>
@@ -805,6 +865,18 @@
                         #StopFollowing
                       </a></li>
                       
+                      <li><a
+                        href='#uirichtextloops'
+                        class='regular pre-open'>
+                        #Loops
+                      </a></li>
+                      
+                      <li><a
+                        href='#uirichtextclearloops'
+                        class='regular pre-open'>
+                        #ClearLoops
+                      </a></li>
+                      
                     </ul>
                   
                   
@@ -855,6 +927,18 @@
                         href='#uitexturestopfollowing'
                         class='regular pre-open'>
                         #StopFollowing
+                      </a></li>
+                      
+                      <li><a
+                        href='#uitextureloops'
+                        class='regular pre-open'>
+                        #Loops
+                      </a></li>
+                      
+                      <li><a
+                        href='#uitextureclearloops'
+                        class='regular pre-open'>
+                        #ClearLoops
                       </a></li>
                       
                     </ul>
@@ -1150,6 +1234,26 @@
                   href='#channelvolume'
                   class="">
                   ChannelVolume
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#createhorizontaltilesheet'
+                  class="">
+                  CreateHorizontalTileSheet
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#createverticaltilesheet'
+                  class="">
+                  CreateVerticalTileSheet
                   
                 </a>
                 
@@ -3237,6 +3341,222 @@
   <p>Removes all mouse click event listeners.</p>
 
     <div class='pre p1 fill-light mt0'>ClearMouse()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='gameobjectonhover'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>OnHover(callback)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Adds a on mouse hover update callback.</p>
+
+    <div class='pre p1 fill-light mt0'>OnHover(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The event callback, provides GameObject data { position, size }.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='gameobjectonhoverdraw'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>OnHoverDraw(callback)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Adds a on mouse hover draw callback.</p>
+
+    <div class='pre p1 fill-light mt0'>OnHoverDraw(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The event callback, provides drawing and GameObject data { graphics, position, size }.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='gameobjectremovehover'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>RemoveHover()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Removes the on mouse hover update callback.</p>
+
+    <div class='pre p1 fill-light mt0'>RemoveHover()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='gameobjectremovehoverdraw'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>RemoveHoverDraw()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Removes the on mouse hover draw callback.</p>
+
+    <div class='pre p1 fill-light mt0'>RemoveHoverDraw()</div>
   
   
 
@@ -5532,6 +5852,114 @@
       </div>
     </div>
   
+    <div class='border-bottom' id='animationloops'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Loops(callback)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Places a callback function in the Animation's update loop.</p>
+
+    <div class='pre p1 fill-light mt0'>Loops(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The callback to be looped.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='animationclearloops'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ClearLoops()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Clears the update callback function being looped.</p>
+
+    <div class='pre p1 fill-light mt0'>ClearLoops()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
 </div>
 
   
@@ -7417,6 +7845,132 @@
       </div>
     </div>
   
+    <div class='border-bottom' id='uitextsetshadow'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>SetShadow(color, offset_x, offset_y)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Set the text shadow.</p>
+
+    <div class='pre p1 fill-light mt0'>SetShadow(color: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, offset_x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, offset_y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>color</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+	    The color of the shadow.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>offset_x</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The shadow x offset.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>offset_y</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The shadow y offset.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='uitextclearshadow'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ClearShadow()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Clear the text shadow.</p>
+
+    <div class='pre p1 fill-light mt0'>ClearShadow()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='uitextfollows'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -7501,6 +8055,114 @@
   <p>Stop following the target.</p>
 
     <div class='pre p1 fill-light mt0'>StopFollowing()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='uitextloops'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Loops(callback)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Places a callback function in the UIText's update loop.</p>
+
+    <div class='pre p1 fill-light mt0'>Loops(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The callback to be looped.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='uitextclearloops'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ClearLoops()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Clears the update callback function being looped.</p>
+
+    <div class='pre p1 fill-light mt0'>ClearLoops()</div>
   
   
 
@@ -8426,6 +9088,114 @@
       </div>
     </div>
   
+    <div class='border-bottom' id='uirichtextloops'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Loops(callback)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Places a callback function in the UIRichText's update loop.</p>
+
+    <div class='pre p1 fill-light mt0'>Loops(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The callback to be looped.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='uirichtextclearloops'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ClearLoops()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Clears the update callback function being looped.</p>
+
+    <div class='pre p1 fill-light mt0'>ClearLoops()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
 </div>
 
   
@@ -8471,7 +9241,7 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>sprite</span> <code class='quiet'>(<a href="#sprite">Sprite</a>)</code>
-	    The Sprite for the Texture.
+	    The Sprite for the Texture, or a color string.
 
           </div>
           
@@ -8737,7 +9507,7 @@
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>Follows(gameobject, target)</span>
+            <span class='code strong strong truncate'>Follows(target)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -8747,7 +9517,7 @@
 
   <p>Get/set the Texture's following target.</p>
 
-    <div class='pre p1 fill-light mt0'>Follows(gameobject: any, target: <a href="#gameobject">GameObject</a>): <a href="#gameobject">GameObject</a></div>
+    <div class='pre p1 fill-light mt0'>Follows(target: <a href="#gameobject">GameObject</a>): <a href="#gameobject">GameObject</a></div>
   
   
 
@@ -8761,14 +9531,6 @@
   
     <div class='py1 quiet mt1 prose-big'>Parameters</div>
     <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>gameobject</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
       
         <div class='space-bottom0'>
           <div>
@@ -8825,6 +9587,114 @@
   <p>Stop following the target.</p>
 
     <div class='pre p1 fill-light mt0'>StopFollowing()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='uitextureloops'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Loops(callback)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Places a callback function in the UITexture's update loop.</p>
+
+    <div class='pre p1 fill-light mt0'>Loops(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The callback to be looped.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='uitextureclearloops'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ClearLoops()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Clears the update callback function being looped.</p>
+
+    <div class='pre p1 fill-light mt0'>ClearLoops()</div>
   
   
 
@@ -10719,6 +11589,166 @@
 
       
     
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='createhorizontaltilesheet'>
+      CreateHorizontalTileSheet
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Cuts a sprite horizontally into a tilesheet.</p>
+
+    <div class='pre p1 fill-light mt0'>lx.CreateHorizontalTileSheet(sprite: <a href="#sprite">Sprite</a>, cw: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, ch: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>sprite</span> <code class='quiet'>(<a href="#sprite">Sprite</a>)</code>
+	    The sprite to cut.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>cw</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The clip/tile width.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>ch</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The clip/tile height.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='createverticaltilesheet'>
+      CreateVerticalTileSheet
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Cuts a sprite vertically into a tilesheet.</p>
+
+    <div class='pre p1 fill-light mt0'>lx.CreateVerticalTileSheet(sprite: <a href="#sprite">Sprite</a>, cw: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, ch: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>sprite</span> <code class='quiet'>(<a href="#sprite">Sprite</a>)</code>
+	    The sprite to cut.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>cw</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The clip/tile width.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>ch</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The clip/tile height.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
   
 
   

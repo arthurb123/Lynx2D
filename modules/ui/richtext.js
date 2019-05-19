@@ -200,6 +200,27 @@ this.UIRichText = function(text_array, x, y, size, color, font) {
         return this;
     };
     
+    /** 
+     * Places a callback function in the UIRichText's update loop.
+     * @param {function} callback - The callback to be looped.
+    */
+    
+    this.Loops = function(callback) {
+        this.LOOPS = callback;
+        
+        return this;
+    };
+    
+    /** 
+     * Clears the update callback function being looped.
+    */
+    
+    this.ClearLoops = function() {
+        this.LOOPS = undefined;
+        
+        return this;
+    };
+    
     this.RENDER = function() {
         lx.CONTEXT.GRAPHICS.save();
         lx.CONTEXT.GRAPHICS.font = this.SIZE + 'px ' + this.FONT;
@@ -223,6 +244,7 @@ this.UIRichText = function(text_array, x, y, size, color, font) {
     };
     
     this.UPDATE = function() {
-        
+        if (this.LOOPS != undefined)
+            this.LOOPS();
     };
 };

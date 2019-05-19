@@ -83,6 +83,27 @@ this.Animation = function (sprite_collection, speed) {
         return this;
     };
     
+    /** 
+     * Places a callback function in the Animation's update loop.
+     * @param {function} callback - The callback to be looped.
+    */
+    
+    this.Loops = function(callback) {
+        this.LOOPS = callback;
+        
+        return this;
+    };
+    
+    /** 
+     * Clears the update callback function being looped.
+    */
+    
+    this.ClearLoops = function() {
+        this.LOOPS = undefined;
+        
+        return this;
+    };
+    
     this.GET_CURRENT_FRAME = function() {
         return this.SPRITES[this.FRAME];
     };
@@ -112,5 +133,8 @@ this.Animation = function (sprite_collection, speed) {
                 }
             }
         }
+        
+        if (this.LOOPS != undefined)
+            this.LOOPS();
     };
 };

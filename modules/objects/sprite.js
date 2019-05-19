@@ -10,6 +10,8 @@
  */
 
 this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
+    this.CLIPPED_COLOR_OVERLAYS = {};
+    
     //Check if no clip but a 
     //callback is provided (compact callback)
 
@@ -70,7 +72,14 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
 
             if (typeof src === 'string') {
                 this.IMG = new Image();
-                this.IMG.onload = cb;
+                
+                if (cb != undefined) {
+                    let S = this;
+                    this.IMG.onload = function() {
+                        cb(S);
+                    };
+                }
+                
                 this.IMG.src = src;
             } 
             
@@ -237,7 +246,7 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
 
         //Handle color overlay duration if needed
 
-        if (TARGET != lx.CONTEXT.GRAPHICS &&
+        if (TARGET == lx.CONTEXT.GRAPHICS &&
             this.COLOR_OVERLAY_DURATION != undefined)
         {
             this.COLOR_OVERLAY_DURATION--;
