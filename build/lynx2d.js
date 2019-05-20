@@ -1053,6 +1053,7 @@ this.CreateVerticalTileSheet = function(sprite, cw, ch) {
 this.Animation = function (sprite_collection, speed) {
     this.SPRITES = sprite_collection;
     this.FRAME = 0;
+    this.ROTATION = 0;
     this.MAX_FRAMES = sprite_collection.length;
     this.TIMER = {
         STANDARD: speed,
@@ -1119,12 +1120,23 @@ this.Animation = function (sprite_collection, speed) {
         
         return this;
     };
+
+    this.Rotation = function(angle) {
+        if (angle == undefined)
+            return this.ROTATION;
+        else
+            this.ROTATION = angle;
+
+        return this;
+    };
     
     this.GET_CURRENT_FRAME = function() {
         return this.SPRITES[this.FRAME];
     };
     
     this.RENDER = function(POS, SIZE, OPACITY) {
+        this.SPRITES[this.FRAME].ROTATION = this.ROTATION;
+
         if (this.BUFFER_ID == -1) 
             this.SPRITES[this.FRAME].RENDER(POS, SIZE, OPACITY);
         else 
@@ -1722,13 +1734,24 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.Rotation = function(angle) {
-        if (this.SPRITE == undefined || this.SPRITE == null) 
-            return -1;
+        if (this.SPRITE == undefined &&
+            this.ANIMATION == undefined) 
+            return this;
         
-        if (angle == undefined) 
-            return this.SPRITE.Rotation();
-        else 
-            this.SPRITE.Rotation(angle);
+        if (angle == undefined) {
+            if (this.SPRITE != undefined &&
+                this.ANIMATION == undefined)
+                return this.SPRITE.Rotation();
+            else if (this.ANIMATION != undefined)
+                return this.ANIMATION.Rotation();
+        }
+        else {
+            if (this.SPRITE != undefined &&
+                this.ANIMATION == undefined)
+                this.SPRITE.Rotation(angle);
+            else if (this.ANIMATION != undefined)
+                this.ANIMATION.Rotation(angle);
+        }
         
         return this;
     };
@@ -2452,6 +2475,7 @@ this.Sound = function (src, channel) {
 
 this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
     this.CLIPPED_COLOR_OVERLAYS = {};
+    this.ROTATION = 0;
     
     //Check if no clip but a 
     //callback is provided (compact callback)
@@ -2614,11 +2638,13 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         if (this.CLIP == undefined || this.SHOW_COLOR_OVERLAY) 
             //Full image (or color overlay)
 
-            if (this.ROTATION == 0) 
+            if (this.ROTATION === 0) 
                 TARGET.drawImage(IMG, POS.X, POS.Y, SIZE.W, SIZE.H);
             else {
-                if (!CANVAS_SAVED)
+                if (!CANVAS_SAVED) {
                     TARGET.save();
+                    CANVAS_SAVED = true;
+                }
                 
                 TARGET.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
                 TARGET.rotate(this.ROTATION);
@@ -2627,11 +2653,13 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         else 
             //Clipped image
 
-            if (this.ROTATION == 0) 
+            if (this.ROTATION === 0) 
                 TARGET.drawImage(this.IMG, this.CLIP.X, this.CLIP.Y, this.CLIP.W, this.CLIP.H, POS.X, POS.Y, SIZE.W, SIZE.H);
             else {
-                if (!CANVAS_SAVED)
+                if (!CANVAS_SAVED) {
                     TARGET.save();
+                    CANVAS_SAVED = true;
+                }
                 
                 TARGET.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
                 TARGET.rotate(this.ROTATION);

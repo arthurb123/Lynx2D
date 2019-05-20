@@ -177,13 +177,24 @@ this.GameObject = function (sprite, x, y, w, h) {
     */
     
     this.Rotation = function(angle) {
-        if (this.SPRITE == undefined || this.SPRITE == null) 
-            return -1;
+        if (this.SPRITE == undefined &&
+            this.ANIMATION == undefined) 
+            return this;
         
-        if (angle == undefined) 
-            return this.SPRITE.Rotation();
-        else 
-            this.SPRITE.Rotation(angle);
+        if (angle == undefined) {
+            if (this.SPRITE != undefined &&
+                this.ANIMATION == undefined)
+                return this.SPRITE.Rotation();
+            else if (this.ANIMATION != undefined)
+                return this.ANIMATION.Rotation();
+        }
+        else {
+            if (this.SPRITE != undefined &&
+                this.ANIMATION == undefined)
+                this.SPRITE.Rotation(angle);
+            else if (this.ANIMATION != undefined)
+                this.ANIMATION.Rotation(angle);
+        }
         
         return this;
     };

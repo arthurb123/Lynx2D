@@ -8,6 +8,7 @@
 this.Animation = function (sprite_collection, speed) {
     this.SPRITES = sprite_collection;
     this.FRAME = 0;
+    this.ROTATION = 0;
     this.MAX_FRAMES = sprite_collection.length;
     this.TIMER = {
         STANDARD: speed,
@@ -103,12 +104,29 @@ this.Animation = function (sprite_collection, speed) {
         
         return this;
     };
+
+    /** 
+     * Get/Set the Animation's rotation (in radians).
+     * @param {number} angle - Sets rotation angle if specified.
+     * @return {object} Gets rotation angle if specified.
+    */
+
+    this.Rotation = function(angle) {
+        if (angle == undefined)
+            return this.ROTATION;
+        else
+            this.ROTATION = angle;
+
+        return this;
+    };
     
     this.GET_CURRENT_FRAME = function() {
         return this.SPRITES[this.FRAME];
     };
     
     this.RENDER = function(POS, SIZE, OPACITY) {
+        this.SPRITES[this.FRAME].ROTATION = this.ROTATION;
+
         if (this.BUFFER_ID == -1) 
             this.SPRITES[this.FRAME].RENDER(POS, SIZE, OPACITY);
         else 

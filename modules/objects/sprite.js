@@ -11,6 +11,7 @@
 
 this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
     this.CLIPPED_COLOR_OVERLAYS = {};
+    this.ROTATION = 0;
     
     //Check if no clip but a 
     //callback is provided (compact callback)
@@ -215,11 +216,13 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         if (this.CLIP == undefined || this.SHOW_COLOR_OVERLAY) 
             //Full image (or color overlay)
 
-            if (this.ROTATION == 0) 
+            if (this.ROTATION === 0) 
                 TARGET.drawImage(IMG, POS.X, POS.Y, SIZE.W, SIZE.H);
             else {
-                if (!CANVAS_SAVED)
+                if (!CANVAS_SAVED) {
                     TARGET.save();
+                    CANVAS_SAVED = true;
+                }
                 
                 TARGET.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
                 TARGET.rotate(this.ROTATION);
@@ -228,11 +231,13 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         else 
             //Clipped image
 
-            if (this.ROTATION == 0) 
+            if (this.ROTATION === 0) 
                 TARGET.drawImage(this.IMG, this.CLIP.X, this.CLIP.Y, this.CLIP.W, this.CLIP.H, POS.X, POS.Y, SIZE.W, SIZE.H);
             else {
-                if (!CANVAS_SAVED)
+                if (!CANVAS_SAVED) {
                     TARGET.save();
+                    CANVAS_SAVED = true;
+                }
                 
                 TARGET.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
                 TARGET.rotate(this.ROTATION);
