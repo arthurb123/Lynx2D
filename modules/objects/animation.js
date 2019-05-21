@@ -11,6 +11,7 @@ this.Animation = function (sprite_collection, speed) {
     this.ROTATION = 0;
     this.MAX_FRAMES = sprite_collection.length;
     this.TIMER = {
+        FRAMES: [],
         STANDARD: speed,
         CURRENT: 0
     };
@@ -134,6 +135,9 @@ this.Animation = function (sprite_collection, speed) {
     };
     
     this.UPDATE = function() {
+        if (this.TIMER.FRAMES.length === this.MAX_FRAMES)
+            this.TIMER.STANDARD = this.TIMER.FRAMES[this.FRAME];
+        
         this.TIMER.CURRENT++;
         
         if (this.TIMER.CURRENT >= this.TIMER.STANDARD) {

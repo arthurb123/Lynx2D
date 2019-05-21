@@ -3,7 +3,7 @@
  * @param {Sprite} sprite - The sprite to cut.
  * @param {number} cw - The clip/tile width.
  * @param {number} ch - The clip/tile height.
- * @return {Sprite[][]} A 2D array containg all cut tiles as Sprites.
+ * @return {Sprite[]} A 2D array containg all cut tiles as Sprites.
 */
 
 this.CreateHorizontalTileSheet = function(sprite, cw, ch) {
@@ -28,7 +28,7 @@ this.CreateHorizontalTileSheet = function(sprite, cw, ch) {
  * @param {Sprite} sprite - The sprite to cut.
  * @param {number} cw - The clip/tile width.
  * @param {number} ch - The clip/tile height.
- * @return {Sprite[][]} A 2D array containg all cut tiles as Sprites.
+ * @return {Sprite[]} A 2D array containg all cut tiles as Sprites.
 */
 
 this.CreateVerticalTileSheet = function(sprite, cw, ch) {

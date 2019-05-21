@@ -12,9 +12,6 @@ new lx.Sprite('res/human.png', function(sprite) {
     let human = new lx.GameObject(sprite, -24, -64, 48, 96);
     
     human.ShowAnimation(new lx.Animation(humanSprites[1], 12));
-    human.Loops(function() {
-        human.Rotation(human.Rotation()+.1);
-    });
     human.Show(1);
 });
 

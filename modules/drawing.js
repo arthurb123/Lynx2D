@@ -16,7 +16,7 @@ this.OnLayerDraw = function(layer, callback) {
 */
 
 this.ClearLayerDraw = function(layer) {
-    this.GAME.CLEAR_LAYER_DRAW_EVENT  
+    this.GAME.CLEAR_LAYER_DRAW_EVENT(layer);
     
     return this;
 };
