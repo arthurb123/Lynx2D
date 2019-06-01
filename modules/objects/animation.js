@@ -63,7 +63,9 @@ this.Animation = function (sprite_collection, speed) {
         if (this.BUFFER_ID == -1) 
             return;
         
-        lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
+        if (lx.GAME.BUFFER[this.BUFFER_LAYER] != undefined)
+            lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
+        
         this.BUFFER_ID = -1;
         this.BUFFER_LAYER = 0;
         

@@ -44,12 +44,27 @@ this.Initialize = function(target) {
             height = self.innerHeight;
         }
 
+        let dx = width - lx.CONTEXT.CANVAS.width,
+            dy = height - lx.CONTEXT.CANVAS.height;
+        
+                
+        lx.GAME.ON_RESIZE_EVENTS.forEach(function(cb) {
+            cb({
+                dx: dx,
+                dy: dy,
+                oldWidth: lx.CONTEXT.CANVAS.width,
+                oldHeight: lx.CONTEXT.CANVAS.height,
+                width: width,
+                height: height
+            }); 
+        });
+        
         lx.CONTEXT.CANVAS.width = width;
         lx.CONTEXT.CANVAS.height = height;
     };
 
     window.onresize();
-
+    
     //Create standard controller
 
     if (this.CONTEXT.CONTROLLER == undefined)

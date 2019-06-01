@@ -256,11 +256,12 @@ this.GameObject = function (sprite, x, y, w, h) {
     */
     
     this.Hide = function() {
-        if (this.BUFFER_ID == -1 ||
-            lx.GAME.BUFFER[this.BUFFER_LAYER] == undefined) 
+        if (this.BUFFER_ID == -1) 
             return;
         
-        lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
+        if (lx.GAME.BUFFER[this.BUFFER_LAYER] != undefined)
+            lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
+        
         this.BUFFER_ID = -1;
         this.BUFFER_LAYER = 0;
         

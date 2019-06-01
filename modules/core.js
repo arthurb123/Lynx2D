@@ -10,6 +10,7 @@ this.GAME = {
     COLLIDERS: [],
     LOOPS: [],
     LAYER_DRAW_EVENTS: [],
+    ON_RESIZE_EVENTS: [],
     INIT: function(FPS) {
         //Setup logger
 
@@ -592,5 +593,12 @@ this.GAME = {
                 return true;
         
         return false;
+    },
+    ADD_ON_RESIZE_EVENT: function(CALLBACK) {
+        for (let i = 0; i < this.ON_RESIZE_EVENTS.length+1; i++)
+            if (this.ON_RESIZE_EVENTS[i] == undefined) {
+                this.ON_RESIZE_EVENTS[i] = CALLBACK;
+                break;
+            }
     }
 };

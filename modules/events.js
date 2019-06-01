@@ -1,7 +1,7 @@
 /** 
  * Add a on key event callback.
  * @param {string} key - The key which triggers the callback.
- * @param {function} callback - The callback function which provides event data.
+ * @param {function} callback - The callback function which provides event data (object).
 */
 
 this.OnKey = function(key, callback) {
@@ -39,7 +39,7 @@ this.StopKey = function(key) {
 /** 
  * Add a on mouse event callback.
  * @param {number} mouse - The mouse button which triggers the callback. (0, 1, 2)
- * @param {function} callback - The callback function which provides event data.
+ * @param {function} callback - The callback function which provides event data (object).
 */
 
 this.OnMouse = function(button, callback) {
@@ -73,7 +73,7 @@ this.StopMouse = function(button) {
 
 /** 
  * Set the on mouse move event callback.
- * @param {function} callback - The callback function which provides event data.
+ * @param {function} callback - The callback function which provides event data (object).
 */
 
 this.OnMouseMove = function(callback) {
@@ -91,6 +91,25 @@ this.ClearMouseMove = function() {
     lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER = undefined;
 
     return this;
+};
+
+/** 
+ * Add an on resize callback right before the actual resizing.
+ * @param {function} callback - The callback function which provides resize data (object).
+*/
+
+this.OnResize = function(callback) {
+    this.GAME.ADD_ON_RESIZE_EVENT(callback);
+    
+    return this;
+};
+
+/**
+ * Clear all on resize event callbacks.
+*/
+
+this.ClearResize = function() {
+    this.GAME.ON_RESIZE_EVENTS = [];
 };
 
 /** 

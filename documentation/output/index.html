@@ -606,36 +606,6 @@
                         #Cast
                       </a></li>
                       
-                      <li><a
-                        href='#raycastpoint'
-                        class='regular pre-open'>
-                        #CastPoint
-                      </a></li>
-                      
-                      <li><a
-                        href='#raycastpoints'
-                        class='regular pre-open'>
-                        #CastPoints
-                      </a></li>
-                      
-                      <li><a
-                        href='#raycastpointradially'
-                        class='regular pre-open'>
-                        #CastPointRadially
-                      </a></li>
-                      
-                      <li><a
-                        href='#raycastpointsradially'
-                        class='regular pre-open'>
-                        #CastPointsRadially
-                      </a></li>
-                      
-                      <li><a
-                        href='#raycastpointradiallymultiple'
-                        class='regular pre-open'>
-                        #CastPointRadiallyMultiple
-                      </a></li>
-                      
                     </ul>
                   
                   
@@ -1075,6 +1045,26 @@
                   href='#clearmousemove'
                   class="">
                   ClearMouseMove
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#onresize'
+                  class="">
+                  OnResize
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#clearresize'
+                  class="">
+                  ClearResize
                   
                 </a>
                 
@@ -6743,386 +6733,6 @@
       </div>
     </div>
   
-    <div class='border-bottom' id='raycastpoint'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>CastPoint(target)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Cast ray to the target and get the enter point.</p>
-
-    <div class='pre p1 fill-light mt0'>CastPoint(target: <a href="#gameobject">GameObject</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>target</span> <code class='quiet'>(<a href="#gameobject">GameObject</a>)</code>
-	    The target to check if the ray intersects with it.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>:
-        Returns {X,Y} if intersection occurred, otherwise returns false.
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='raycastpoints'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>CastPoints(target)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Cast ray to the target and get the enter and leave points.</p>
-
-    <div class='pre p1 fill-light mt0'>CastPoints(target: <a href="#gameobject">GameObject</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>target</span> <code class='quiet'>(<a href="#gameobject">GameObject</a>)</code>
-	    The target to check if the ray intersects with it.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></code>:
-        Returns 
-[{X,Y}]
- if intersection occurred, otherwise returns false.
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='raycastpointradially'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>CastPointRadially(target, degrees)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Cast rays radially to the target and get the enter point.</p>
-
-    <div class='pre p1 fill-light mt0'>CastPointRadially(target: <a href="#gameobject">GameObject</a>, degrees: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>target</span> <code class='quiet'>(<a href="#gameobject">GameObject</a>)</code>
-	    The target to check if rays intersect with it.
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>degrees</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-	    The amount of degrees in between rays.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></code>:
-        Returns 
-[{X,Y}]
- if intersection occurred, otherwise returns [].
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='raycastpointsradially'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>CastPointsRadially(target, degrees)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Cast rays radially to the target and get the enter and leave points.</p>
-
-    <div class='pre p1 fill-light mt0'>CastPointsRadially(target: <a href="#gameobject">GameObject</a>, degrees: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>target</span> <code class='quiet'>(<a href="#gameobject">GameObject</a>)</code>
-	    The target to check if rays intersect with it.
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>degrees</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-	    The amount of degrees in between rays.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></code>:
-        Returns 
-[{X,Y}]
- if intersection occurred, otherwise returns [].
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
-    <div class='border-bottom' id='raycastpointradiallymultiple'>
-      <div class="clearfix small pointer toggle-sibling">
-        <div class="py1 contain">
-            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>CastPointRadiallyMultiple(targets, degrees)</span>
-        </div>
-      </div>
-      <div class="clearfix display-none toggle-target">
-        <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-
-  <p>Cast rays radially to multiple targets and get the enter points.</p>
-
-    <div class='pre p1 fill-light mt0'>CastPointRadiallyMultiple(targets: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#gameobject">GameObject</a>>, degrees: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>targets</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#gameobject">GameObject</a>>)</code>
-	    The targets to check if rays intersect with them.
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>degrees</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-	    The amount of degrees in between rays.
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">array</a></code>:
-        Returns 
-[{X,Y}]
- if intersection occurred, otherwise returns [].
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-      </div>
-    </div>
-  
 </div>
 
   
@@ -10177,7 +9787,7 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-	    The callback function which provides event data.
+	    The callback function which provides event data (object).
 
           </div>
           
@@ -10371,7 +9981,7 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-	    The callback function which provides event data.
+	    The callback function which provides event data (object).
 
           </div>
           
@@ -10566,7 +10176,7 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
-	    The callback function which provides event data.
+	    The callback function which provides event data (object).
 
           </div>
           
@@ -10611,6 +10221,116 @@
   <p>Clear the on mouse move event callback.</p>
 
     <div class='pre p1 fill-light mt0'>lx.ClearMouseMove()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='onresize'>
+      OnResize
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Add an on resize callback right before the actual resizing.</p>
+
+    <div class='pre p1 fill-light mt0'>lx.OnResize(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The callback function which provides resize data (object).
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='clearresize'>
+      ClearResize
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Clear all on resize event callbacks.</p>
+
+    <div class='pre p1 fill-light mt0'>lx.ClearResize()</div>
   
   
 
