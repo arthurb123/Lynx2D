@@ -5,8 +5,9 @@ toc:
    - Emitter
    - Animation
    - Sound
-   - Ray
    - Scene
+   - Ray
+   - Noise
    - UIText
    - UIRichText
    - UITexture
