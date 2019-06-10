@@ -211,6 +211,13 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         if (this.SHOW_COLOR_OVERLAY)
             IMG = this.COLOR_OVERLAY;
 
+        //Scale respectively
+
+        SIZE = {
+            W: SIZE.W * lx.GAME.SCALE,
+            H: SIZE.H * lx.GAME.SCALE
+        };
+
         //Draw respectively
         
         if (this.CLIP == undefined || this.SHOW_COLOR_OVERLAY) 

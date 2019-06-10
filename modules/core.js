@@ -11,6 +11,7 @@ this.GAME = {
     LOOPS: [],
     LAYER_DRAW_EVENTS: [],
     ON_RESIZE_EVENTS: [],
+    SCALE: 1,
     INIT: function(FPS) {
         //Setup logger
 
@@ -266,8 +267,8 @@ this.GAME = {
                     lx.CONTEXT.GRAPHICS.strokeRect(
                         lx.GAME.TRANSLATE_FROM_FOCUS(obj.POS).X, 
                         lx.GAME.TRANSLATE_FROM_FOCUS(obj.POS).Y, 
-                        obj.SIZE.W, 
-                        obj.SIZE.H
+                        obj.SIZE.W*lx.GAME.SCALE, 
+                        obj.SIZE.H*lx.GAME.SCALE
                     ); 
             });
         
@@ -296,6 +297,20 @@ this.GAME = {
                 this.BUFFER[LAYER][i] = OBJECT;
                 return i;
             }
+    },
+    SWITCH_BUFFER_POSITION: function(OBJECT1, OBJECT2) {
+        if (OBJECT1.BUFFER_ID === -1 ||
+            OBJECT2.BUFFER_ID === -1 ||
+            OBJECT1.BUFFER_LAYER !== OBJECT2.BUFFER_LAYER)
+            return;
+        
+        let BUFFER_ID = OBJECT1.BUFFER_ID;  
+        
+        OBJECT1.BUFFER_ID = OBJECT2.BUFFER_ID;
+        OBJECT2.BUFFER_ID = BUFFER_ID;
+        
+        this.BUFFER[OBJECT1.BUFFER_LAYER][OBJECT1.BUFFER_ID] = OBJECT1;
+        this.BUFFER[OBJECT1.BUFFER_LAYER][OBJECT2.BUFFER_ID] = OBJECT2;
     },
     ADD_LOOPS: function(CALLBACK) {
         if (CALLBACK == undefined) 
@@ -388,8 +403,8 @@ this.GAME = {
             }
             
             return {
-                X: Math.floor(Math.round(POS.X)-Math.round(this.FOCUS.Position().X)+lx.GetDimensions().width/2-this.FOCUS.SIZE.W/2),
-                Y: Math.floor(Math.round(POS.Y)-Math.round(this.FOCUS.Position().Y)+lx.GetDimensions().height/2-this.FOCUS.SIZE.H/2)
+                X: Math.floor(Math.round(POS.X)-Math.round(this.FOCUS.Position().X)+lx.GetDimensions().width/(2*this.SCALE)-this.FOCUS.SIZE.W/2) * this.SCALE,
+                Y: Math.floor(Math.round(POS.Y)-Math.round(this.FOCUS.Position().Y)+lx.GetDimensions().height/(2*this.SCALE)-this.FOCUS.SIZE.H/2) * this.SCALE
             };
         }
     },
@@ -587,6 +602,11 @@ this.GAME = {
     GET_MOUSE_IN_BOX: function (POS, SIZE) {
         if (this.FOCUS != undefined) 
             POS = this.TRANSLATE_FROM_FOCUS(POS);
+        
+        SIZE = {
+            W: SIZE.W * this.SCALE,
+            H: SIZE.H * this.SCALE
+        };
         
         if (POS.X <= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && POS.X+SIZE.W >= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && 
             POS.Y <= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y && POS.Y+SIZE.H >= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y)

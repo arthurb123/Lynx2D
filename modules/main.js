@@ -112,6 +112,19 @@ this.Background = function(color) {
 };
 
 /** 
+ * Get/Set the rendering scale (default is 1).
+ * @param {number} scale - Sets the rendering scale if specified.
+ * @return {number} Gets the rendering scale if left empty.
+*/
+
+this.Scale = function(scale) {
+    if (scale == undefined)
+        return this.GAME.SCALE;
+    else
+        this.GAME.SCALE = scale;
+};
+
+/** 
  * Gets the dimensions of the canvas.
  * @return {object} Gets {width, height}.
 */

@@ -169,6 +169,18 @@
                       </a></li>
                       
                       <li><a
+                        href='#gameobjectfollows'
+                        class='regular pre-open'>
+                        #Follows
+                      </a></li>
+                      
+                      <li><a
+                        href='#gameobjectstopfollowing'
+                        class='regular pre-open'>
+                        #StopFollowing
+                      </a></li>
+                      
+                      <li><a
                         href='#gameobjectshowcoloroverlay'
                         class='regular pre-open'>
                         #ShowColorOverlay
@@ -1173,6 +1185,16 @@
                   href='#background'
                   class="">
                   Background
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#scale'
+                  class="">
+                  Scale
                   
                 </a>
                 
@@ -2849,6 +2871,122 @@
   <p>Clears the current Animation and restores the Sprite.</p>
 
     <div class='pre p1 fill-light mt0'>ClearAnimation()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='gameobjectfollows'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Follows(target)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get/set the GameObject's following target.</p>
+
+    <div class='pre p1 fill-light mt0'>Follows(target: <a href="#gameobject">GameObject</a>): <a href="#gameobject">GameObject</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>target</span> <code class='quiet'>(<a href="#gameobject">GameObject</a>)</code>
+	    Sets following target if specified.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#gameobject">GameObject</a></code>:
+        Gets following target if left empty.
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='gameobjectstopfollowing'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>StopFollowing()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Stop following the target.</p>
+
+    <div class='pre p1 fill-light mt0'>StopFollowing()</div>
   
   
 
@@ -11030,6 +11168,76 @@
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
         Gets the background color if left empty.
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='scale'>
+      Scale
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Get/Set the rendering scale (default is 1).</p>
+
+    <div class='pre p1 fill-light mt0'>lx.Scale(scale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>scale</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    Sets the rendering scale if specified.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>:
+        Gets the rendering scale if left empty.
 
       
     

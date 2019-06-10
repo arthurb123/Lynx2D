@@ -16,6 +16,7 @@ this.GAME = {
     LOOPS: [],
     LAYER_DRAW_EVENTS: [],
     ON_RESIZE_EVENTS: [],
+    SCALE: 1,
     INIT: function(FPS) {
         //Setup logger
 
@@ -271,8 +272,8 @@ this.GAME = {
                     lx.CONTEXT.GRAPHICS.strokeRect(
                         lx.GAME.TRANSLATE_FROM_FOCUS(obj.POS).X, 
                         lx.GAME.TRANSLATE_FROM_FOCUS(obj.POS).Y, 
-                        obj.SIZE.W, 
-                        obj.SIZE.H
+                        obj.SIZE.W*lx.GAME.SCALE, 
+                        obj.SIZE.H*lx.GAME.SCALE
                     ); 
             });
         
@@ -301,6 +302,20 @@ this.GAME = {
                 this.BUFFER[LAYER][i] = OBJECT;
                 return i;
             }
+    },
+    SWITCH_BUFFER_POSITION: function(OBJECT1, OBJECT2) {
+        if (OBJECT1.BUFFER_ID === -1 ||
+            OBJECT2.BUFFER_ID === -1 ||
+            OBJECT1.BUFFER_LAYER !== OBJECT2.BUFFER_LAYER)
+            return;
+        
+        let BUFFER_ID = OBJECT1.BUFFER_ID;  
+        
+        OBJECT1.BUFFER_ID = OBJECT2.BUFFER_ID;
+        OBJECT2.BUFFER_ID = BUFFER_ID;
+        
+        this.BUFFER[OBJECT1.BUFFER_LAYER][OBJECT1.BUFFER_ID] = OBJECT1;
+        this.BUFFER[OBJECT1.BUFFER_LAYER][OBJECT2.BUFFER_ID] = OBJECT2;
     },
     ADD_LOOPS: function(CALLBACK) {
         if (CALLBACK == undefined) 
@@ -393,8 +408,8 @@ this.GAME = {
             }
             
             return {
-                X: Math.floor(Math.round(POS.X)-Math.round(this.FOCUS.Position().X)+lx.GetDimensions().width/2-this.FOCUS.SIZE.W/2),
-                Y: Math.floor(Math.round(POS.Y)-Math.round(this.FOCUS.Position().Y)+lx.GetDimensions().height/2-this.FOCUS.SIZE.H/2)
+                X: Math.floor(Math.round(POS.X)-Math.round(this.FOCUS.Position().X)+lx.GetDimensions().width/(2*this.SCALE)-this.FOCUS.SIZE.W/2) * this.SCALE,
+                Y: Math.floor(Math.round(POS.Y)-Math.round(this.FOCUS.Position().Y)+lx.GetDimensions().height/(2*this.SCALE)-this.FOCUS.SIZE.H/2) * this.SCALE
             };
         }
     },
@@ -593,6 +608,11 @@ this.GAME = {
         if (this.FOCUS != undefined) 
             POS = this.TRANSLATE_FROM_FOCUS(POS);
         
+        SIZE = {
+            W: SIZE.W * this.SCALE,
+            H: SIZE.H * this.SCALE
+        };
+        
         if (POS.X <= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && POS.X+SIZE.W >= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && 
             POS.Y <= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y && POS.Y+SIZE.H >= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y)
                 return true;
@@ -705,6 +725,13 @@ this.Background = function(color) {
         this.CONTEXT.CANVAS.style.backgroundColor = color;
     
     return this;
+};
+
+this.Scale = function(scale) {
+    if (scale == undefined)
+        return this.GAME.SCALE;
+    else
+        this.GAME.SCALE = scale;
 };
 
 this.GetDimensions = function() {
@@ -1422,6 +1449,10 @@ this.Emitter = function(sprite, x, y, amount, duration) {
         X: x,
         Y: y
     };
+    this.OFFSET = {
+        X: x,
+        Y: y
+    };
     this.SIZE = {
         MIN: 8,
         MAX: 16
@@ -1479,36 +1510,32 @@ this.Emitter = function(sprite, x, y, amount, duration) {
     };
 
     this.Position = function(x, y) {
-        if (x != undefined && y != undefined) {
-            if (this.OFFSET == undefined) this.POS = {
+        if (x != undefined && y != undefined) 
+            this.POS = {
                 X: x,
                 Y: y
             };
-            else this.OFFSET = {
-                X: x,
-                Y: y
-            };
-        }
-        else return this.POS;
+        else 
+            return this.POS;
         
         return this;
     };
 
     this.Follows = function(target) {
-        if (target != undefined) {
+        if (target != undefined) 
             this.TARGET = target;
-            this.OFFSET = this.POS;
-        }
         else 
-        return this.TARGET;
+            return this.TARGET;
         
         return this;
     };
 
     this.StopFollowing = function() {
         this.TARGET = undefined; 
-        this.POS = this.OFFSET;
-        this.OFFSET = undefined;
+        this.POS = {
+            X: this.OFFSET.X,
+            Y: this.OFFSET.Y
+        };
         
         return this;
     };
@@ -1548,18 +1575,23 @@ this.Emitter = function(sprite, x, y, amount, duration) {
         for (let i = 0; i < this.PARTICLES.length; i++) {
             lx.CONTEXT.GRAPHICS.save();
             lx.CONTEXT.GRAPHICS.globalAlpha = this.PARTICLES[i].OPACITY;
-            lx.DrawSprite(this.SPRITE, this.PARTICLES[i].POS.X, this.PARTICLES[i].POS.Y, this.PARTICLES[i].SIZE, this.PARTICLES[i].SIZE);
+            lx.DrawSprite(
+                this.SPRITE, 
+                this.PARTICLES[i].POS.X, 
+                this.PARTICLES[i].POS.Y, 
+                this.PARTICLES[i].SIZE, 
+                this.PARTICLES[i].SIZE
+            );
             lx.CONTEXT.GRAPHICS.restore();
         }
     };
     
     this.UPDATE = function() {
-        if (this.TARGET != undefined) {
+        if (this.TARGET != undefined) 
             this.POS = {
                 X: this.TARGET.POS.X+this.OFFSET.X,
                 Y: this.TARGET.POS.Y+this.OFFSET.Y
             };
-        }
 
         let VX = this.MOVEMENT.MAX_VX/lx.GAME.PHYSICS.STEPS,
             VY = this.MOVEMENT.MAX_VY/lx.GAME.PHYSICS.STEPS;
@@ -1657,6 +1689,10 @@ this.GameObject = function (sprite, x, y, w, h) {
         X: x,
         Y: y
     };
+    this.OFFSET = {
+        X: x,
+        Y: y
+    };
     
     this.MOVEMENT = {
         VX: 0,
@@ -1749,13 +1785,13 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.Position = function(x, y) {
-        if (x == undefined || y == undefined) 
-            return this.POS;
-        else 
+        if (x != undefined && y != undefined) 
             this.POS = {
                 X: x,
                 Y: y
             };
+        else 
+            return this.POS;
         
         return this;
     };
@@ -1981,6 +2017,26 @@ this.GameObject = function (sprite, x, y, w, h) {
         return this;
     };
     
+    this.Follows = function(target) {
+        if (target != undefined) 
+            this.TARGET = target;
+        else 
+            return this.TARGET;
+        
+        return this;
+    };
+
+    this.StopFollowing = function() {
+        this.TARGET = undefined; 
+        this.POS = {
+            X: this.OFFSET.X,
+            Y: this.OFFSET.Y
+        };
+        
+        return this;
+    };
+
+    
     this.ShowColorOverlay = function(color, duration) {
         if (this.ANIMATION != undefined) 
             this.ANIMATION.GET_CURRENT_FRAME().ShowColorOverlay(color, duration);
@@ -2113,6 +2169,12 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.UPDATE = function() {
+        if (this.TARGET != undefined) 
+            this.POS = {
+                X: this.TARGET.POS.X+this.OFFSET.X,
+                Y: this.TARGET.POS.Y+this.OFFSET.Y
+            };
+        
         if (this.ANIMATION != undefined) 
             this.ANIMATION.UPDATE();
         if (this.LOOPS != undefined) 
@@ -2573,6 +2635,13 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         let IMG = this.IMG;
         if (this.SHOW_COLOR_OVERLAY)
             IMG = this.COLOR_OVERLAY;
+
+        //Scale respectively
+
+        SIZE = {
+            W: SIZE.W * lx.GAME.SCALE,
+            H: SIZE.H * lx.GAME.SCALE
+        };
 
         //Draw respectively
         

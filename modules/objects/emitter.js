@@ -23,6 +23,10 @@ this.Emitter = function(sprite, x, y, amount, duration) {
         X: x,
         Y: y
     };
+    this.OFFSET = {
+        X: x,
+        Y: y
+    };
     this.SIZE = {
         MIN: 8,
         MAX: 16
@@ -116,17 +120,13 @@ this.Emitter = function(sprite, x, y, amount, duration) {
     */
     
     this.Position = function(x, y) {
-        if (x != undefined && y != undefined) {
-            if (this.OFFSET == undefined) this.POS = {
+        if (x != undefined && y != undefined) 
+            this.POS = {
                 X: x,
                 Y: y
             };
-            else this.OFFSET = {
-                X: x,
-                Y: y
-            };
-        }
-        else return this.POS;
+        else 
+            return this.POS;
         
         return this;
     };
@@ -138,12 +138,10 @@ this.Emitter = function(sprite, x, y, amount, duration) {
     */
     
     this.Follows = function(target) {
-        if (target != undefined) {
+        if (target != undefined) 
             this.TARGET = target;
-            this.OFFSET = this.POS;
-        }
         else 
-        return this.TARGET;
+            return this.TARGET;
         
         return this;
     };
@@ -154,8 +152,10 @@ this.Emitter = function(sprite, x, y, amount, duration) {
     
     this.StopFollowing = function() {
         this.TARGET = undefined; 
-        this.POS = this.OFFSET;
-        this.OFFSET = undefined;
+        this.POS = {
+            X: this.OFFSET.X,
+            Y: this.OFFSET.Y
+        };
         
         return this;
     };
@@ -210,18 +210,23 @@ this.Emitter = function(sprite, x, y, amount, duration) {
         for (let i = 0; i < this.PARTICLES.length; i++) {
             lx.CONTEXT.GRAPHICS.save();
             lx.CONTEXT.GRAPHICS.globalAlpha = this.PARTICLES[i].OPACITY;
-            lx.DrawSprite(this.SPRITE, this.PARTICLES[i].POS.X, this.PARTICLES[i].POS.Y, this.PARTICLES[i].SIZE, this.PARTICLES[i].SIZE);
+            lx.DrawSprite(
+                this.SPRITE, 
+                this.PARTICLES[i].POS.X, 
+                this.PARTICLES[i].POS.Y, 
+                this.PARTICLES[i].SIZE, 
+                this.PARTICLES[i].SIZE
+            );
             lx.CONTEXT.GRAPHICS.restore();
         }
     };
     
     this.UPDATE = function() {
-        if (this.TARGET != undefined) {
+        if (this.TARGET != undefined) 
             this.POS = {
                 X: this.TARGET.POS.X+this.OFFSET.X,
                 Y: this.TARGET.POS.Y+this.OFFSET.Y
             };
-        }
 
         let VX = this.MOVEMENT.MAX_VX/lx.GAME.PHYSICS.STEPS,
             VY = this.MOVEMENT.MAX_VY/lx.GAME.PHYSICS.STEPS;

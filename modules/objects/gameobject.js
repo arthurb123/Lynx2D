@@ -20,6 +20,10 @@ this.GameObject = function (sprite, x, y, w, h) {
         X: x,
         Y: y
     };
+    this.OFFSET = {
+        X: x,
+        Y: y
+    };
     
     this.MOVEMENT = {
         VX: 0,
@@ -138,13 +142,13 @@ this.GameObject = function (sprite, x, y, w, h) {
     */
     
     this.Position = function(x, y) {
-        if (x == undefined || y == undefined) 
-            return this.POS;
-        else 
+        if (x != undefined && y != undefined) 
             this.POS = {
                 X: x,
                 Y: y
             };
+        else 
+            return this.POS;
         
         return this;
     };
@@ -475,6 +479,36 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     /** 
+     * Get/set the GameObject's following target.
+     * @param {GameObject} target - Sets following target if specified.
+     * @return {GameObject} Gets following target if left empty.
+    */
+    
+    this.Follows = function(target) {
+        if (target != undefined) 
+            this.TARGET = target;
+        else 
+            return this.TARGET;
+        
+        return this;
+    };
+
+    /** 
+     * Stop following the target.
+    */
+    
+    this.StopFollowing = function() {
+        this.TARGET = undefined; 
+        this.POS = {
+            X: this.OFFSET.X,
+            Y: this.OFFSET.Y
+        };
+        
+        return this;
+    };
+
+    
+    /** 
      * Displays a color overlay on the GameObject.
      * @param {string} color - The color to be overlayed.
      * @param {number} duration - The duration of the color overlay, can be undefined.
@@ -667,6 +701,12 @@ this.GameObject = function (sprite, x, y, w, h) {
     };
     
     this.UPDATE = function() {
+        if (this.TARGET != undefined) 
+            this.POS = {
+                X: this.TARGET.POS.X+this.OFFSET.X,
+                Y: this.TARGET.POS.Y+this.OFFSET.Y
+            };
+        
         if (this.ANIMATION != undefined) 
             this.ANIMATION.UPDATE();
         if (this.LOOPS != undefined) 
