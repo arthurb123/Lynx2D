@@ -2614,8 +2614,17 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         
         if (SIZE == undefined) 
             SIZE = this.Size();
-        if (TARGET == undefined)
+        if (TARGET == undefined) {
             TARGET = lx.CONTEXT.GRAPHICS;
+
+            //If the specified drawing target is the
+            //standard lynx2d context, scale respectively
+
+            SIZE = {
+                W: SIZE.W * lx.GAME.SCALE,
+                H: SIZE.H * lx.GAME.SCALE
+            };
+        }
 
         //Check for opacity
 
@@ -2635,13 +2644,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         let IMG = this.IMG;
         if (this.SHOW_COLOR_OVERLAY)
             IMG = this.COLOR_OVERLAY;
-
-        //Scale respectively
-
-        SIZE = {
-            W: SIZE.W * lx.GAME.SCALE,
-            H: SIZE.H * lx.GAME.SCALE
-        };
 
         //Draw respectively
         
