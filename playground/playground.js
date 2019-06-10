@@ -15,8 +15,6 @@ new lx.Sprite('res/human.png', function(sprite) {
     human.Show(2);
 });
 
-let x = new lx.GameObject(new lx.Sprite('res/human.png', 0, 0, 64, 64), 0, 0, 64, 64).Show(2);
-
 emitter.Show(1);
 emitter.Speed(4);
 emitter.Setup(0, 0, -2, 12, 32, 32);
