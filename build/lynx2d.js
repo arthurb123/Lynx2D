@@ -1235,6 +1235,40 @@ this.Animation = function (sprite_collection, speed) {
     };
 };
 
+/* Canvas Object */
+
+ this.Canvas = function(width, height) {
+    this.CANVAS = document.createElement('canvas');
+    this.CANVAS.width = width;
+    this.CANVAS.height = height;
+
+    this.GRAPHICS = this.CANVAS.getContext('2d');
+
+    this.DrawSprite = function(sprite, x, y, w, h) {
+        let SIZE = sprite.Size();
+
+        if (w != undefined && h != undefined)
+            SIZE = {
+                W: w,
+                H: h
+            };
+
+        sprite.RENDER(
+            {
+                X: x,
+                Y: y
+            },
+            SIZE,
+            sprite.Opacity(),
+            this.GRAPHICS
+        );
+    };
+    
+    this.Draw = function(cb) {
+        cb(this.GRAPHICS);
+    };
+ };
+
 /* Collider Object */
 
 this.Collider = function (x, y, w, h, is_static, callback) {
@@ -2525,9 +2559,11 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
             return this.IMG.src;
         }
         else {
+            let typeOf = typeof src;
+
             //Load image if the source is a string
 
-            if (typeof src === 'string') {
+            if (typeOf === 'string') {
                 this.IMG = new Image();
                 
                 if (cb != undefined) {
@@ -2540,10 +2576,14 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
                 this.IMG.src = src;
             } 
             
-            //Otherwise straight up accept it (for canvas usage)
+            //Otherwise check if it is a Lynx2D canvas
+            //or a HTML canvas or HTML image.
 
             else 
-                this.IMG = src;
+                if (src.CANVAS != undefined)
+                    this.IMG = src.CANVAS;
+                else
+                    this.IMG = src;
         }
         
         return this;

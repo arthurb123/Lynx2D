@@ -622,6 +622,40 @@
               
                 
                 <li><a
+                  href='#canvas'
+                  class=" toggle-sibling">
+                  Canvas
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#canvasdrawsprite'
+                        class='regular pre-open'>
+                        #DrawSprite
+                      </a></li>
+                      
+                      <li><a
+                        href='#canvasdraw'
+                        class='regular pre-open'>
+                        #Draw
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
                   href='#ray'
                   class=" toggle-sibling">
                   Ray
@@ -3773,7 +3807,7 @@
 
   <p>Lynx2D Sprite</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.Sprite(source: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, c_x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, cb: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Sprite(source: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement/Image">Image</a> | <a href="#canvas">Canvas</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement">HTMLCanvasElement</a>), c_x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, cb: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -3790,8 +3824,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>source</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The source to an image file (can also be an image or HTML canvas).
+            <span class='code bold'>source</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement/Image">Image</a> | <a href="#canvas">Canvas</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement">HTMLCanvasElement</a>))</code>
+	    The source to an image file (can also be an image, Lynx2D or HTML canvas).
 
           </div>
           
@@ -3926,9 +3960,9 @@
 
   
 
-  <p>Get/Set the Sprite's size.</p>
+  <p>Get/Set the Sprite's source.</p>
 
-    <div class='pre p1 fill-light mt0'>Source(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    <div class='pre p1 fill-light mt0'>Source(src: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement/Image">Image</a> | <a href="#canvas">Canvas</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement">HTMLCanvasElement</a>)): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
   
 
@@ -3945,8 +3979,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>src</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    Sets image source if specified.
+            <span class='code bold'>src</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement/Image">Image</a> | <a href="#canvas">Canvas</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement">HTMLCanvasElement</a>))</code>
+	    Sets image (source) if specified.
 
           </div>
           
@@ -3961,7 +3995,7 @@
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
-        Gets image source if left empty.
+        Gets image source if available and left empty.
 
       
     
@@ -6737,6 +6771,241 @@
   
   
 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='canvas'>
+      Canvas
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Lynx2D Canvas</p>
+
+    <div class='pre p1 fill-light mt0'>new lx.Canvas(width: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, height: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>width</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The canvas width.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>height</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The canvas height.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='canvasdrawsprite'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>DrawSprite(sprite, x, y, w, h)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Draw a Sprite on the canvas.</p>
+
+    <div class='pre p1 fill-light mt0'>DrawSprite(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>sprite</span> <code class='quiet'>(<a href="#sprite">Sprite</a>)</code>
+	    The sprite that will be drawn.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>x</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The x position.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>y</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The y position.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>w</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The width, if left undefined will use the Sprite's width.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>h</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The height, if left undefined will use the Sprite's height.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='canvasdraw'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Draw(cb)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Draw to the canvas using a custom callback.</p>
+
+    <div class='pre p1 fill-light mt0'>Draw(cb: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>cb</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The callback which will provide the drawing context.
+
+          </div>
+          
+        </div>
+      
+    </div>
   
 
   

@@ -1,7 +1,7 @@
 /**
  * Lynx2D Sprite
  * @constructor
- * @param {string} source - The source to an image file (can also be an image or HTML canvas).
+ * @param {string | Image | Canvas | HTMLCanvasElement} source - The source to an image file (can also be an image, Lynx2D or HTML canvas).
  * @param {number} c_x - The clip x can be a number, a callback function for once the sprite has loaded, or be left undefined.
  * @param {number} c_y - The clip y position, can be left undefined.
  * @param {number} c_w - The clip width, can be left undefined.
@@ -54,9 +54,9 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
     };
 
     /** 
-     * Get/Set the Sprite's size.
-     * @param {string} src - Sets image source if specified.
-     * @return {string} Gets image source if left empty.
+     * Get/Set the Sprite's source.
+     * @param {string | Image | Canvas | HTMLCanvasElement} src - Sets image (source) if specified.
+     * @return {string} Gets image source if available and left empty.
     */
     
     this.Source = function(src) {
@@ -69,9 +69,11 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
             return this.IMG.src;
         }
         else {
+            let typeOf = typeof src;
+
             //Load image if the source is a string
 
-            if (typeof src === 'string') {
+            if (typeOf === 'string') {
                 this.IMG = new Image();
                 
                 if (cb != undefined) {
@@ -84,10 +86,14 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
                 this.IMG.src = src;
             } 
             
-            //Otherwise straight up accept it (for canvas usage)
+            //Otherwise check if it is a Lynx2D canvas
+            //or a HTML canvas or HTML image.
 
             else 
-                this.IMG = src;
+                if (src.CANVAS != undefined)
+                    this.IMG = src.CANVAS;
+                else
+                    this.IMG = src;
         }
         
         return this;
