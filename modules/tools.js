@@ -47,3 +47,37 @@ this.CreateVerticalTileSheet = function(sprite, cw, ch) {
 
     return result;
 };
+
+/** 
+ * Move a GameObject to a new position.
+ * @param {GameObject} gameobject - The GameObject target.
+ * @param {number} x - The clip/tile width.
+ * @param {number} y - The clip/tile height.
+ * @param {number} time - The time/duration in milliseconds.
+*/
+
+this.MoveToPosition = function(gameobject, x, y, time) {
+    if (gameobject.BEING_MOVED)
+        return;
+    else
+        gameobject.BEING_MOVED = true;
+    
+    let frames = time / 1000 * 60,
+        dx = x-gameobject.Position().X,
+        dy = y-gameobject.Position().Y,
+        speedX = dx / frames,
+        speedY = dy / frames;
+
+    let updateIdentifier = lx.GAME.ADD_LOOPS(function() {
+        gameobject.POS.X += speedX;
+        gameobject.POS.Y += speedY;
+
+        frames--;
+
+        if (frames <= 0) {
+            lx.GAME.LOOPS[updateIdentifier] = undefined;
+            
+            delete gameobject.BEING_MOVED;
+        }
+    });
+};

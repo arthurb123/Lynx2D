@@ -131,8 +131,17 @@ this.GAME = {
                     for (let i = 0; i < obj.CALLBACK.length; i++) 
                         if (obj.CALLBACK[i] != undefined) 
                             try {
+                                let worldPosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
+                                
+                                if (lx.GAME.FOCUS != undefined)
+                                    worldPosition = lx.GAME.TRANSLATE_FROM_FOCUS({
+                                        X: lx.GAME.FOCUS.POS.X+worldPosition.X-lx.GetDimensions().width,
+                                        Y: lx.GAME.FOCUS.POS.Y+worldPosition.Y-lx.GetDimensions().height
+                                    });
+                                
                                 obj.CALLBACK[i]({ 
                                     mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS, 
+                                    worldPosition: worldPosition,
                                     state: 1 
                                 });
                             } catch (err) {
@@ -356,11 +365,21 @@ this.GAME = {
                 this.EVENTS[i].TYPE == TYPE && 
                 this.EVENTS[i].EVENT == EVENT) 
                 for (let ii = 0; ii < this.EVENTS[i].CALLBACK.length; ii++)
-                    if (this.EVENTS[i].CALLBACK[ii] != undefined) 
+                    if (this.EVENTS[i].CALLBACK[ii] != undefined) {
+                        let worldPosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
+                                
+                        if (this.FOCUS != undefined)
+                            worldPosition = this.TRANSLATE_FROM_FOCUS({
+                                X: this.FOCUS.POS.X+worldPosition.X-lx.GetDimensions().width,
+                                Y: this.FOCUS.POS.Y+worldPosition.Y-lx.GetDimensions().height
+                            });
+                        
                         this.EVENTS[i].CALLBACK[ii]({
                             mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
+                            worldPosition: worldPosition,
                             state: 0
                         });
+                    }
     },
     CLEAR_EVENT: function(TYPE, EVENT, CB_ID) {
         for (let i = 0; i < this.EVENTS.length; i++) {
@@ -847,7 +866,8 @@ this.CreateController = function() {
     this.CONTEXT.CANVAS.addEventListener('touchstart', function(EVENT) {
         lx.GAME.AUDIO.CAN_PLAY = true;
 
-        lx.CONTEXT.CONTROLLER.MOUSE.POS = { X: EVENT.pageX, Y: EVENT.pageY };
+        let TOUCH = EVENT.touches[0];
+        lx.CONTEXT.CONTROLLER.MOUSE.POS = { X: TOUCH.pageX, Y: TOUCH.pageY };
 
         if (lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[0]) return;
         lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[0] = true;
@@ -1108,6 +1128,32 @@ this.CreateVerticalTileSheet = function(sprite, cw, ch) {
     }
 
     return result;
+};
+
+this.MoveToPosition = function(gameobject, x, y, time) {
+    if (gameobject.BEING_MOVED)
+        return;
+    else
+        gameobject.BEING_MOVED = true;
+    
+    let frames = time / 1000 * 60,
+        dx = x-gameobject.Position().X,
+        dy = y-gameobject.Position().Y,
+        speedX = dx / frames,
+        speedY = dy / frames;
+
+    let updateIdentifier = lx.GAME.ADD_LOOPS(function() {
+        gameobject.POS.X += speedX;
+        gameobject.POS.Y += speedY;
+
+        frames--;
+
+        if (frames <= 0) {
+            lx.GAME.LOOPS[updateIdentifier] = undefined;
+            
+            delete gameobject.BEING_MOVED;
+        }
+    });
 };
 
 /* Animation Object */

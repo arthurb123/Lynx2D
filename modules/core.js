@@ -126,8 +126,17 @@ this.GAME = {
                     for (let i = 0; i < obj.CALLBACK.length; i++) 
                         if (obj.CALLBACK[i] != undefined) 
                             try {
+                                let worldPosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
+                                
+                                if (lx.GAME.FOCUS != undefined)
+                                    worldPosition = lx.GAME.TRANSLATE_FROM_FOCUS({
+                                        X: lx.GAME.FOCUS.POS.X+worldPosition.X-lx.GetDimensions().width,
+                                        Y: lx.GAME.FOCUS.POS.Y+worldPosition.Y-lx.GetDimensions().height
+                                    });
+                                
                                 obj.CALLBACK[i]({ 
                                     mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS, 
+                                    worldPosition: worldPosition,
                                     state: 1 
                                 });
                             } catch (err) {
@@ -351,11 +360,21 @@ this.GAME = {
                 this.EVENTS[i].TYPE == TYPE && 
                 this.EVENTS[i].EVENT == EVENT) 
                 for (let ii = 0; ii < this.EVENTS[i].CALLBACK.length; ii++)
-                    if (this.EVENTS[i].CALLBACK[ii] != undefined) 
+                    if (this.EVENTS[i].CALLBACK[ii] != undefined) {
+                        let worldPosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
+                                
+                        if (this.FOCUS != undefined)
+                            worldPosition = this.TRANSLATE_FROM_FOCUS({
+                                X: this.FOCUS.POS.X+worldPosition.X-lx.GetDimensions().width,
+                                Y: this.FOCUS.POS.Y+worldPosition.Y-lx.GetDimensions().height
+                            });
+                        
                         this.EVENTS[i].CALLBACK[ii]({
                             mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
+                            worldPosition: worldPosition,
                             state: 0
                         });
+                    }
     },
     CLEAR_EVENT: function(TYPE, EVENT, CB_ID) {
         for (let i = 0; i < this.EVENTS.length; i++) {

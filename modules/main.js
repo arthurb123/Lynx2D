@@ -251,7 +251,8 @@ this.CreateController = function() {
     this.CONTEXT.CANVAS.addEventListener('touchstart', function(EVENT) {
         lx.GAME.AUDIO.CAN_PLAY = true;
 
-        lx.CONTEXT.CONTROLLER.MOUSE.POS = { X: EVENT.pageX, Y: EVENT.pageY };
+        let TOUCH = EVENT.touches[0];
+        lx.CONTEXT.CONTROLLER.MOUSE.POS = { X: TOUCH.pageX, Y: TOUCH.pageY };
 
         if (lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[0]) return;
         lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[0] = true;
