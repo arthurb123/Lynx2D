@@ -88,7 +88,7 @@ this.Sound = function (src, channel) {
         if (this.PLAY_ID != undefined)
             lx.GAME.AUDIO.REMOVE(this.PLAY_ID);  
         
-        this.PLAY_ID = undefined;
+        this.PLAY_ID = [];
         
         return this;
     };
