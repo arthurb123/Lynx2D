@@ -205,7 +205,8 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
                 W: SIZE.W * lx.GAME.SCALE,
                 H: SIZE.H * lx.GAME.SCALE
             };
-        }
+        } else 
+            TARGET.imageSmoothingEnabled = lx.GAME.SETTINGS.AA;
 
         //Check for opacity
 
