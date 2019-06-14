@@ -22,6 +22,8 @@ this.Scene = function(callback) {
         this.LOOPS = lx.GAME.LOOPS;
         this.GO_MOUSE_EVENTS = lx.GAME.GO_MOUSE_EVENTS;
         this.LAYER_DRAW_EVENTS = lx.GAME.LAYER_DRAW_EVENTS;
+        this.AUDIO_CHANNELS = lx.GAME.AUDIO.CHANNELS;
+        this.AUDIO_SOUNDS = lx.GAME.AUDIO.SOUNDS;
         
         this.SAVED_STATE_AVAILABLE = true;
     };
@@ -33,8 +35,11 @@ this.Scene = function(callback) {
     this.Restore = function() {
         if (!this.SAVED_STATE_AVAILABLE) {
             console.log(lx.GAME.LOG.TIMEFORMAT() + 'Scene could not be restored, there is no saved state available.');
+            
             return;
         }
+
+        lx.GAME.RESET();
         
         lx.GAME.BUFFER = this.BUFFER;
         lx.GAME.UI = this.UI;
@@ -45,5 +50,7 @@ this.Scene = function(callback) {
         lx.GAME.LOOPS = this.LOOPS;
         lx.GAME.GO_MOUSE_EVENTS = this.GO_MOUSE_EVENTS;
         lx.GAME.LAYER_DRAW_EVENTS = this.LAYER_DRAW_EVENTS;
+        lx.GAME.AUDIO.CHANNELS = this.AUDIO_CHANNELS;
+        lx.GAME.AUDIO.SOUNDS = this.AUDIO_SOUNDS;
     };
 };

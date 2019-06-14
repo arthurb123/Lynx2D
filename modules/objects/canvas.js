@@ -13,6 +13,18 @@
     this.GRAPHICS = this.CANVAS.getContext('2d');
 
     /** 
+     * Get the canvas size.
+     * @return {Object} Gets the canvas size {W, H}.
+    */
+
+    this.Size = function() {
+        return {
+            W: this.CANVAS.width,
+            H: this.CANVAS.height
+        };
+    };
+
+    /** 
      * Draw a Sprite on the canvas.
      * @param {Sprite} sprite - The sprite that will be drawn.
      * @param {number} x - The x position.
