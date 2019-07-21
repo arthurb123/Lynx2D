@@ -212,7 +212,7 @@ this.UIText = function(text, x, y, size, color, font) {
     
     this.RENDER = function() {
         lx.CONTEXT.GRAPHICS.save();
-        lx.CONTEXT.GRAPHICS.font = this.SIZE + 'px ' + this.FONT;
+        lx.CONTEXT.GRAPHICS.font = this.SIZE*(lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE*.75) + 'px ' + this.FONT;
         lx.CONTEXT.GRAPHICS.fillStyle = this.COLOR;
         lx.CONTEXT.GRAPHICS.textAlign = this.ALIGN;
         

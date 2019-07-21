@@ -480,14 +480,16 @@ this.GAME = {
             this.CHANNELS[CHANNEL] = VOL;
         },
         GET_CHANNEL_VOLUME: function (CHANNEL) {
-            if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
+            if (this.CHANNELS[CHANNEL] == undefined) 
+                this.SET_CHANNEL_VOLUME(CHANNEL, 1);
             
             return this.CHANNELS[CHANNEL];
         },
         ADD: function (SRC, CHANNEL, DELAY, LOOPS) {
             if (!this.CAN_PLAY || SRC == "") return;
             
-            if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
+            if (this.CHANNELS[CHANNEL] == undefined) 
+                this.SET_CHANNEL_VOLUME(CHANNEL, 1);
             
             for (let i = 0; i <= this.SOUNDS.length; i++) {
                 if (this.SOUNDS[i] == undefined) {
@@ -508,7 +510,8 @@ this.GAME = {
         ADD_SPATIAL: function(POS, SRC, CHANNEL, DELAY, LOOPS) {
             if (!this.CAN_PLAY || SRC == "") return;
             
-            if (this.CHANNELS[CHANNEL] == undefined) this.SET_CHANNEL_VOLUME(CHANNEL, 1);
+            if (this.CHANNELS[CHANNEL] == undefined) 
+                this.SET_CHANNEL_VOLUME(CHANNEL, 1);
             
             for (let i = 0; i <= this.SOUNDS.length; i++) {
                 if (this.SOUNDS[i] == undefined) {
@@ -529,10 +532,23 @@ this.GAME = {
         },
         CALCULATE_SPATIAL: function(POS, CHANNEL) {
             POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
-            let VOL = 1-(Math.abs(POS.X - lx.GetDimensions().width/2)/lx.GetDimensions().width + Math.abs(POS.Y - lx.GetDimensions().height/2)/lx.GetDimensions().height);
             
-            if (VOL < 0) VOL = 0;
-            else if (VOL > this.CHANNELS[CHANNEL]) VOL = this.CHANNELS[CHANNEL];
+            let DX = 1-Math.abs(POS.X - lx.GetDimensions().width/2)/(lx.GetDimensions().width/2),
+                DY = 1-Math.abs(POS.Y - lx.GetDimensions().height/2)/(lx.GetDimensions().height/2);
+            
+            let VOL = this.CHANNELS[CHANNEL];
+            
+            if (DX >= DY)
+                VOL *= DX;
+            else
+                VOL *= DY;
+            
+            if (VOL < 0 ||
+                POS.X < 0 || 
+                POS.Y < 0 ||
+                POS.X > lx.GetDimensions().width ||
+                POS.Y > lx.GetDimensions().height)
+                VOL = 0;
             
             return VOL;
         },

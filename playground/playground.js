@@ -60,3 +60,7 @@ lx.OnMouse(0, function(data) {
     
     lx.MoveToPosition(human, human.Position().X + 32, human.Position().Y, 500);
 });
+
+//Sample UI elements
+
+new lx.UIText("Sample UI Text", 200, 200, 14).Show();

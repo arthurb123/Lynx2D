@@ -223,12 +223,12 @@ this.UIRichText = function(text_array, x, y, size, color, font) {
     
     this.RENDER = function() {
         lx.CONTEXT.GRAPHICS.save();
-        lx.CONTEXT.GRAPHICS.font = this.SIZE + 'px ' + this.FONT;
+        lx.CONTEXT.GRAPHICS.font = this.SIZE*(lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE*.75) + 'px ' + this.FONT;
         lx.CONTEXT.GRAPHICS.fillStyle = this.COLOR;
         lx.CONTEXT.GRAPHICS.textAlign = this.ALIGN;
         
         for (let i = 0; i < this.TEXT.length; i++) {
-            let offset = i*this.LINE_HEIGHT+i*this.SIZE;
+            let offset = i*this.LINE_HEIGHT+i*this.SIZE*(lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE*.75);
             
             if (this.TARGET != undefined) {
                 if (lx.GAME.FOCUS != undefined) {
