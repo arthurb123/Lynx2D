@@ -1,5 +1,4 @@
-const fs = require('fs'),
-      clear = require('clear');
+const fs = require('fs');
 
 //Build preferences
 
@@ -86,6 +85,11 @@ const buildFramework = async () => {
 
     build += '\n\n/* Create Lynx2D instance */\n\nconst lx = new Lynx2D();';
 
+    //Check if folder exists
+
+    if (!fs.existsSync('build'))
+        fs.mkdirSync('build');
+
     //Save build
 
     fs.writeFile('build/lynx2d.js', build, async (err) => {
@@ -93,14 +97,6 @@ const buildFramework = async () => {
             throw err;
 
         console.log('\nBuild successful, check build folder.');
-
-        //Output rebuild option and wait for input
-
-        console.log('[ Press any key to rebuild ]');
-        await keypress();
-
-        clear();
-        buildFramework();
     });
 };
 
