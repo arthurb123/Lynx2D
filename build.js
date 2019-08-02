@@ -160,16 +160,6 @@ const trimComments = (input) => {
     return lines.join('\n');
 };
 
-//Setup keypress functionality
-
-const keypress = async () => {
-    process.stdin.setRawMode(true)
-    return new Promise(resolve => process.stdin.once('data', () => {
-      process.stdin.setRawMode(false)
-      resolve()
-    }))
-  }
-
 //Attempt to build framework
 
 buildFramework();

@@ -53,7 +53,7 @@ new lx.Sprite('res/block.png', function(block) {
         .Show(0);
 });
 
-//Mve the player if a click is detected
+//Move the player if a click is detected
 
 lx.OnMouse(0, function(data) {
     if (data.state === 1) return;
