@@ -24,13 +24,13 @@ const buildOrder = [
 
 //Build all modules following the build order
 
-let builded = {},
+let built = {},
     amountOfBuilds = 0;
 
 //Setup building functionality
 
 const buildFramework = async () => {
-    builded = {};
+    built = {};
     amountOfBuilds++;
 
     console.log('Started building the framework (Attempt ' + amountOfBuilds + ').\n');
@@ -101,7 +101,7 @@ const buildFramework = async () => {
 };
 
 const buildModule = async (src, isObject) => {
-    if (builded[src])
+    if (built[src])
         return '';
 
     //Get start date
@@ -117,9 +117,9 @@ const buildModule = async (src, isObject) => {
     if (buildPreferences.removeComments) 
         js = trimComments(js);
 
-    //Add to builded
+    //Add to built
 
-    builded[src] = true;
+    built[src] = true;
     
     //Create module comment
     
@@ -130,7 +130,7 @@ const buildModule = async (src, isObject) => {
     
     //Output
     
-    console.log('Builded "' + name + '" (' + (new Date().getTime()-startTime) + ' ms).');
+    console.log('Built "' + name + '" (' + (new Date().getTime()-startTime) + ' ms).');
 
     //Return JS module
 
