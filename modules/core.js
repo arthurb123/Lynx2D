@@ -63,6 +63,7 @@ this.GAME = {
     },
     SETTINGS: {
         FPS: 60,
+        VSYNC: false,
         AA: true,
         LIMITERS: {
             PARTICLES: 300   
@@ -129,7 +130,7 @@ this.GAME = {
             //framerate
 
             let RENDER_STEP = 1/lx.GAME.SETTINGS.FPS;
-            if (lx.GAME.SETTINGS.FPS <= 0)
+            if (lx.GAME.SETTINGS.VSYNC)
                 RENDER_STEP = 0;
 
             if (lx.GAME.LOG.DATA.R_DT >= RENDER_STEP) {
@@ -260,6 +261,11 @@ this.GAME = {
         //Audio
 
         this.AUDIO.UPDATE();
+
+        //Catch framerate boundary
+
+        if (lx.GAME.SETTINGS.FPS <= 0)
+            lx.GAME.SETTINGS.FPS = 1;
 
         //Update Log
         

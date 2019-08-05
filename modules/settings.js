@@ -29,6 +29,21 @@ this.Framerate = function(fps) {
 };
 
 /** 
+ * Get/Set if vertical sync is enabled.
+ * @param {number} fps - Sets vertical sync if specified.
+ * @return {number} Gets vertical sync if left empty.
+*/
+
+this.VerticalSync = function(vsync) {
+    if (vsync == undefined)
+        return this.GAME.SETTINGS.VSYNC;
+    else
+        this.GAME.SETTINGS.VSYNC = vsync;
+
+    return this;
+};
+
+/** 
  * Get/Set the particle limit.
  * @param {number} amount - Sets the particle limit if specified.
  * @return {number} Gets the particle limit if left empty.
