@@ -1,9 +1,9 @@
+//Setup Lynx2D
+
 lx.Smoothing(false);
 lx.ParticleLimit(3000);
 
 lx.GAME.DEBUG = true;
-
-//Lynx2D code goes here.
 
 //Let's create an animated human using
 //the CreateVerticalTileSheet function
@@ -53,7 +53,7 @@ new lx.Sprite('res/block.png', function(block) {
         .Show(0);
 });
 
-//Move the player if a click is detected
+//Move the player 32 pixels if a click is detected
 
 lx.OnMouse(0, function(data) {
     if (data.state === 1) return;

@@ -1,9 +1,12 @@
-const fs = require('fs');
+const fs = require('fs'),
+      https = require('https'),
+      querystring = require('querystring');
 
 //Build preferences
 
 const buildPreferences = {
-    removeComments: true
+    removeComments: true,
+    createMinified: true
 };
 
 //Building order
@@ -24,16 +27,14 @@ const buildOrder = [
 
 //Build all modules following the build order
 
-let built = {},
-    amountOfBuilds = 0;
+let built = {};
 
 //Setup building functionality
 
 const buildFramework = async () => {
     built = {};
-    amountOfBuilds++;
 
-    console.log('Started building the framework (Attempt ' + amountOfBuilds + ').\n');
+    log('Started building the framework..');
 
     //Build main class
 
@@ -57,7 +58,7 @@ const buildFramework = async () => {
             //Output
 
             if (actual !== '')
-            console.log('\n-- ' + actual.toUpperCase() + ' --');
+                log('Building ' + actual.toUpperCase());
 
             //Add comment
 
@@ -90,13 +91,26 @@ const buildFramework = async () => {
     if (!fs.existsSync('build'))
         fs.mkdirSync('build');
 
-    //Save build
+    //Log
 
-    fs.writeFile('build/lynx2d.js', build, async (err) => {
-        if (err)
-            throw err;
+    log('Build completed, exporting to build folder.');
 
-        console.log('\nBuild successful, check build folder.');
+    //Create development build (not minified)
+
+    log('Exporting development build');
+
+    fs.writeFile('build/lynx2d.js', build, (err) => {
+        if (err) {
+            error('Could not export development build - ' + err);
+            return;
+        }
+
+        success('Exported development build!');
+
+        //Create minified build if necessary
+
+        if (buildPreferences.createMinified)
+            minify(build);
     });
 };
 
@@ -104,37 +118,47 @@ const buildModule = async (src, isObject) => {
     if (built[src])
         return '';
 
-    //Get start date
+    try {
+        //Get start date
 
-    let startTime = new Date().getTime();
-    
-    //Read JS module
+        let startTime = new Date().getTime();
+        
+        //Read JS module
 
-    let js = await fs.readFileSync(src, 'utf-8');
+        let js = await fs.readFileSync(src, 'utf-8');
 
-    //Trim comments if prefered
+        //Trim comments if prefered
 
-    if (buildPreferences.removeComments) 
-        js = trimComments(js);
+        if (buildPreferences.removeComments) 
+            js = trimComments(js);
 
-    //Add to built
+        //Add to built
 
-    built[src] = true;
-    
-    //Create module comment
-    
-    let name = src.substr(src.lastIndexOf('/')+1, src.lastIndexOf('.')-src.lastIndexOf('/')-1);
-    name = name[0].toUpperCase() + name.substr(1, name.length-1);
-    
-    let comment = '/* ' + name + (isObject ? ' Object */' : ' */');
-    
-    //Output
-    
-    console.log('Built "' + name + '" (' + (new Date().getTime()-startTime) + ' ms).');
+        built[src] = true;
+        
+        //Create module comment
+        
+        let name = src.substr(src.lastIndexOf('/')+1, src.lastIndexOf('.')-src.lastIndexOf('/')-1);
+        name = name[0].toUpperCase() + name.substr(1, name.length-1);
+        
+        let comment = '/* ' + name + (isObject ? ' Object */' : ' */');
+        
+        //Output
+        
+        success('Built "' + name + '" (' + (new Date().getTime()-startTime) + ' ms)');
 
-    //Return JS module
+        //Return JS module
 
-    return comment + '\n\n' + js + '\n\n';
+        return comment + '\n\n' + js + '\n\n';
+    } catch (err) {
+        //Output
+
+        error('Could not build "' + name + '" - ' + err);
+
+        //Return empty
+
+        return '';
+    }
 };
 
 //Setup comment trimming functionality
@@ -159,6 +183,96 @@ const trimComments = (input) => {
 
     return lines.join('\n');
 };
+
+//Minify function
+
+const minify = (build) => {
+    log('Minifying build (requires internet!)');
+
+    //Create query from build
+
+    const query = querystring.stringify({
+        input : build
+    });
+
+    //Send a HTTP request to javascript-minifier
+
+    let body = '', chunks = 0;
+    const req = https.request(
+        {
+            method   : 'POST',
+            hostname : 'javascript-minifier.com',
+            path     : '/raw',
+        },
+        function(resp) {
+            //If the status code differs from 200, print error
+
+            if (resp.statusCode !== 200) {
+                error('Could not create minified version, status code ' + resp.statusCode);
+
+                return;
+            }
+    
+            //Response data chunk event listener
+
+            resp.on('data', function(chunk) {
+                chunks++;
+
+                log('Recieved minified chunk ' + chunks);
+
+                body += chunk;
+            });
+
+            //Response end event listener
+
+            resp.on('end', function() {
+                log('Exporting minified build');
+
+                fs.writeFile('build/lynx2d-min.js', body, (err) => {
+                    if (err) {
+                        error('Could not export minified build - ' + err);
+                        return;
+                    }
+            
+                    success('Exported minified build!');
+                });
+            });
+        }
+    );
+
+    //Error event listener
+
+    req.on('error', function(err) {
+        error('Could not create minified version - ' + err);
+    });
+
+    //Set headers
+
+    req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+    req.setHeader('Content-Length', query.length);
+
+    //Send build query
+
+    req.end(query, 'utf8');
+};
+
+//Logging functions
+
+const log = (message) => {
+    console.log(timeformat() + message);
+};
+
+const success = (message) => {
+    console.log("\x1b[32m%s\x1b[0m", timeformat() + message);
+};
+
+const error = (message) => {
+    console.log("\x1b[31m%s\x1b[0m", timeformat() + message);
+};
+
+const timeformat = () => {
+    return '[' + new Date().toTimeString().substr(0, 8) + '] ';
+}
 
 //Attempt to build framework
 

@@ -149,7 +149,7 @@ this.GAME = {
 
         lx.GAME.REQUEST_FRAME();
     },
-    UPDATE: function(DT) {
+    UPDATE: function() {
         //Events
 
         this.EVENTS.forEach(function(obj) {
@@ -174,7 +174,7 @@ this.GAME = {
                                     state: 1 
                                 });
                             } catch (err) {
-                                console.log(err)
+                                console.log(err);
                             };
         });
         
