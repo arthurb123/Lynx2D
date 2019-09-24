@@ -14,4 +14,6 @@
 - Cached drawing<br>
 - Scenes<br>
 - Classic perlin noise<br>
-Or check out the documentation in the meantime [here](http://www.lynx2d.com/documentation)
+
+#### In the meantime..
+Check out the documentation [here](http://www.lynx2d.com/documentation) for the full usage!
