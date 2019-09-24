@@ -451,7 +451,7 @@ this.GameObject = class extends Showable {
      * Clears the current Animation and restores the Sprite.
     */
     
-    ClearAnimationfunction() {
+    ClearAnimation() {
         this.ANIMATION = undefined;
         
         return this;
