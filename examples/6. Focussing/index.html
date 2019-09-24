@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Focussing</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* Up until this point all examples
+               were not using any focus point,
+               this means for example that the
+               camera did not follow the GameObject
+               around that we were moving in
+               example four and five */
+
+            /* Let's create a GameObjects with a 
+               button that when it gets clicked,
+               focusses the GameObject */
+
+            lx.Initialize().Start();
+
+            /* GameObject */
+
+            let go = new lx.GameObject(
+                new lx.Sprite('sprite.png'),
+                32, 32
+            ).Show();
+
+            /* Button, follows GameObject */
+
+            let button = new lx.UIButton(
+                new lx.UIText('Focus Me!'),
+                new lx.UITexture('gray'),
+                -16, 96,
+                96, 32
+            ).Follows(go).Show();
+
+            button.OnClick(function() {
+                /* Call focus on the GameObject */
+
+                go.Focus();
+
+                /* Let's change the text of the button
+                   to 'Focussed!' */
+
+                button.Text().Text('Focussed!');
+            });
+        </script>
+    </body>
+</html>

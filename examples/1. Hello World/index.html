@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Hello World</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* First we want to initialize
+               and start Lynx2D. */
+            
+            lx.Initialize();
+            lx.Start();
+
+            /* Let's create a simple text
+               that says "Hello World!" */
+
+            let text = new lx.UIText('Hello World!');
+            text.Position(10, 20);
+            text.Show();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - GameObjects</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* First we want to initialize
+               and start Lynx2D */
+            
+            lx.Initialize().Start();
+
+            /* Let's create a simple GameObject 
+               that we can move both horizontally 
+               and vertically */
+
+            let go = new lx.GameObject(
+                new lx.Sprite('sprite.png')
+            );
+
+            /* We can use the standard top down
+               controller method for quick and
+               easy movement setup, in this case
+               we specify an acceleration speed 
+               of .25 in both directions */
+
+            go.SetTopDownController(.25, .25);
+
+            /* All other objects that can be shown
+               besides UI (AKA Showables) require a
+               layer parameter when they are being shown,
+               in this case we specify layer 1 */
+
+            go.Show(1);
+        </script>
+    </body>
+</html>

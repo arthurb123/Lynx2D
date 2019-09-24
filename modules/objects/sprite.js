@@ -9,38 +9,46 @@
  * @param {function} cb - a callback function for once the sprite has loaded, can be left undefined.
  */
 
-this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
-    this.CLIPPED_COLOR_OVERLAYS = {};
-    this.ROTATION = 0;
-    
-    //Check if no clip but a 
-    //callback is provided (compact callback)
+this.Sprite = class {
+    constructor (source, c_x, c_y, c_w, c_h, cb) {
+        this.CLIPPED_COLOR_OVERLAYS = {};
+        this.SPRITE_SIZE = { W: 0, H: 0 };
+        this.ROTATION = 0;
+        
+        //Check if no clip but a 
+        //callback is provided (compact callback)
 
-    if (c_x != undefined && 
-        typeof c_x === 'function') {
-        cb = c_x;
-        c_x = undefined;
-    }
-    
-    //Set clip if specified
+        if (c_x != undefined && 
+            typeof c_x === 'function') {
+            cb = c_x;
+            c_x = undefined;
+        }
+        
+        //Set clip if specified
 
-    if (c_x != undefined || 
-        c_y != undefined || 
-        c_w != undefined || 
-        c_h != undefined) 
-        this.CLIP = {
-            X: c_x,
-            Y: c_y,
-            W: c_w,
-            H: c_h
-        };
+        if (c_x != undefined || 
+            c_y != undefined || 
+            c_w != undefined || 
+            c_h != undefined) 
+            this.CLIP = {
+                X: c_x,
+                Y: c_y,
+                W: c_w,
+                H: c_h
+            };
+      
+        //Set source
+
+        this.CALLBACK = cb;
+        this.Source(source);
+    };
 
     /** 
      * Get the Sprite's size or current clipped size.
      * @return {object} Gets { W, H }.
     */
     
-    this.Size = function() {
+    Size() {
         if (this.CLIP != undefined) 
             return {
                 W: this.CLIP.W,
@@ -59,10 +67,10 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
      * @return {string} Gets image source if available and left empty.
     */
     
-    this.Source = function(src) {
+    Source(src) {
         if (src == undefined) {
             if (this.IMG.src == undefined) {
-                console.log('SpriteSourceError - Sprite has no source.');
+                lx.GAME.LOG.ERROR('SpriteSourceError', 'Sprite has no source.');
                 return;
             }
 
@@ -76,12 +84,14 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
             if (typeOf === 'string') {
                 this.IMG = new Image();
                 
-                if (cb != undefined) {
-                    let S = this;
-                    this.IMG.onload = function() {
-                        cb(S);
-                    };
-                }
+                let SPRITE = this;
+                this.IMG.onload = function() {
+                    SPRITE.SPRITE_SIZE.W = SPRITE.IMG.width;
+                    SPRITE.SPRITE_SIZE.H = SPRITE.IMG.height;
+
+                    if (SPRITE.CALLBACK != undefined)
+                        SPRITE.CALLBACK(SPRITE);
+                };
                 
                 this.IMG.src = src;
             } 
@@ -98,10 +108,6 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
         
         return this;
     };
-    
-    //Set source
-
-    this.Source(source);
 
     /** 
      * Get/Set the clip of the Sprite.
@@ -112,7 +118,7 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
      * @return {object} Gets { X, Y, W, H } if left empty.
     */
     
-    this.Clip = function(c_x, c_y, c_w, c_h) {
+    Clip(c_x, c_y, c_w, c_h) {
         if (c_x == undefined || 
             c_y == undefined || 
             c_w == undefined || 
@@ -135,7 +141,7 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
      * @return {object} Gets rotation angle if specified.
     */
     
-    this.Rotation = function(angle) {
+    Rotation(angle) {
         if (angle == undefined) 
             return this.ROTATION;
         else 
@@ -150,7 +156,7 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
      * @return {number} Gets opacity if left empty.
     */
     
-    this.Opacity = function(factor) {
+    Opacity(factor) {
         if (factor == undefined) 
             return this.OPACITY;
         else 
@@ -165,7 +171,7 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
      * @param {number} duration - The duration of the color overlay, can be undefined.
     */
 
-    this.ShowColorOverlay = function(color, duration) {
+    ShowColorOverlay(color, duration) {
         if (this.COLOR_OVERLAY == undefined && 
             color == undefined)
             return this;
@@ -182,13 +188,68 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
      * Hides the current color overlay on the GameObject.
     */
 
-    this.HideColorOverlay = function() {
+    HideColorOverlay() {
         this.SHOW_COLOR_OVERLAY = false;
 
         return this;
     };
     
-    this.RENDER = function(POS, SIZE, OPACITY, TARGET) {
+    //Private methods
+
+    SET_COLOR_OVERLAY(COLOR) {
+        if (COLOR != undefined) {
+            let SAVE_ID = COLOR;
+
+            if (this.CLIP != undefined) {
+                let ID = 'C'+COLOR+'X'+this.CLIP.X+'Y'+this.CLIP.Y+'W'+this.CLIP.W+'H'+this.CLIP.H;
+
+                if (this.CLIPPED_COLOR_OVERLAYS[ID] != undefined) {
+                    this.COLOR_OVERLAY = this.CLIPPED_COLOR_OVERLAYS[ID];
+
+                    return;
+                }
+                else
+                    SAVE_ID = ID;
+            } else {
+                if (this.COLOR_OVERLAY != undefined &&
+                    this.COLOR_OVERLAY._SAVE_ID === COLOR)
+                    return;
+
+                SAVE_ID = COLOR;
+            }
+
+            let SIZE = this.Size();
+
+            let COLOR_OVERLAY = document.createElement('canvas');
+            
+            COLOR_OVERLAY.width = SIZE.W;
+            COLOR_OVERLAY.height = SIZE.H;
+
+            let COLOR_OVERLAY_GFX = COLOR_OVERLAY.getContext('2d');
+
+            COLOR_OVERLAY_GFX.fillStyle = COLOR;
+            COLOR_OVERLAY_GFX.fillRect(0, 0, SIZE.W, SIZE.H);
+            COLOR_OVERLAY_GFX.globalCompositeOperation = 'destination-atop';
+
+            this.RENDER(
+                { X: 0, Y: 0 }, 
+                SIZE, 
+                1, 
+                COLOR_OVERLAY_GFX
+            );
+
+            if (SAVE_ID != undefined &&
+                this.CLIP != undefined)
+                this.CLIPPED_COLOR_OVERLAYS[SAVE_ID] = COLOR_OVERLAY;
+
+            COLOR_OVERLAY._SAVE_ID = SAVE_ID;
+            this.COLOR_OVERLAY = COLOR_OVERLAY;
+        }
+
+        return this;
+    };
+
+    RENDER(POS, SIZE, OPACITY, TARGET) {
         let CANVAS_SAVED = false,
             EXTERNAL_TARGET = false;
 
@@ -319,58 +380,5 @@ this.Sprite = function (source, c_x, c_y, c_w, c_h, cb) {
             if (this.COLOR_OVERLAY_DURATION <= 0)
                 this.HideColorOverlay();
         }
-    };
-
-    this.SET_COLOR_OVERLAY = function(COLOR) {
-        if (COLOR != undefined) {
-            let SAVE_ID = COLOR;
-
-            if (this.CLIP != undefined) {
-                let ID = 'C'+COLOR+'X'+this.CLIP.X+'Y'+this.CLIP.Y+'W'+this.CLIP.W+'H'+this.CLIP.H;
-
-                if (this.CLIPPED_COLOR_OVERLAYS[ID] != undefined) {
-                    this.COLOR_OVERLAY = this.CLIPPED_COLOR_OVERLAYS[ID];
-
-                    return;
-                }
-                else
-                    SAVE_ID = ID;
-            } else {
-                if (this.COLOR_OVERLAY != undefined &&
-                    this.COLOR_OVERLAY._SAVE_ID === COLOR)
-                    return;
-
-                SAVE_ID = COLOR;
-            }
-
-            let SIZE = this.Size();
-
-            let COLOR_OVERLAY = document.createElement('canvas');
-            
-            COLOR_OVERLAY.width = SIZE.W;
-            COLOR_OVERLAY.height = SIZE.H;
-
-            let COLOR_OVERLAY_GFX = COLOR_OVERLAY.getContext('2d');
-
-            COLOR_OVERLAY_GFX.fillStyle = COLOR;
-            COLOR_OVERLAY_GFX.fillRect(0, 0, SIZE.W, SIZE.H);
-            COLOR_OVERLAY_GFX.globalCompositeOperation = 'destination-atop';
-
-            this.RENDER(
-                { X: 0, Y: 0 }, 
-                SIZE, 
-                1, 
-                COLOR_OVERLAY_GFX
-            );
-
-            if (SAVE_ID != undefined &&
-                this.CLIP != undefined)
-                this.CLIPPED_COLOR_OVERLAYS[SAVE_ID] = COLOR_OVERLAY;
-
-            COLOR_OVERLAY._SAVE_ID = SAVE_ID;
-            this.COLOR_OVERLAY = COLOR_OVERLAY;
-        }
-
-        return this;
     };
 };

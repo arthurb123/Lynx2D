@@ -5,15 +5,17 @@
  * @param {number} y - The starting y position.
  */
 
-this.Ray = function(x, y) {
-    this.POS = {
-        X: x,
-        Y: y
-    };
-
-    this.DIR = {
-        X: 0,
-        Y: 0
+this.Ray = class {
+    constructor(x, y) {
+        this.POS = {
+            X: x,
+            Y: y
+        };
+    
+        this.DIR = {
+            X: 0,
+            Y: 0
+        };
     };
 
     /** 
@@ -23,7 +25,7 @@ this.Ray = function(x, y) {
      * @return {object} Gets { X, Y } if left empty.
     */
     
-    this.Position = function(x, y) {
+    Position(x, y) {
         if (x != undefined && y != undefined)
             this.POS = {
                 X: x,
@@ -42,7 +44,7 @@ this.Ray = function(x, y) {
      * @return {object} Gets { X, Y } if left empty.
     */
 
-    this.Direction = function(x, y) {
+    Direction(x, y) {
         if (x != undefined && y != undefined) {
             this.DIR = {
                 X: x - this.POS.X,
@@ -65,18 +67,20 @@ this.Ray = function(x, y) {
      * @return {boolean} Returns true/false.
     */
 
-    this.Cast = function(target) {
+    Cast(target) {
         if (target.COLLIDER == undefined)
             return false;
 
         return this.CHECK_INTERSECTION_BOX(target.COLLIDER);
     };
 
-    this.SAME_SIGN = function(N1, N2) {
+    //Private methods
+
+    SAME_SIGN(N1, N2) {
         return (N1 >= 0 && N2 >= 0 || N1 <= 0 && N2 <= 0);
     };
 
-    this.CHECK_INTERSECTION_BOX = function(TARGET) {
+    CHECK_INTERSECTION_BOX(TARGET) {
         let END = {
                 X: TARGET.POS.X+TARGET.SIZE.W,
                 Y: TARGET.POS.Y+TARGET.SIZE.H

@@ -9,7 +9,11 @@ this.Initialize = function(target) {
     this.CONTEXT.CANVAS = document.createElement('canvas');
     this.CONTEXT.CANVAS.id = 'lynx-canvas';
     this.CONTEXT.CANVAS.style = 'background-color: #282828;';
-    this.CONTEXT.CANVAS.oncontextmenu = function(e) { e.preventDefault(); return false; };
+    this.CONTEXT.CANVAS.innerHTML = 'HTML5 canvas not supported on this browser.';
+    this.CONTEXT.CANVAS.oncontextmenu = function(e) { 
+        e.preventDefault(); 
+        return false; 
+    };
     
     //Setup graphics
     
@@ -46,8 +50,7 @@ this.Initialize = function(target) {
 
         let dx = width - lx.CONTEXT.CANVAS.width,
             dy = height - lx.CONTEXT.CANVAS.height;
-        
-                
+             
         lx.GAME.ON_RESIZE_EVENTS.forEach(function(cb) {
             cb({
                 dx: dx,
@@ -131,7 +134,10 @@ this.Scale = function(scale) {
 
 this.GetDimensions = function() {
     if (this.CONTEXT.CANVAS == undefined) {
-        console.log(this.GAME.LOG.TIMEFORMAT + 'Could not get canvas dimensions, Lynx2D is not initialized!')
+        this.GAME.LOG.ERROR(
+            'DimensionRetrievalError', 
+            'Could not get canvas dimensions, Lynx2D is probably not initialized yet.'
+        );
         
         return {
             width: self.innerWidth,

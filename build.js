@@ -1,12 +1,11 @@
-const fs = require('fs'),
-      https = require('https'),
-      querystring = require('querystring');
+//----------| SETTINGS |-------------
 
 //Build preferences
 
 const buildPreferences = {
-    removeComments: true,
-    createMinified: true
+    createDevelopment: true, //Creates a development version
+    createMinified: true,    //Creates a minified version
+    removeComments: false    //Removes comments, even from development build
 };
 
 //Building order
@@ -21,9 +20,41 @@ const buildOrder = [
     'drawing.js',
     'tools.js',
     
+    'objects/showable.js',
     '~objects',
+    
+    'ui/element.js',
     '~ui'
 ];
+
+//--------| PROCESS ARGS |----------
+
+//Read specified arguments if
+//they are available, otherwise
+//deter to the current value
+
+const readArguments = true;
+
+if (readArguments) {
+    let keys = Object.keys(buildPreferences),
+        step = 2;
+    
+    if (process.argv.length > step)
+        keys.forEach((key) => {
+            if (process.argv[step] != undefined)
+                buildPreferences[key] = (process.argv[step] == 'true');
+
+            step++;
+        });
+}
+
+//----------| BUILDING |------------
+
+//Dependencies
+
+const fs = require('fs'),
+      https = require('https'),
+      querystring = require('querystring');
 
 //Build all modules following the build order
 
@@ -34,11 +65,12 @@ let built = {};
 const buildFramework = async () => {
     built = {};
 
-    log('Started building the framework..');
+    log('Started building the framework');
 
     //Build main class
 
-    let build = 'class Lynx2D {\n' +
+    let build = '/* Created by Arthur Baars 2019 */\n\n' +
+                'class Lynx2D {\n' +
                     'constructor() {\n\n';
 
     for (let m = 0; m < buildOrder.length; m++) {
@@ -47,7 +79,7 @@ const buildFramework = async () => {
         if (buildOrder[m].indexOf('~') === -1) 
             build += await buildModule('modules/' + buildOrder[m], false);
         
-        //Directory
+        //Directory (indicated with ~)
 
         else {
             //Format dir location
@@ -93,25 +125,29 @@ const buildFramework = async () => {
 
     //Log
 
-    log('Build completed, exporting to build folder.');
+    log('Build completed, exporting to build folder');
 
-    //Create development build (not minified)
+    //Export builds
 
-    log('Exporting development build');
+    if (buildPreferences.createDevelopment) {
+        log('Exporting development build');
+        
+        fs.writeFile('build/lynx2d.js', build, (err) => {
+            if (err) {
+                error('Could not export development build - ' + err);
+                return;
+            }
 
-    fs.writeFile('build/lynx2d.js', build, (err) => {
-        if (err) {
-            error('Could not export development build - ' + err);
-            return;
-        }
+            success('Exported development build!');
 
-        success('Exported development build!');
+            //Create minified build if necessary
 
-        //Create minified build if necessary
-
-        if (buildPreferences.createMinified)
-            minify(build);
-    });
+            if (buildPreferences.createMinified)
+                minify(build);
+        });
+    }
+    else if (buildPreferences.createMinified)
+        minify(build);
 };
 
 const buildModule = async (src, isObject) => {

@@ -4,38 +4,40 @@
  * @param {number} seed - The seed, can be left undefined
  */
 
-this.Noise = function(seed) { 
-    if (seed == undefined) 
+this.Noise = class { 
+    constructor(seed) {
+        if (seed == undefined) 
         seed = Math.round(Math.random()*10000);
 
-    this.GRAD = [[1,1],[-1,1],[1,-1],[-1,-1], 
-                 [1,0],[-1,0],[1,0],[-1,0], 
-                 [0,1],[0,-1],[0,1],[0,-1]]; 
+        this.GRAD = [[1,1],[-1,1],[1,-1],[-1,-1], 
+                    [1,0],[-1,0],[1,0],[-1,0], 
+                    [0,1],[0,-1],[0,1],[0,-1]]; 
 
-    this.RANDOM = function() {
-        let x = Math.sin(seed++) * 10000;
-
-        return x - Math.floor(x);
-    };
-
-    this.P = [];
-    for (let i=0; i<256; i++) 
-        this.P[i] = Math.floor(this.RANDOM()*256);
-
-    this.PERM = []; 
-    for(var i=0; i<512; i++) 
-        this.PERM[i]=this.P[i & 255];
-
-    this.DOT = function(g, x, y) { 
-        return g[0]*x + g[1]*y; 
-    };
-
-    this.MIX = function(a, b, t) { 
-        return (1.0-t)*a + t*b; 
-    };
-
-    this.FADE = function(t) { 
-        return t*t*t*(t*(t*6.0-15.0)+10.0); 
+        this.RANDOM = function() {
+            let x = Math.sin(seed++) * 10000;
+    
+            return x - Math.floor(x);
+        };
+    
+        this.P = [];
+        for (let i=0; i<256; i++) 
+            this.P[i] = Math.floor(this.RANDOM()*256);
+    
+        this.PERM = []; 
+        for(var i=0; i<512; i++) 
+            this.PERM[i]=this.P[i & 255];
+    
+        this.DOT = function(g, x, y) { 
+            return g[0]*x + g[1]*y; 
+        };
+    
+        this.MIX = function(a, b, t) { 
+            return (1.0-t)*a + t*b; 
+        };
+    
+        this.FADE = function(t) { 
+            return t*t*t*(t*(t*6.0-15.0)+10.0); 
+        };
     };
 
     /** 
@@ -45,7 +47,7 @@ this.Noise = function(seed) {
      * @return {number} A number ranging from -1 to 1.
     */
 
-    this.Get = function(x, y) { 
+    Get(x, y) { 
         let X = Math.floor(x),
             Y = Math.floor(y); 
   

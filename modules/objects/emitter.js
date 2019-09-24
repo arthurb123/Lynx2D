@@ -1,5 +1,6 @@
 /**
  * Lynx2D Emitter
+ * @extends Showable
  * @constructor
  * @param {Sprite} sprite - The emitter particle sprite.
  * @param {number} x - The emitter x position (or x offset).
@@ -8,41 +9,38 @@
  * @param {number} duration - The duration of every particle.
  */
 
-this.Emitter = function(sprite, x, y, amount, duration) {
-    this.BUFFER_ID = -1;
-    this.BUFFER_LAYER = 0;
-    this.SPRITE = sprite;
-    this.MOVEMENT = {
-        MIN_VX: -1,
-        MAX_VX: 1,
-        MIN_VY: -1,
-        MAX_VY: 1,
-        DECELERATES: true
+this.Emitter = class extends Showable {
+    constructor(sprite, x, y, amount, duration) {
+        super(x, y);
+
+        this.SPRITE = sprite;
+        this.MOVEMENT = {
+            MIN_VX: -1,
+            MAX_VX: 1,
+            MIN_VY: -1,
+            MAX_VY: 1,
+            DECELERATES: true
+        };
+        this.OFFSET = {
+            X: x,
+            Y: y
+        };
+        this.SIZE = {
+            MIN: 8,
+            MAX: 16
+        };
+        this.RANGE = {
+            X: 1,
+            Y: 1
+        };
+        this.TIMER = {
+            STANDARD: 60,
+            CURRENT: 60
+        };
+        this.AMOUNT = amount;
+        this.DURATION = duration;
+        this.PARTICLES = [];
     };
-    this.POS = {
-        X: x,
-        Y: y
-    };
-    this.OFFSET = {
-        X: x,
-        Y: y
-    };
-    this.SIZE = {
-        MIN: 8,
-        MAX: 16
-    };
-    this.RANGE = {
-        X: 1,
-        Y: 1
-    };
-    this.TIMER = {
-        STANDARD: 60,
-        CURRENT: 60
-    };
-    this.AMOUNT = amount;
-    this.DURATION = duration;
-    this.PARTICLES = [];
-    this.UPDATES = true;
     
     /** 
      * Setup the Emitter's emission velocity and size.
@@ -54,7 +52,7 @@ this.Emitter = function(sprite, x, y, amount, duration) {
      * @param {number} max_size - The maximum particle size.
     */
 
-    this.Setup = function(min_vx, max_vx, min_vy, max_vy, min_size, max_size) {
+    Setup(min_vx, max_vx, min_vy, max_vy, min_size, max_size) {
         this.MOVEMENT.MIN_VX = min_vx;
         this.MOVEMENT.MAX_VX = max_vx;
         this.MOVEMENT.MIN_VY = min_vy;
@@ -72,7 +70,7 @@ this.Emitter = function(sprite, x, y, amount, duration) {
      * @return {object} Gets {X,Y} if left empty.
     */
 
-    this.Range = function(x_range, y_range) {
+    Range(x_range, y_range) {
         if (x_range != undefined && y_range != undefined)
             this.RANGE = {
                 X: x_range,
@@ -90,7 +88,7 @@ this.Emitter = function(sprite, x, y, amount, duration) {
      * @return {number} Get speed if left empty.
     */
     
-    this.Speed = function(speed) {
+    Speed(speed) {
         if (speed != undefined) 
             this.TIMER.STANDARD = speed;
         else 
@@ -105,88 +103,9 @@ this.Emitter = function(sprite, x, y, amount, duration) {
      * @return {boolean}} Gets if decelerates if specified.
     */
     
-    this.MovementDecelerates = function(decelerates) {
+    MovementDecelerates(decelerates) {
         if (decelerates != undefined) this.MOVEMENT.DECELERATES = decelerates;
         else return this.MOVEMENT.DECELERATES;
-        
-        return this;
-    };
-
-    /** 
-     * Get/set the Emitter's position.
-     * @param {number} x - Sets the x position if specified.
-     * @param {number} y - Sets the y position if specified.
-     * @return {object} Gets {X,Y} if left empty.
-    */
-    
-    this.Position = function(x, y) {
-        if (x != undefined && y != undefined) 
-            this.POS = {
-                X: x,
-                Y: y
-            };
-        else 
-            return this.POS;
-        
-        return this;
-    };
-
-    /** 
-     * Get/set the Emitter's following target.
-     * @param {GameObject} target - Sets following target if specified.
-     * @return {GameObject} Gets following target if left empty.
-    */
-    
-    this.Follows = function(target) {
-        if (target != undefined) 
-            this.TARGET = target;
-        else 
-            return this.TARGET;
-        
-        return this;
-    };
-
-    /** 
-     * Stop following the target.
-    */
-    
-    this.StopFollowing = function() {
-        this.TARGET = undefined; 
-        this.POS = {
-            X: this.OFFSET.X,
-            Y: this.OFFSET.Y
-        };
-        
-        return this;
-    };
-
-    /** 
-     * Shows the Emitter on the specified layer.
-     * @param {number} layer - The layer the Emitter should be shown on.
-    */
-    
-    this.Show = function(layer) {
-        if (this.BUFFER_ID != -1) this.Hide();
-        
-        this.PARTICLES = [];
-        
-        this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
-        this.BUFFER_LAYER = layer;
-        
-        return this;
-    };
-
-    /** 
-     * Hide the GameObject.
-    */
-    
-    this.Hide = function() {
-        if (this.BUFFER_ID == -1) return;
-        
-        lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined; 
-        
-        this.BUFFER_ID = -1;
-        this.BUFFER_LAYER = 0;
         
         return this;
     };
@@ -197,7 +116,7 @@ this.Emitter = function(sprite, x, y, amount, duration) {
      * @param {number} amount - The amount of times the Emitter should emit.
     */
     
-    this.Emit = function(layer, amount) {
+    Emit(layer, amount) {
         this.TIMER.CURRENT = this.TIMER.STANDARD;
         this.HIDES_AFTER_AMOUNT = amount;
         
@@ -206,7 +125,9 @@ this.Emitter = function(sprite, x, y, amount, duration) {
         return this;
     };
 
-    this.RENDER = function() {
+    //Private methods
+
+    RENDER() {
         for (let i = 0; i < this.PARTICLES.length; i++) {
             lx.CONTEXT.GRAPHICS.save();
             lx.CONTEXT.GRAPHICS.globalAlpha = this.PARTICLES[i].OPACITY;
@@ -221,7 +142,7 @@ this.Emitter = function(sprite, x, y, amount, duration) {
         }
     };
     
-    this.UPDATE = function() {
+    UPDATE() {
         if (this.TARGET != undefined) 
             this.POS = {
                 X: this.TARGET.POS.X+this.OFFSET.X,

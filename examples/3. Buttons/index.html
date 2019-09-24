@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Buttons</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* First we want to initialize
+               and start Lynx2D */
+            
+            lx.Initialize().Start();
+
+            /* Let's create a button
+               with a gray background
+               that says "Click Me!" */
+
+            let button = new lx.UIButton(
+                new lx.UIText('Click Me!'),
+                new lx.UITexture('gray'),
+                10, 10
+            ).Show();
+
+            /* Note that we could have also 
+               left out the x and y (10, 10) 
+               parameters and chained the UIButton 
+               using the Position function.
+               It's up to you what you find more
+               pleasant to work with, just know
+               that the possibility exists! */
+            
+            /* Let's have the button change
+               it's text to "Clicked" when
+               the button gets clicked */
+
+            button.OnClick(function() {
+                /* We first grab the UIText
+                   using the button's Text method, 
+                   after that we change the UIText's
+                   text using it's Text method */
+
+                button.Text().Text('Clicked');
+            });
+        </script>
+    </body>
+</html>

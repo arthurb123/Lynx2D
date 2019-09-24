@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Chaining</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* First we want to initialize
+               and start Lynx2D, but using
+               chaining */
+
+            /* Chaining is supported for
+               every Lynx2D related method */
+            
+            lx.Initialize().Start();
+
+            /* Let's create a simple text
+               that says "Hello World!" but
+               using chaining. */
+
+            let text = new lx.UIText('Hello World, but chained!')
+                .Position(10, 20)
+                .Show();
+        </script>
+    </body>
+</html>

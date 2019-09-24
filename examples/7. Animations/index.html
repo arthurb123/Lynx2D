@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Animations</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* GameObjects normally use sprites,
+               however GameObjects also support
+               Animations, let's create an animation
+               and show it using a GameObject */
+
+            lx.Initialize().Start();
+
+            /* GameObject */
+
+            let go = new lx.GameObject(
+                new lx.Sprite('sprite.png')
+            ).Focus().Show();
+
+            /* We will be using a spritesheet
+               to create an Animation, so first we
+               want to create a sprite and cut this
+               sprite into a 2D sprite array */
+
+            /* When we create the sprite we need to
+               wait for it to fully load the image
+               before proceeding, because of this we'll
+               be using a callback function */
+
+            new lx.Sprite('spritesheet.png', function(sprite) {
+                /* The spritesheet is vertical, so we'll
+                   use CreateVerticalTileSheet - this method
+                   also requires a clip width and height,
+                   in this case it is 64x64 */
+
+                let sprites = lx.CreateVerticalTileSheet(
+                    sprite,
+                    64, 64
+                );
+
+                /* Create an Animation from the first row
+                   of the sprites as it is a 2D array, we
+                   also require a animation speed value -
+                   in this case it is 10 */
+
+                let anim = new lx.Animation(sprites[0], 10);
+
+                /* Now show the Animation on the GameObject! */
+
+                go.ShowAnimation(anim);
+            });
+        </script>
+    </body>
+</html>

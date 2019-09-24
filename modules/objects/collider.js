@@ -5,33 +5,40 @@
  * @param {number} y - The collider y position (or y offset).
  * @param {number} w - The collider width.
  * @param {number} h - The collider height.
- * @param {boolean} is_static - If static is true the collider can not be moved.
- * @param {function} callback - The collision callback, provides collision data as an object. (Can be undefined)
+ * @param {boolean} is_static - Determines if the collider can be moved (collider also gets enabled automatically if true).
+ * @param {function} callback - The collision callback, provides collision data as an object (can be undefined).
  */
 
-this.Collider = function (x, y, w, h, is_static, callback) {
-    this.POS = {
-        X: x,
-        Y: y
-    };
-    this.OFFSET = {
-        X: 0,
-        Y: 0
-    };
-    this.SIZE = {
-        W: w,
-        H: h
-    };
-    this.STATIC = is_static;
-    this.SOLID = true;
-    this.ENABLED = false;
+this.Collider = class {
+    constructor (x, y, w, h, is_static, callback) {
+        this.POS = {
+            X: x,
+            Y: y
+        };
+        this.OFFSET = {
+            X: 0,
+            Y: 0
+        };
+        this.SIZE = {
+            W: w,
+            H: h
+        };
+        this.STATIC = is_static;
+        this.SOLID = true;
+        this.ENABLED = false;
 
-    //Setup callback
+        //Setup callback
     
-    if (callback != undefined) 
-        this.OnCollide = callback;
-    else 
-        this.OnCollide = function() {};
+        if (callback != undefined) 
+            this.OnCollide = callback;
+        else 
+            this.OnCollide = function() {};
+
+        //Automatically enable collider if it's static
+
+        if (is_static) 
+            this.Enable();
+    };
     
     /** 
      * Get/Set the Collider's size.
@@ -40,7 +47,7 @@ this.Collider = function (x, y, w, h, is_static, callback) {
      * @return {object} Gets { W, H } if left empty.
     */
 
-    this.Size = function(width, height) {
+    Size(width, height) {
         if (width == undefined || height == undefined) 
             return this.SIZE;
         else 
@@ -58,7 +65,7 @@ this.Collider = function (x, y, w, h, is_static, callback) {
      * @return {boolean} Gets if the collider is static if left empty.
     */
     
-    this.Static = function(is_static) {
+    Static(is_static) {
         if (is_static == undefined) 
             return this.STATIC;
         else 
@@ -73,7 +80,7 @@ this.Collider = function (x, y, w, h, is_static, callback) {
      * @return {boolean} Gets if the collider is solid if left empty.
     */
     
-    this.Solid = function(is_solid) {
+    Solid(is_solid) {
         if (is_solid == undefined) 
             return this.SOLID;
         else 
@@ -89,7 +96,7 @@ this.Collider = function (x, y, w, h, is_static, callback) {
      * @return {object} Gets { X, Y } if left empty.
     */
     
-    this.Position = function(x, y) {
+    Position(x, y) {
         if (x == undefined || y == undefined) 
             return this.POS;
         else 
@@ -107,7 +114,7 @@ this.Collider = function (x, y, w, h, is_static, callback) {
      * @return {string} Gets identifier if left empty.
     */
     
-    this.Identifier = function(ID) {
+    Identifier(ID) {
         if (ID == undefined) 
             return this.IDENTIFIER;
         else 
@@ -120,7 +127,7 @@ this.Collider = function (x, y, w, h, is_static, callback) {
      * Enables the Collider.
     */
     
-    this.Enable = function() {
+    Enable() {
         if (this.ENABLED) 
             return;
         
@@ -135,7 +142,7 @@ this.Collider = function (x, y, w, h, is_static, callback) {
      * Disables the Collider.
     */
     
-    this.Disable = function() {
+    Disable() {
         if (!this.ENABLED) return;
         
         lx.GAME.COLLIDERS[this.COLLIDER_ID] = undefined;
@@ -145,8 +152,10 @@ this.Collider = function (x, y, w, h, is_static, callback) {
         
         return this;
     };
+
+    //Private methods
     
-    this.CheckCollision = function(collider) {
+    CheckCollision(collider) {
         //If the collider has not been fully initialized yet, stop collision detection.
 
         if (this.POS.X != 0 && 
@@ -239,7 +248,4 @@ this.Collider = function (x, y, w, h, is_static, callback) {
         else 
             return false;
     };
-    
-    if (is_static) 
-        this.Enable();
 };

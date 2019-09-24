@@ -1,73 +1,62 @@
 /**
  * Lynx2D Animation
+ * @extends Showable
  * @constructor
  * @param {Sprite[]} sprite_collection - An array containing (clipped) Sprites.
  * @param {number} speed - The interval in between frames.
  */
 
-this.Animation = function (sprite_collection, speed) {
-    this.SPRITES = sprite_collection;
-    this.FRAME = 0;
-    this.ROTATION = 0;
-    this.MAX_FRAMES = sprite_collection.length;
-    this.TIMER = {
-        FRAMES: [],
-        STANDARD: speed,
-        CURRENT: 0
+this.Animation = class extends Showable {
+    constructor (sprite_collection, speed) {
+        super(0, 0);
+
+        this.SIZE = { 
+            W: 0, 
+            H: 0 
+        }; 
+        this.SPRITES = sprite_collection;
+        this.FRAME = 0;
+        this.ROTATION = 0;
+        this.MAX_FRAMES = sprite_collection.length;
+        this.TIMER = {
+            FRAMES: [],
+            STANDARD: speed,
+            CURRENT: 0
+        };
     };
-    this.BUFFER_ID = -1;
-    this.BUFFER_LAYER = 0;
-    this.UPDATES = true;
 
     /** 
-     * Shows the Animation on the specified layer.
+     * Shows the Animation on the specified layer for a certain amount of times.
      * @param {number} layer - The layer the Animation should be shown on.
-     * @param {number} x - The x position of the Animation.
-     * @param {number} y - The y position of the Animation.
-     * @param {number} w - The width of the Animation (can be undefined, or be the amount if h and amount are undefined).
-     * @param {number} h - The height of the Animation (can be undefined, this will assume the size of the frames).
-     * @param {number} amount - The amount of times the animation should play, can be undefined.
+     * @param {number} amount - The amount of times the animation should play.
     */
     
-    this.Show = function(layer, x, y, w, h, amount) {
-        if (this.BUFFER_ID != -1) 
-            this.Hide();
-        
-        this.POS = {
-            X: x,
-            Y: y
-        };
-
-        if (h != undefined)
-            this.SIZE = {
-                W: w,
-                H: h
-            };
-        else
-            this.SIZE = undefined;
-
-        this.BUFFER_ID = lx.GAME.ADD_TO_BUFFER(this, layer);
-        this.BUFFER_LAYER = layer;
-        
+    ShowAmount(layer, amount) {
         if (amount != undefined) 
             this.MAX_AMOUNT = amount;
         
-        return this;
+        return super.Show(layer);
     };
 
     /** 
-     * Hide the Animation.
+     * Get/Set the Animation's size. If the size is { 0, 0 } the available Sprite size will be used.
+     * @param {number} width - Sets width if specified, also sets height if the height is not specified.
+     * @param {number} height - Sets height if specified.
+     * @return {Object} Gets { W, H } if left empty.
     */
     
-    this.Hide = function() {
-        if (this.BUFFER_ID == -1) 
-            return;
-        
-        if (lx.GAME.BUFFER[this.BUFFER_LAYER] != undefined)
-            lx.GAME.BUFFER[this.BUFFER_LAYER][this.BUFFER_ID] = undefined;
-        
-        this.BUFFER_ID = -1;
-        this.BUFFER_LAYER = 0;
+    Size(width, height) {
+        if (width == undefined && height == undefined) 
+            return this.SIZE;
+        else {
+            if (height == undefined)
+                height = width;
+
+            this.SIZE = {
+                W: width,
+                H: height
+            };
+        }
         
         return this;
     };
@@ -78,32 +67,11 @@ this.Animation = function (sprite_collection, speed) {
      * @return {number} Gets frame interval if left empty.
     */
     
-    this.Speed = function(speed) {
+    Speed(speed) {
         if (speed != undefined) 
             this.TIMER.STANDARD = speed;
         else 
             return this.TIMER.STANDARD;
-        
-        return this;
-    };
-    
-    /** 
-     * Places a callback function in the Animation's update loop.
-     * @param {function} callback - The callback to be looped.
-    */
-    
-    this.Loops = function(callback) {
-        this.LOOPS = callback;
-        
-        return this;
-    };
-    
-    /** 
-     * Clears the update callback function being looped.
-    */
-    
-    this.ClearLoops = function() {
-        this.LOOPS = undefined;
         
         return this;
     };
@@ -114,7 +82,7 @@ this.Animation = function (sprite_collection, speed) {
      * @return {object} Gets rotation angle if specified.
     */
 
-    this.Rotation = function(angle) {
+    Rotation(angle) {
         if (angle == undefined)
             return this.ROTATION;
         else
@@ -122,21 +90,36 @@ this.Animation = function (sprite_collection, speed) {
 
         return this;
     };
+
+    //Private methods
     
-    this.GET_CURRENT_FRAME = function() {
+    GET_CURRENT_FRAME() {
         return this.SPRITES[this.FRAME];
     };
     
-    this.RENDER = function(POS, SIZE, OPACITY) {
-        this.SPRITES[this.FRAME].ROTATION = this.ROTATION;
+    RENDER(POS, SIZE, OPACITY) {
+        let FRAME = this.GET_CURRENT_FRAME();
+        if (FRAME == undefined)
+            return;
+            
+        FRAME.ROTATION = this.ROTATION;
 
-        if (this.BUFFER_ID == -1) 
-            this.SPRITES[this.FRAME].RENDER(POS, SIZE, OPACITY);
-        else 
-            this.SPRITES[this.FRAME].RENDER(lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), this.SIZE, OPACITY);
+        if (this.BUFFER_ID === -1) 
+            FRAME.RENDER(POS, SIZE, OPACITY);
+        else {
+            SIZE = this.SIZE;
+            if (SIZE.W === 0 && SIZE.H === 0)
+                SIZE = FRAME.SPRITE_SIZE;
+
+            FRAME.RENDER(
+                lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
+                SIZE, 
+                OPACITY
+            );
+        }
     };
     
-    this.UPDATE = function() {
+    UPDATE() {
         if (this.TIMER.FRAMES.length === this.MAX_FRAMES)
             this.TIMER.STANDARD = this.TIMER.FRAMES[this.FRAME];
         
@@ -151,9 +134,10 @@ this.Animation = function (sprite_collection, speed) {
                 
                 if (this.MAX_AMOUNT != undefined) {
                     if (this.MAX_AMOUNT == 0) {
-                        this.MAX_AMOUNT = undefined;
+                        delete this.MAX_AMOUNT;
                         this.Hide();
-                    } else this.MAX_AMOUNT--;
+                    } else 
+                        this.MAX_AMOUNT--;
                 }
             }
         }

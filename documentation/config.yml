@@ -1,4 +1,6 @@
 toc:
+   - Initialize
+   - Start
    - GameObject
    - Sprite
    - Collider
@@ -9,6 +11,9 @@ toc:
    - Canvas
    - Ray
    - Noise
+   - Showable
    - UIText
    - UIRichText
    - UITexture
+   - UIButton
+   - UIElement

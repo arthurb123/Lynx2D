@@ -5,19 +5,21 @@
  * @param {number} height - The canvas height.
  */
 
- this.Canvas = function(width, height) {
-    this.CANVAS = document.createElement('canvas');
-    this.CANVAS.width = width;
-    this.CANVAS.height = height;
+ this.Canvas = class {
+    constructor (width, height) {
+        this.CANVAS = document.createElement('canvas');
+        this.CANVAS.width = width;
+        this.CANVAS.height = height;
 
-    this.GRAPHICS = this.CANVAS.getContext('2d');
+        this.GRAPHICS = this.CANVAS.getContext('2d');
+    };
 
     /** 
      * Get the canvas size.
      * @return {Object} Gets the canvas size {W, H}.
     */
 
-    this.Size = function() {
+    Size() {
         return {
             W: this.CANVAS.width,
             H: this.CANVAS.height
@@ -33,7 +35,7 @@
      * @param {number} h - The height, if left undefined will use the Sprite's height.
     */
 
-    this.DrawSprite = function(sprite, x, y, w, h) {
+    DrawSprite(sprite, x, y, w, h) {
         let SIZE = sprite.Size();
 
         if (w != undefined && h != undefined)
@@ -58,7 +60,7 @@
      * @param {function} cb - The callback which will provide the drawing context.
     */
 
-    this.Draw = function(cb) {
+    Draw(cb) {
         cb(this.GRAPHICS);
     };
  };

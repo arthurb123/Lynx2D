@@ -4,19 +4,20 @@ this.GAME = {
     DEBUG: false,
     DRAW_COLLIDERS: false,
     BUFFER: [],
-    EVENTS: [],
-    GO_MOUSE_EVENTS: [],
     UI: [],
     COLLIDERS: [],
-    LOOPS: [],
-    LAYER_DRAW_EVENTS: [],
+    EVENTS: [],
+    GO_MOUSE_EVENTS: [],
+    UI_MOUSE_EVENTS: [],
     ON_RESIZE_EVENTS: [],
+    LAYER_DRAW_EVENTS: [],
+    LOOPS: [],
     SCALE: 1,
     INIT: function(FPS) {
-        //Setup logger
+        //Setup metrics
 
-        this.LOG.DATE = new Date().getSeconds();
-        this.LOG.DATA.COUNTER = new lx.UIText('0 FPS | 0 UPS', 25, 35, 16);
+        this.METRICS.DATE = new Date().getSeconds();
+        this.METRICS.DATA.COUNTER = new lx.UIText('0 FPS | 0 UPS', 25, 35, 16);
 
         //Set FPS if provided
 
@@ -27,15 +28,8 @@ this.GAME = {
         
         this.RUNNING = true;
         this.REQUEST_FRAME();
-        
-        //Debug: Game Start
-
-        if (this.DEBUG)
-            console.log(
-                this.LOG.TIMEFORMAT() + 'Started game loop at ' + this.SETTINGS.FPS + ' FPS!'
-            );
     },
-    LOG: {
+    METRICS: {
         DATE: 0,
         DATA: {
             FRAMES: 0,
@@ -56,9 +50,16 @@ this.GAME = {
                 this.DATA.FRAMES = 0;
                 this.DATA.UPDATES = 0;
             }
-        },
-        TIMEFORMAT: function() {
-            return 'Lynx2D ['+new Date().toTimeString().substring(0,8)+'] - ';
+        }
+    },
+    LOG: {
+        RECORDED: {},
+        ERROR: function(TYPE, MESSAGE) {
+            if (this.RECORDED[TYPE])
+                return;
+
+            this.RECORDED[TYPE] = true;
+            console.log('%c' + TYPE + ':%c ' + MESSAGE, 'color: red;', '');
         }
     },
     SETTINGS: {
@@ -98,15 +99,15 @@ this.GAME = {
         //game/framework is running
 
         if (lx.GAME.RUNNING) {
-            lx.GAME.LOG.DATA.TIMESTAMP = lx.GAME.TIMESTAMP();
+            lx.GAME.METRICS.DATA.TIMESTAMP = lx.GAME.TIMESTAMP();
 
             //Check delay and add to
             //the delta time
 
-            const DELAY = Math.min(1, (lx.GAME.LOG.DATA.TIMESTAMP - lx.GAME.LOG.DATA.P_TIMESTAMP) / 1000);
+            const DELAY = Math.min(1, (lx.GAME.METRICS.DATA.TIMESTAMP - lx.GAME.METRICS.DATA.P_TIMESTAMP) / 1000);
             
-            lx.GAME.LOG.DATA.U_DT += DELAY;
-            lx.GAME.LOG.DATA.R_DT += DELAY;
+            lx.GAME.METRICS.DATA.U_DT += DELAY;
+            lx.GAME.METRICS.DATA.R_DT += DELAY;
 
             //Handle update and rendering
             //until the desired step is met
@@ -118,8 +119,8 @@ this.GAME = {
 
             let UPDATE_STEP = 1/60;
 
-            while (lx.GAME.LOG.DATA.U_DT >= UPDATE_STEP) {
-                lx.GAME.LOG.DATA.U_DT -= UPDATE_STEP;
+            while (lx.GAME.METRICS.DATA.U_DT >= UPDATE_STEP) {
+                lx.GAME.METRICS.DATA.U_DT -= UPDATE_STEP;
 
                 lx.GAME.UPDATE();
             }
@@ -133,8 +134,8 @@ this.GAME = {
             if (lx.GAME.SETTINGS.VSYNC)
                 RENDER_STEP = 0;
 
-            if (lx.GAME.LOG.DATA.R_DT >= RENDER_STEP) {
-                lx.GAME.LOG.DATA.R_DT -= RENDER_STEP;
+            if (lx.GAME.METRICS.DATA.R_DT >= RENDER_STEP) {
+                lx.GAME.METRICS.DATA.R_DT -= RENDER_STEP;
 
                 lx.GAME.RENDER();
             }
@@ -142,7 +143,7 @@ this.GAME = {
             //Set the previous timestamp
             //to the current one
 
-            lx.GAME.LOG.DATA.P_TIMESTAMP = lx.GAME.LOG.DATA.TIMESTAMP;
+            lx.GAME.METRICS.DATA.P_TIMESTAMP = lx.GAME.METRICS.DATA.TIMESTAMP;
         }
 
         //Request the next frame
@@ -174,7 +175,7 @@ this.GAME = {
                                     state: 1 
                                 });
                             } catch (err) {
-                                console.log(err);
+                                lx.GAME.LOG.ERROR('EventUpdateError', err);
                             };
         });
         
@@ -185,13 +186,13 @@ this.GAME = {
                 let done = 0;
                 
                 this.BUFFER[i].forEach(function(obj) {
-                    if (obj != undefined && obj.UPDATES) {
+                    if (obj != undefined) {
                         try {
                             obj.UPDATE();
                             
                             done++;
                         } catch (err) {
-                            console.log(err);
+                            lx.GAME.LOG.ERROR('GameObjectUpdateError', err);
                         };
                     }
                 });
@@ -231,7 +232,7 @@ this.GAME = {
                                 });
                             }
                         } catch (err) {
-                            console.log(err);
+                            lx.GAME.LOG.ERROR('ColliderUpdateError', err);
                         };
                 });
         });
@@ -243,7 +244,7 @@ this.GAME = {
                 if (loop != undefined) 
                     loop(); 
             } catch (err) {
-                console.log(err);  
+                lx.GAME.LOG.ERROR('LoopHandleError', err);
             };
         });
         
@@ -254,7 +255,7 @@ this.GAME = {
                 if (element != undefined) 
                     element.UPDATE();
             } catch (err) {
-                console.log(err);  
+                lx.GAME.LOG.ERROR('UIElementUpdateError', err);
             };
         });
         
@@ -269,9 +270,9 @@ this.GAME = {
 
         //Update Log
         
-        this.LOG.UPDATE();
+        this.METRICS.UPDATE();
         
-        this.LOG.DATA.UPDATES++;
+        this.METRICS.DATA.UPDATES++;
     },
     RENDER: function() {
         //Clear and initialize rendering preferences
@@ -289,13 +290,17 @@ this.GAME = {
                         if (obj != undefined) 
                             obj.RENDER();
                     });
+            } catch (err) {
+                lx.GAME.LOG.ERROR('BufferRenderError', err);
+            };
 
+            try {
                 if (this.LAYER_DRAW_EVENTS[i] != undefined) 
                     for (let ii = 0; ii < this.LAYER_DRAW_EVENTS[i].length; ii++)
                         if (this.LAYER_DRAW_EVENTS[i][ii] != undefined) 
                             this.LAYER_DRAW_EVENTS[i][ii](lx.CONTEXT.GRAPHICS);
             } catch (err) {
-                console.log(err);
+                lx.GAME.LOG.ERROR('LayerDrawEventError', err);
             };
         }
         
@@ -304,7 +309,7 @@ this.GAME = {
         if (this.DEBUG) {
             //FPS and UPS
 
-            this.LOG.DATA.COUNTER.RENDER();
+            this.METRICS.DATA.COUNTER.RENDER();
         }
         
         //Debug: Draw colliders
@@ -331,7 +336,7 @@ this.GAME = {
         
         //Update frames
 
-        this.LOG.DATA.FRAMES++;
+        this.METRICS.DATA.FRAMES++;
     },
     REQUEST_FRAME: function() {
         window.requestAnimationFrame(lx.GAME.LOOP)
@@ -436,18 +441,18 @@ this.GAME = {
         }
     },
     ADD_UI_ELEMENT: function(UI_ELEMENT) {
-        for (let i = 0; i < this.UI.length+1; i++) {
+        for (let i = 0; i < this.UI.length+1; i++)
             if (this.UI[i] == undefined) {
                 this.UI[i] = UI_ELEMENT;
                 return i;
             }
-        }
     },
     FOCUS_GAMEOBJECT: function(GAMEOBJECT) {
         this.FOCUS = GAMEOBJECT;
     },
     TRANSLATE_FROM_FOCUS: function(POS) {
-        if (this.FOCUS == undefined) return POS;
+        if (this.FOCUS == undefined) 
+            return POS;
         else {
             if (this.FOCUS.SIZE == undefined)
                 this.FOCUS.SIZE = {
@@ -496,8 +501,10 @@ this.GAME = {
         }
     },
     ADD_LAYER_DRAW_EVENT: function(LAYER, CALLBACK) {
-        if (this.BUFFER[LAYER] == undefined) this.BUFFER[LAYER] = [];
-        if (this.LAYER_DRAW_EVENTS[LAYER] == undefined) this.LAYER_DRAW_EVENTS[LAYER] = [];
+        if (this.BUFFER[LAYER] == undefined) 
+            this.BUFFER[LAYER] = [];
+        if (this.LAYER_DRAW_EVENTS[LAYER] == undefined) 
+            this.LAYER_DRAW_EVENTS[LAYER] = [];
         
         for (let i = 0; i < this.LAYER_DRAW_EVENTS[LAYER].length+1; i++) {
             if (this.LAYER_DRAW_EVENTS[LAYER][i] == undefined) {
@@ -657,33 +664,76 @@ this.GAME = {
     REMOVE_GO_MOUSE_EVENT: function (ID) {
         this.GO_MOUSE_EVENTS[ID] = undefined;
     },
-    HANDLE_MOUSE_CLICK: function (BUTTON) {
-        for (let i = 0; i < this.GO_MOUSE_EVENTS.length; i++)
-            if (this.GO_MOUSE_EVENTS[i] != undefined && this.GO_MOUSE_EVENTS[i].BUTTON == BUTTON)
-                if (this.GO_MOUSE_EVENTS[i].GO == undefined)
-                    this.GO_MOUSE_EVENTS[i] = undefined;
-                else if (lx.GAME.GET_MOUSE_IN_BOX(
-                    this.GO_MOUSE_EVENTS[i].GO.POS, 
-                    this.GO_MOUSE_EVENTS[i].GO.SIZE
-                ))
-                this.GO_MOUSE_EVENTS[i].CALLBACK({
-                    mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
-                    state: 1
-                });
-                    
-        //...
+    ADD_UI_MOUSE_EVENT: function (UI, BUTTON, CALLBACK) {
+        for (let i = 0; i < this.UI_MOUSE_EVENTS.length+1; i++)
+            if (this.UI_MOUSE_EVENTS[i] == undefined) {
+                this.UI_MOUSE_EVENTS[i] = {
+                    UI, UI,
+                    BUTTON: BUTTON,
+                    CALLBACK: CALLBACK  
+                };
+                
+                return i;
+            }
+        
+        return -1;
     },
-    GET_MOUSE_IN_BOX: function (POS, SIZE) {
+    REMOVE_UI_MOUSE_EVENT: function (ID) {
+        this.UI_MOUSE_EVENTS[ID] = undefined;
+    },
+    HANDLE_MOUSE_CLICK: function (BUTTON) {
+        //GameObject mouse events
+
+        for (let i = 0; i < this.GO_MOUSE_EVENTS.length; i++) {
+            let EVENT = this.GO_MOUSE_EVENTS[i];
+
+            if (EVENT != undefined && EVENT.BUTTON == BUTTON)
+                if (EVENT.GO == undefined)
+                    this.REMOVE_GO_MOUSE_EVENT(i);
+                else if (lx.GAME.GET_MOUSE_IN_BOX(
+                    EVENT.GO.POS,
+                    EVENT.GO.SIZE
+                ))
+                    EVENT.CALLBACK({
+                        mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
+                        state: 1
+                    });
+        };
+
+        //UI mouse events
+                    
+        for (let i = 0; i < this.UI_MOUSE_EVENTS.length; i++) {
+            let EVENT = this.UI_MOUSE_EVENTS[i];
+
+            if (EVENT != undefined && EVENT.BUTTON == BUTTON)
+                if (EVENT.UI == undefined)
+                    this.REMOVE_UI_MOUSE_EVENT(i);
+                else if (lx.GAME.GET_MOUSE_IN_BOX(
+                    EVENT.UI.POS,
+                    EVENT.UI.SIZE,
+                    (EVENT.UI.TARGET != undefined)
+                )) {
+                    EVENT.CALLBACK({
+                        mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
+                        state: 1
+                    });
+                }
+        };
+    },
+    GET_MOUSE_IN_BOX: function (POS, SIZE, TRANSLATE) {
         if (this.FOCUS != undefined) 
-            POS = this.TRANSLATE_FROM_FOCUS(POS);
+            if (TRANSLATE || TRANSLATE == undefined)
+                POS = this.TRANSLATE_FROM_FOCUS(POS);
         
         SIZE = {
             W: SIZE.W * this.SCALE,
             H: SIZE.H * this.SCALE
         };
         
-        if (POS.X <= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && POS.X+SIZE.W >= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && 
-            POS.Y <= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y && POS.Y+SIZE.H >= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y)
+        if (POS.X <= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && 
+            POS.X+SIZE.W >= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && 
+            POS.Y <= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y && 
+            POS.Y+SIZE.H >= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y)
                 return true;
         
         return false;

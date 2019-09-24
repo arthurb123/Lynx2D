@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Follows</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* If we want a Showable (E.G: GameObject) 
+               or UI element to follow another
+               Showable or UI element, we could
+               use the Follow method. 
+               This could be considered a child 
+               and parent relationship - but it is
+               a bit different */
+
+            /* Let's first repeat the code from
+               the fourth example.. */
+
+            lx.Initialize().Start();
+
+            let go = new lx.GameObject(
+                new lx.Sprite('sprite.png'),
+                48, 48
+            ).Show(1);
+
+            go.SetTopDownController(.25, .25);
+
+            /* Now let's make a centered text 
+               appear above the GameObject that 
+               says "Follow the leader!" */
+
+            let text = new lx.UIText('Follow the leader!')
+                .Alignment('center')
+                .Show();
+
+            /* Call the Follow method on the child,
+               in this case the UIText */
+
+            text.Follows(go);
+
+            /* Whenever an object follows another object
+               it's position will be used as the offset
+               relative to the parent's position, keep this
+               in mind to adjust the position of objects 
+               that follow others! 
+               So let's give the text a slight offset to
+               make it look fully centered */
+
+            text.Position(32, -10);
+        </script>
+    </body>
+</html>
