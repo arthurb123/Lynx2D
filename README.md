@@ -1,5 +1,5 @@
+![alt text](https://github.com/arthurb123/lynx2d/raw/master/resources/logo_dark.ico "Lynx2D Logo Dark")<br>
 # Lynx2D
-### www.lynx2d.com
 The (new and improved) Lynx2D game framework,<br>
 for fast and easy 2D canvas rendering!
 
@@ -21,10 +21,9 @@ for fast and easy 2D canvas rendering!
 ## Planned Features
 - Circle colliders
 - More UI elements
-  * Buttons
   * ProgressBar
 
 ### Support Lynx2D
 If you want to support me, please donate<br>
-using the donate button at the official site.<br>
+using the donate button at the [official site](http:www.lynx2d.com).<br>
 Thank you! :)
