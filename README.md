@@ -17,6 +17,7 @@ for fast and easy 2D canvas rendering!
   * Text
   * RichText
   * Textures
+  * Button
   
 ## Planned Features
 - Circle colliders
