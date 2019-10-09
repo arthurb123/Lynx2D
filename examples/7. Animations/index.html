@@ -24,8 +24,8 @@
                want to create a sprite and cut this
                sprite into a 2D sprite array */
 
-            /* When we create the sprite we need to
-               wait for it to fully load the image
+            /* When we cut up the sprite we first need
+               to make sure the sprite has been fully loaded
                before proceeding, because of this we'll
                be using a callback function */
 
@@ -41,9 +41,9 @@
                 );
 
                 /* Create an Animation from the first row
-                   of the sprites as it is a 2D array, we
-                   also require a animation speed value -
-                   in this case it is 10 */
+                   of the sprites as we recieve a 2D array,
+                   we also require a speed value - let's
+                   supply a value of 10 frames per interval */
 
                 let anim = new lx.Animation(sprites[0], 10);
 

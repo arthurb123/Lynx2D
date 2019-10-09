@@ -99,11 +99,15 @@ this.Sprite = class {
             //Otherwise check if it is a Lynx2D canvas
             //or a HTML canvas or HTML image.
 
-            else 
-                if (src.CANVAS != undefined)
+            else {
+                if (src.CANVAS != undefined) 
                     this.IMG = src.CANVAS;
-                else
+                else 
                     this.IMG = src;
+
+                this.SPRITE_SIZE.W = src.width;
+                this.SPRITE_SIZE.H = src.height;
+            }
         }
         
         return this;

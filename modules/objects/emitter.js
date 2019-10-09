@@ -45,9 +45,9 @@ this.Emitter = class extends Showable {
     /** 
      * Setup the Emitter's emission velocity and size.
      * @param {number} min_vx - The minimum x velocity.
-     * @param {number} max_vx - The maximum x velocity.
+     * @param {number} max_vx - The maximum x velocity (positive number is recommended).
      * @param {number} min_vy - The minimum y velocity.
-     * @param {number} max_vy - The maximum y velocity.
+     * @param {number} max_vy - The maximum y velocity (positive number is recommended).
      * @param {number} min_size - The minimum particle size.
      * @param {number} max_size - The maximum particle size.
     */
@@ -104,8 +104,10 @@ this.Emitter = class extends Showable {
     */
     
     MovementDecelerates(decelerates) {
-        if (decelerates != undefined) this.MOVEMENT.DECELERATES = decelerates;
-        else return this.MOVEMENT.DECELERATES;
+        if (decelerates != undefined) 
+            this.MOVEMENT.DECELERATES = decelerates;
+        else 
+            return this.MOVEMENT.DECELERATES;
         
         return this;
     };
@@ -129,16 +131,14 @@ this.Emitter = class extends Showable {
 
     RENDER() {
         for (let i = 0; i < this.PARTICLES.length; i++) {
-            lx.CONTEXT.GRAPHICS.save();
-            lx.CONTEXT.GRAPHICS.globalAlpha = this.PARTICLES[i].OPACITY;
             lx.DrawSprite(
-                this.SPRITE, 
+                this.SPRITE.Opacity(this.PARTICLES[i].OPACITY), 
                 this.PARTICLES[i].POS.X, 
                 this.PARTICLES[i].POS.Y, 
                 this.PARTICLES[i].SIZE, 
                 this.PARTICLES[i].SIZE
             );
-            lx.CONTEXT.GRAPHICS.restore();
+            this.SPRITE.Opacity(1);
         }
     };
     
@@ -148,34 +148,35 @@ this.Emitter = class extends Showable {
                 X: this.TARGET.POS.X+this.OFFSET.X,
                 Y: this.TARGET.POS.Y+this.OFFSET.Y
             };
-
-        let VX = this.MOVEMENT.MAX_VX/lx.GAME.PHYSICS.STEPS,
-            VY = this.MOVEMENT.MAX_VY/lx.GAME.PHYSICS.STEPS;
         
         for (let i = 0; i < this.PARTICLES.length; i++) {
             if (this.PARTICLES[i].TIMER.CURRENT >= this.PARTICLES[i].TIMER.STANDARD) 
                 this.PARTICLES.splice(i, 1);
             else {
                 if (this.MOVEMENT.DECELERATES) {
+                    let VX = this.PARTICLES[i].MOVEMENT.START_VX/lx.GAME.PHYSICS.STEPS,
+                        VY = this.PARTICLES[i].MOVEMENT.START_VY/lx.GAME.PHYSICS.STEPS;
+
                     if (this.PARTICLES[i].MOVEMENT.VX > 0) {
                         if (this.PARTICLES[i].MOVEMENT.VX-VX < 0) 
                             this.PARTICLES[i].MOVEMENT.VX = 0;
                         else 
                             this.PARTICLES[i].MOVEMENT.VX-=VX;
                     }
+                    else if (this.PARTICLES[i].MOVEMENT.VX < 0) {
+                        if (this.PARTICLES[i].MOVEMENT.VX+VX > 0) 
+                            this.PARTICLES[i].MOVEMENT.VX = 0;
+                        else 
+                            this.PARTICLES[i].MOVEMENT.VX+=VX;
+                    }
+
                     if (this.PARTICLES[i].MOVEMENT.VY > 0) {
                         if (this.PARTICLES[i].MOVEMENT.VY-VY < 0) 
                             this.PARTICLES[i].MOVEMENT.VY = 0;
                         else 
                             this.PARTICLES[i].MOVEMENT.VY-=VY;
                     }
-                    if (this.PARTICLES[i].MOVEMENT.VX < 0) {
-                        if (this.PARTICLES[i].MOVEMENT.VX+VX > 0) 
-                            this.PARTICLES[i].MOVEMENT.VX = 0;
-                        else 
-                            this.PARTICLES[i].MOVEMENT.VX+=VX;
-                    }
-                    if (this.PARTICLES[i].MOVEMENT.VY < 0) {
+                    else if (this.PARTICLES[i].MOVEMENT.VY < 0) {
                         if (this.PARTICLES[i].MOVEMENT.VY+VY > 0) 
                             this.PARTICLES[i].MOVEMENT.VY = 0;
                         else 
@@ -186,26 +187,37 @@ this.Emitter = class extends Showable {
                 this.PARTICLES[i].POS.X += this.PARTICLES[i].MOVEMENT.VX;
                 this.PARTICLES[i].POS.Y += this.PARTICLES[i].MOVEMENT.VY;
 
-                this.PARTICLES[i].TIMER.CURRENT++;
-
                 if (this.PARTICLES[i].OPACITY > 0) 
-                    this.PARTICLES[i].OPACITY-=1/this.PARTICLES[i].TIMER.STANDARD;
-                if (this.PARTICLES[i].OPACITY < 0) 
+                    this.PARTICLES[i].OPACITY -= 1/this.PARTICLES[i].TIMER.STANDARD;
+                if (this.PARTICLES[i].OPACITY < 0)
                     this.PARTICLES[i].OPACITY = 0;
+
+                this.PARTICLES[i].TIMER.CURRENT++;
             }
         }
         
-        if (this.TIMER.CURRENT >= this.TIMER.STANDARD) {            
+        if (this.TIMER.CURRENT >= this.TIMER.STANDARD) {  
+            if (this.HIDES_AFTER_AMOUNT != undefined) {
+                if (this.HIDES_AFTER_AMOUNT <= 0) {
+                    if (this.PARTICLES.length === 0) {
+                        this.Hide();
+                        this.HIDES_AFTER_AMOUNT = undefined;
+                    }
+                    else
+                        return;
+                } else
+                    this.HIDES_AFTER_AMOUNT--;
+            }
+            
             for (let i = 0; i < this.AMOUNT;  i++) {
                 if (this.PARTICLES.length >= lx.GAME.SETTINGS.LIMITERS.PARTICLES) 
                     break;
                 
-                this.PARTICLES.unshift({
+                let PARTICLE_DATA = {
                     POS: {
                         X: this.POS.X-this.SIZE.MAX/2+Math.random()*this.RANGE.X-Math.random()*this.RANGE.X,
                         Y: this.POS.Y-this.SIZE.MAX/2+Math.random()*this.RANGE.Y-Math.random()*this.RANGE.Y
                     },
-                    SIZE: this.SIZE.MIN+Math.random()*(this.SIZE.MAX-this.SIZE.MIN),
                     MOVEMENT: {
                         VX: Math.random()*this.MOVEMENT.MIN_VX+Math.random()*this.MOVEMENT.MAX_VX,
                         VY: Math.random()*this.MOVEMENT.MIN_VY+Math.random()*this.MOVEMENT.MAX_VY
@@ -214,18 +226,19 @@ this.Emitter = class extends Showable {
                         STANDARD: this.DURATION,
                         CURRENT: 0
                     },
+                    SIZE: this.SIZE.MIN+Math.random()*(this.SIZE.MAX-this.SIZE.MIN),
                     OPACITY: 1
-                });
+                };
+
+                PARTICLE_DATA.MOVEMENT.START_VX = 
+                    PARTICLE_DATA.MOVEMENT.VX;
+                PARTICLE_DATA.MOVEMENT.START_VY = 
+                    PARTICLE_DATA.MOVEMENT.VY;
+
+                this.PARTICLES.unshift(PARTICLE_DATA);
             }
             
             this.TIMER.CURRENT = 0;
-            
-            if (this.HIDES_AFTER_AMOUNT != undefined) {
-                if (this.HIDES_AFTER_AMOUNT <= 0) {
-                    this.Hide();
-                    this.HIDES_AFTER_AMOUNT = undefined;
-                } else this.HIDES_AFTER_AMOUNT--;
-            }
         } else 
             this.TIMER.CURRENT++;
     };

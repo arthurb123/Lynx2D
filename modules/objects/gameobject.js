@@ -44,7 +44,7 @@ this.GameObject = class extends Showable {
             VY: 0,
             VMAX_X: 2,
             VMAX_Y: 2,
-            WEIGHT: 1.1,
+            WEIGHT: 1,
             DECELERATES: true,
             UPDATE: function() {
                 if (this.DECELERATES) {

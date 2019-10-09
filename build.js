@@ -5,7 +5,7 @@
 const buildPreferences = {
     createDevelopment: true, //Creates a development version
     createMinified: true,    //Creates a minified version
-    removeComments: false    //Removes comments, even from development build
+    removeComments: false    //Removes comments from development build, not recommended
 };
 
 //Building order
