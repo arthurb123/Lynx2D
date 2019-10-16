@@ -24,26 +24,6 @@
               
                 
                 <li><a
-                  href='#initialize'
-                  class="">
-                  Initialize
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#start'
-                  class="">
-                  Start
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
                   href='#gameobject'
                   class=" toggle-sibling">
                   GameObject
@@ -192,6 +172,18 @@
                         href='#gameobjectcleardraws'
                         class='regular pre-open'>
                         #ClearDraws
+                      </a></li>
+                      
+                      <li><a
+                        href='#gameobjectpredraws'
+                        class='regular pre-open'>
+                        #PreDraws
+                      </a></li>
+                      
+                      <li><a
+                        href='#gameobjectclearpredraws'
+                        class='regular pre-open'>
+                        #ClearPreDraws
                       </a></li>
                       
                       <li><a
@@ -1008,6 +1000,26 @@
               
                 
                 <li><a
+                  href='#initialize'
+                  class="">
+                  Initialize
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#start'
+                  class="">
+                  Start
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
                   href='#onlayerdraw'
                   class="">
                   OnLayerDraw
@@ -1354,130 +1366,6 @@
         </div>
       </div>
       <div id='split-right' class='relative overflow-auto height-viewport-100'>
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='initialize'>
-      Initialize
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>Initializes Lynx2D.</p>
-
-    <div class='pre p1 fill-light mt0'>Initialize(target: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>target</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
-	    The DOM element in which the canvas gets instantiated, can be undefined (default is body).
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-          <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='start'>
-      Start
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>Starts the game loop.</p>
-
-    <div class='pre p1 fill-light mt0'>Start(fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
-  
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>fps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-	    The desired FPS, can be undefined (default is 60).
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
         
           
           <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -3013,7 +2901,7 @@
 
   
 
-  <p>Places a callback function in the GameObject's render loop.</p>
+  <p>Places a callback function in the GameObject's render loop, this gets called after the initial rendering.</p>
 
     <div class='pre p1 fill-light mt0'>Draws(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
@@ -3074,9 +2962,117 @@
 
   
 
-  <p>Clears the rendering callback function being looped.</p>
+  <p>Clears the draws callback function being looped.</p>
 
     <div class='pre p1 fill-light mt0'>ClearDraws()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='gameobjectpredraws'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>PreDraws(callback)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Places a callback function in the GameObject's render loop, this gets called before the initial rendering.</p>
+
+    <div class='pre p1 fill-light mt0'>PreDraws(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>callback</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</code>
+	    The callback to be looped, provides rendering data as an object.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='gameobjectclearpredraws'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ClearPreDraws()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Clears the pre draws callback function being looped.</p>
+
+    <div class='pre p1 fill-light mt0'>ClearPreDraws()</div>
   
   
 
@@ -8992,7 +8988,7 @@
 
   <p>Get/Set the on click callback.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.OnClick(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a></div>
+    <div class='pre p1 fill-light mt0'>OnClick(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a></div>
   
   
 
@@ -9061,7 +9057,7 @@
 
   <p>Get/Set the Text.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.Text(text: <a href="#uitext">UIText</a>): <a href="#uitext">UIText</a></div>
+    <div class='pre p1 fill-light mt0'>Text(text: <a href="#uitext">UIText</a>): <a href="#uitext">UIText</a></div>
   
   
 
@@ -9130,7 +9126,7 @@
 
   <p>Get/Set the Texture.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.Texture(texture: any, text: <a href="#uitexture">UITexture</a>): <a href="#uitexture">UITexture</a></div>
+    <div class='pre p1 fill-light mt0'>Texture(texture: any, text: <a href="#uitexture">UITexture</a>): <a href="#uitexture">UITexture</a></div>
   
   
 
@@ -9207,7 +9203,7 @@
 
   <p>Get/Set the Button size.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.Size(width: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, height: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+    <div class='pre p1 fill-light mt0'>Size(width: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, height: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
   
   
 
@@ -9362,7 +9358,7 @@
 
   <p>Shows the UI element.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.Show()</div>
+    <div class='pre p1 fill-light mt0'>Show()</div>
   
   
 
@@ -9409,7 +9405,7 @@
 
   <p>Hide the UI element.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.Hide()</div>
+    <div class='pre p1 fill-light mt0'>Hide()</div>
   
   
 
@@ -9456,7 +9452,7 @@
 
   <p>Get/Set the UI element's position.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.Position(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
+    <div class='pre p1 fill-light mt0'>Position(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
   
   
 
@@ -9534,7 +9530,7 @@
 
   <p>Get/set the following target.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.Follows(target: <a href="#gameobject">GameObject</a>): <a href="#gameobject">GameObject</a></div>
+    <div class='pre p1 fill-light mt0'>Follows(target: <a href="#gameobject">GameObject</a>): <a href="#gameobject">GameObject</a></div>
   
   
 
@@ -9603,7 +9599,7 @@
 
   <p>Stop following the target.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.StopFollowing()</div>
+    <div class='pre p1 fill-light mt0'>StopFollowing()</div>
   
   
 
@@ -9650,7 +9646,7 @@
 
   <p>Places a callback function in the UI element's update loop.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.Loops(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>Loops(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -9711,7 +9707,7 @@
 
   <p>Clears the update callback function being looped.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.ClearLoops()</div>
+    <div class='pre p1 fill-light mt0'>ClearLoops()</div>
   
   
 
@@ -9745,6 +9741,130 @@
     </div>
   
 </div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='initialize'>
+      Initialize
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Initializes Lynx2D.</p>
+
+    <div class='pre p1 fill-light mt0'>lx.Initialize(target: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>target</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</code>
+	    The DOM element in which the canvas gets instantiated, can be undefined (default is body).
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='start'>
+      Start
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Starts the game loop.</p>
+
+    <div class='pre p1 fill-light mt0'>lx.Start(fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>fps</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The desired FPS, can be undefined (default is 60).
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
   
 

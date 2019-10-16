@@ -1,6 +1,4 @@
 toc:
-   - Initialize
-   - Start
    - GameObject
    - Sprite
    - Collider
@@ -17,3 +15,5 @@ toc:
    - UITexture
    - UIButton
    - UIElement
+   - Initialize
+   - Start

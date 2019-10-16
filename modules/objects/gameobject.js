@@ -483,7 +483,7 @@ this.GameObject = class extends Showable {
     };
     
     /** 
-     * Places a callback function in the GameObject's render loop.
+     * Places a callback function in the GameObject's render loop, this gets called after the initial rendering.
      * @param {function} callback - The callback to be looped, provides rendering data as an object.
     */
     
@@ -494,11 +494,32 @@ this.GameObject = class extends Showable {
     };
     
     /** 
-     * Clears the rendering callback function being looped.
+     * Clears the draws callback function being looped.
     */
     
     ClearDraws() {
         this.DRAWS = undefined;
+        
+        return this;
+    };
+
+    /** 
+     * Places a callback function in the GameObject's render loop, this gets called before the initial rendering.
+     * @param {function} callback - The callback to be looped, provides rendering data as an object.
+    */
+    
+    PreDraws(callback) {
+        this.PRE_DRAWS = callback;  
+        
+        return this;
+    };
+
+    /** 
+     * Clears the pre draws callback function being looped.
+    */
+    
+    ClearPreDraws() {
+        this.PRE_DRAWS = undefined;
         
         return this;
     };
@@ -606,23 +627,35 @@ this.GameObject = class extends Showable {
 
     //Private methods
     
-    RENDER() {
-        if (this.SPRITE == undefined || this.SPRITE == null) 
-            return;
-        
+    RENDER() {        
         if (lx.GAME.ON_SCREEN(this.POS, this.SIZE)) {
-            if (this.ANIMATION == undefined) 
-                this.SPRITE.RENDER(
-                    lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
-                    this.SIZE, 
-                    this.OPACITY
-                );
-            else 
+            //Pre draws loop
+                        
+            if (this.PRE_DRAWS != undefined) 
+                this.PRE_DRAWS({
+                    graphics: lx.CONTEXT.GRAPHICS,
+                    position: this.POS,
+                    size: this.SIZE
+                });
+
+            //Draw sprite or animation
+            
+            if (this.ANIMATION == undefined) {
+                if (this.SPRITE != undefined)
+                    this.SPRITE.RENDER(
+                        lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
+                        this.SIZE, 
+                        this.OPACITY
+                    );
+            }
+            else
                 this.ANIMATION.RENDER(
                     lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
                     this.SIZE, 
                     this.OPACITY
                 );
+            
+            //Hover draw
             
             if (this.ON_HOVER_DRAW != undefined &&
                 lx.GAME.GET_MOUSE_IN_BOX(this.POS, this.SIZE))
@@ -631,6 +664,8 @@ this.GameObject = class extends Showable {
                     position: this.POS,
                     size: this.SIZE
                 });
+            
+            //Draws loop
             
             if (this.DRAWS != undefined) 
                 this.DRAWS({
