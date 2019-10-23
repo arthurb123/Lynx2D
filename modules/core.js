@@ -286,12 +286,10 @@ this.GAME = {
         for (let i = 0; i < this.BUFFER.length; i++) {
             try {
                 if (this.BUFFER[i] != undefined) 
-                    for (let ii = 0; ii < this.BUFFER[i].length; ii++) {
-                        if (this.BUFFER[i][ii] != undefined) 
-                            this.BUFFER[i][ii].RENDER();
-                        else
-                            this.BUFFER[i].splice(ii, 1);
-                    }
+                    this.BUFFER[i].forEach(function(obj) {
+                        if (obj != undefined) 
+                            obj.RENDER();
+                    });
             } catch (err) {
                 lx.GAME.LOG.ERROR('BufferRenderError', err);
             };
