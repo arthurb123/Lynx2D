@@ -4,7 +4,7 @@
 [3. Buttons](http://www.lynx2d.com/examples/3.%20Buttons/)<br>
 [4. GameObjects](http://www.lynx2d.com/examples/4.%20GameObjects/)<br>
 [5. Follows](http://www.lynx2d.com/examples/5.%20Follows/)<br>
-[6. Focussing](http://www.lynx2d.com/examples/5.%20Follows/)<br>
+[6. Focussing](http://www.lynx2d.com/examples/6.%20Focussing/)<br>
 [7. Animations](http://www.lynx2d.com/examples/7.%20Animations/)
 
 #### More examples will follow, they will cover:<br>
