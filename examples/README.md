@@ -6,7 +6,7 @@
 [5. Follows](http://www.lynx2d.com/examples/5.%20Follows/)<br>
 [6. Focussing](http://www.lynx2d.com/examples/6.%20Focussing/)<br>
 [7. Animations](http://www.lynx2d.com/examples/7.%20Animations/)<br>
-[8. Emitter](http://www.lynx2d.com/examples/8.%20Emitters/)<br>
+[8. Emitters](http://www.lynx2d.com/examples/8.%20Emitters/)<br>
 [9. Static Colliders](http://www.lynx2d.com/examples/9.%20Static%20Colliders/)<br>
 [10. Dynamic Colliders](http://www.lynx2d.com/examples/10.%20Dynamic%20Colliders/)<br>
 [11. Sound](http://www.lynx2d.com/examples/11.%20Sound/)
