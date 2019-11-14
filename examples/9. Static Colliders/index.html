@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Static Colliders</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* In this example we'll create two
+               GameObjects, both with colliders.
+               One of the colliders is static
+               and cannot be moved upon collision. */
+
+            lx
+            .Smoothing(false)
+            .Initialize()
+            .Start();
+
+            /* Player GameObject */
+
+            let player = new lx.GameObject(
+                new lx.Sprite('player.png')
+            )
+            .SetTopDownController(.2, .2, 1.5, 1.5)
+            .Show();
+
+            /* Wall GameObject */
+
+            let wall = new lx.GameObject(
+                new lx.Sprite('wall.png')
+            )
+            .Position(128, 0)
+            .Size(64, 64)
+            .Show();
+
+            /* There exists an easy method
+               to create a collider for a 
+               GameObject according to the
+               GameObject's size, let's use
+               this method for the Wall GO */
+
+            /* This method accepts a boolean
+               indicating if the collider is static,
+               in this case it is so we provide true.
+               The second parameter is a callback
+               function that get's called upon collision
+               with the collision data - but we can
+               leave that to be undefined for now */
+
+            wall.CreateCollider(true);
+
+            /* If we want a more specific we
+               can create a collider and apply
+               it to a GameObject, let's do this
+               for the Player GO */
+
+            /* When creating a collider we have
+               to specify a x and y position, the
+               width and height of the collider
+               and a boolean indicating if the collider
+               is static or not. Once again we 
+               could also specify a callback method,
+               but we leave that to be undefined
+               for now */
+
+            let playerColl = new lx.Collider(
+                8, 0,
+                48, 64,
+                false
+            );
+
+            /* Let's apply this collider to the 
+               Player GameObject, do note that
+               when applying a Collider to a
+               GameObject the Collider's x and y
+               position gets treated as the offset
+               of the collider respective to the 
+               position of the GameObject */
+
+            player.ApplyCollider(playerColl);
+
+            /* Our player now can collide with
+               the static wall! Try it out by
+               moving the player into the wall */
+        </script>
+    </body>
+</html>

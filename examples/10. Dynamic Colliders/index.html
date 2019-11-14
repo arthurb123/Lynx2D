@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Dynamic Colliders</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* In this example we'll create two
+               GameObjects, both with colliders.
+               One of the colliders is dynamic
+               and can be moved upon collision. */
+
+            /* For this we'll copy the code of
+               the Static Colliders example, and
+               change the static booleans of the
+               Wall GameObject */
+
+            lx
+            .Smoothing(false)
+            .Initialize()
+            .Start();
+
+            /* Player GameObject */
+
+            let player = new lx.GameObject(
+                new lx.Sprite('player.png')
+            )
+            .SetTopDownController(.2, .2, 1.5, 1.5)
+            .Show();
+
+            /* Wall GameObject */
+
+            let wall = new lx.GameObject(
+                new lx.Sprite('wall.png')
+            )
+            .Position(128, 0)
+            .Size(64, 64)
+            .Show();
+
+            /* Create dynamic wall collider,
+               static is false */
+
+            wall.CreateCollider(false);
+
+            /* Create player collider */
+
+            let playerColl = new lx.Collider(
+                8, 0,
+                48, 64,
+                false
+            );
+
+            /* Apply collider to player GO */
+
+            player.ApplyCollider(playerColl);
+
+            /* Our player can now collide and
+               move the wall GO upon collision. 
+               Try it out by moving the player 
+               into the wall */
+        </script>
+    </body>
+</html>

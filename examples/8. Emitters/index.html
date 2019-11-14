@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Emitters</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* In this example we will create a
+               really basic emitter */
+
+            lx.Initialize().Start();
+
+            /* An emitter takes a sprite, a x and y
+               position, the amount of particles
+               per emission and the lifetime duration
+               of each particle in frames */
+
+            /* In this case our emitter emits 32
+               particles per emission, with a lifetime
+               duration of 32 frames per particle */
+
+            let screen = lx.GetDimensions();
+
+            let emitter = new lx.Emitter(
+                new lx.Sprite('particle.png'),
+                screen.width/2, screen.height/2,
+                16, 32
+            ).Show();
+
+            /* We can also change the emission
+               speed. If we want to let our emitter 
+               emit particles continuously we could 
+               set the emitter speed to 1 frame: */
+
+            emitter.Speed(1);
+
+            /* To further customize our emitter we'll
+               have to setup the emitter, we must specify
+               the minimum and maximum x and y velocities
+               and the minimum and maximum particle sizes */
+
+            /* In this case we setup our emitter to
+               emit particles with minimum velocities of
+               -2 and maximum velocities of 2 in both
+               directions (horizontal and vertical).
+               The minimum size of our particles is 8
+               pixels and the maximum size of our 
+               particles is 16 pixels */
+
+            emitter.Setup(
+                -2, 2,
+                -2, 2,
+                8, 16
+            );
+
+            /* There are a couple more methods to 
+               customize and use emitters, please check
+               the documentation for these methods.
+               However do note that Lynx2D has a setting
+               that determines the maximum amount of 
+               particles allowed on screen, this
+               setting can be changed by doing the 
+               following: */
+            
+            lx.ParticleLimit(256);
+
+            /* We now accept a maximum of 256 particles
+               on screen */
+        </script>
+    </body>
+</html>

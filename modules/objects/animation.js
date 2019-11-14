@@ -111,11 +111,12 @@ this.Animation = class extends Showable {
             if (SIZE.W === 0 && SIZE.H === 0)
                 SIZE = FRAME.SPRITE_SIZE;
 
-            FRAME.RENDER(
-                lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
-                SIZE, 
-                OPACITY
-            );
+            if (lx.GAME.ON_SCREEN(this.POS, SIZE))
+                FRAME.RENDER(
+                    lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
+                    SIZE, 
+                    OPACITY
+                );
         }
     };
     

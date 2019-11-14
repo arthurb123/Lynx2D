@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D - Sound</title>
+    </head>
+    <body>
+        <script src='http://www.lynx2d.com/res/lynx2d-min.js'></script>
+        <script>
+            /* In this example we'll create
+               a button that plays a sound
+               once the button gets clicked */
+            
+            lx.Initialize().Start();
+
+            /* Let's create a button
+               with a gray background
+               that says "Play Sound" */
+
+            let button = new lx.UIButton(
+                new lx.UIText('Play Sound'),
+                new lx.UITexture('gray'),
+                10, 10
+            ).Show();
+
+            /* Let's create a sound, this
+               requires the sound source
+               and an optional channel parameter.
+               In this case we leave the channel
+               parameter undefined (default is 0). */
+
+            let sound = new lx.Sound('sound.mp3');
+
+            button.OnClick(function() {
+                /* Play the sound a single time! */
+
+                sound.Play();
+            });
+        </script>
+    </body>
+</html>

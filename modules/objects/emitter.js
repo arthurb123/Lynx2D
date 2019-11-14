@@ -231,9 +231,9 @@ this.Emitter = class extends Showable {
                 };
 
                 PARTICLE_DATA.MOVEMENT.START_VX = 
-                    PARTICLE_DATA.MOVEMENT.VX;
+                    Math.abs(PARTICLE_DATA.MOVEMENT.VX);
                 PARTICLE_DATA.MOVEMENT.START_VY = 
-                    PARTICLE_DATA.MOVEMENT.VY;
+                    Math.abs(PARTICLE_DATA.MOVEMENT.VY);
 
                 this.PARTICLES.unshift(PARTICLE_DATA);
             }
