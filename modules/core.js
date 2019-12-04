@@ -59,7 +59,7 @@ this.GAME = {
                 return;
 
             this.RECORDED[TYPE] = true;
-            console.log('%c' + TYPE + ':%c ' + MESSAGE, 'color: red;', '');
+            console.log('%c' + TYPE + ':%c ' + MESSAGE.stack, 'color: red;', '');
         }
     },
     SETTINGS: {
