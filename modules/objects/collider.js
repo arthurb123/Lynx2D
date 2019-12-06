@@ -154,8 +154,38 @@ this.Collider = class {
     };
 
     //Private methods
+
+    ON_COLLISION(collision) {
+        //Switch direction
+
+        let n_direction;
+        switch (collision.direction) {
+            case 'right': n_direction = 'left';  break;
+            case 'left':  n_direction = 'right'; break;
+            case 'up':    n_direction = 'down';  break;
+            case 'down':  n_direction = 'up';    break;
+        }
+
+        //Callback on collision to
+        //self
+
+        this.OnCollide(collision);
+
+        //Callback on collision to
+        //other (trigger) collider
+
+        let trigger = collision.trigger;
+        trigger.OnCollide({
+            self: trigger,
+            trigger: this,
+            direction: n_direction,
+            gameObject: lx.FindGameObjectWithCollider(this),
+            static: this.STATIC,
+            solid: this.SOLID
+        });
+    };
     
-    CheckCollision(collider) {
+    CHECK_COLLISION(collider) {
         //If the collider has not been fully initialized yet, stop collision detection.
 
         if (this.POS.X != 0 && 
@@ -166,29 +196,30 @@ this.Collider = class {
 
         //Check if collision occurred
         
-        let result = !(((collider.POS.Y + collider.SIZE.H) < (this.POS.Y)) || 
-                        (collider.POS.Y > (this.POS.Y + this.SIZE.H)) || 
-                        ((collider.POS.X + collider.SIZE.W) < this.POS.X) || 
-                        (collider.POS.X > (this.POS.X + this.SIZE.W)
-                      ));
+        let result = 
+            !(((collider.POS.Y + collider.SIZE.H) < (this.POS.Y)) || 
+             (collider.POS.Y > (this.POS.Y + this.SIZE.H))        || 
+             ((collider.POS.X + collider.SIZE.W) < this.POS.X)    || 
+             (collider.POS.X > (this.POS.X + this.SIZE.W)
+            ));
 
         //Check direction if occurance took place
         
         if (result) {
             let lowest, distances = [{
-                tag: 'right',
+                tag: 'left',
                 actual: Math.abs(this.POS.X-collider.POS.X-collider.SIZE.W)
             },
             {
-                tag: 'left',
+                tag: 'right',
                 actual: Math.abs(collider.POS.X-this.POS.X-this.SIZE.W)
             },
             {
-                tag: 'down',
+                tag: 'up',
                 actual: Math.abs(this.POS.Y-collider.POS.Y-collider.SIZE.H)
             },
             {
-                tag: 'up',
+                tag: 'down',
                 actual: Math.abs(collider.POS.Y-this.POS.Y-this.SIZE.H)
             }];
 
@@ -203,21 +234,54 @@ this.Collider = class {
             //Generate collider response
 
             let response = {
-                direction: lowest.tag
+                direction: lowest.tag,
+                self: this,
+                trigger: collider,
+                solid: collider.SOLID,
+                static: collider.STATIC
             };
-            
-            //Adjust position respectively
 
-            if (this.SOLID && 
+            //Grab trigger gameobject
+
+            let triggerGO = lx.FindGameObjectWithCollider(collider);
+            response.gameObject = triggerGO;
+            
+            //Adjust position respectively for trigger collider
+
+            if (this.SOLID     &&
+                collider.SOLID &&
                 !collider.STATIC) {
-                let go = lx.FindGameObjectWithCollider(collider);
+                if (triggerGO != undefined) {
+                    //Adjust position
+
+                    let pos = triggerGO.Position();
+                    switch(lowest.tag) {
+                        case 'right':
+                            triggerGO.Position(pos.X+lowest.actual, pos.Y);
+                            break;
+                        case 'left':
+                            triggerGO.Position(pos.X-lowest.actual, pos.Y);
+                            break;
+                        case 'down':
+                            triggerGO.Position(pos.X, pos.Y+lowest.actual);
+                            break;
+                        case 'up':
+                            triggerGO.Position(pos.X, pos.Y-lowest.actual);
+                            break;
+                    };
+                }
+            }
+
+            //Otherwise adjust position respectively for self
+
+            else if (collider.SOLID &&
+                     this.SOLID     &&
+                     !this.STATIC) {
+                //Grab self gameobject
+
+                let go = lx.FindGameObjectWithCollider(this);
 
                 if (go != undefined) {
-                    //Add the gameObject property to
-                    //the collision response
-
-                    response.gameObject = go;
-
                     //Adjust position
 
                     let pos = go.Position();
@@ -236,14 +300,18 @@ this.Collider = class {
                             break;
                     };
                 }
-            }
-            
-            //Return response
+            };
 
-            return response;
+            //Call on collision
+
+            this.ON_COLLISION(response);
+            
+            //Return true
+
+            return true;
         } 
 
-        //Otherwise return result (false)
+        //Otherwise return false
 
         else 
             return false;

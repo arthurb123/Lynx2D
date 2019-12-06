@@ -203,33 +203,25 @@ this.GAME = {
     
         //Colliders
 
+        let COLLIDED = {};
         this.COLLIDERS.forEach(function(coll1) {
             if (coll1 != undefined) 
                 lx.GAME.COLLIDERS.forEach(function(coll2) {
+                    //Check if collision should be checked
+
                     if (coll2 != undefined && 
-                        coll1.COLLIDER_ID != coll2.COLLIDER_ID) 
+                        coll1.COLLIDER_ID != coll2.COLLIDER_ID &&
+                        COLLIDED[coll1] != coll2) 
                         try {
-                            let collision = false;
-                            
                             //Check for collision
-                            
-                            collision = coll2.CheckCollision(coll1);
 
-                            //Act accordingly
+                            if (coll2.CHECK_COLLISION(coll1)) {
+                                //If collision occurred;
+                                //Set collided to make sure
+                                //the collision does not get checked
+                                //again for the other collider
 
-                            if (collision) {
-    
-                                //Callback on collision to
-                                //both colliders
-
-                                coll1.OnCollide({
-                                    self: coll1,
-                                    trigger: coll2,
-                                    direction: collision.direction,
-                                    gameObject: collision.gameObject,
-                                    static: coll2.Static(),
-                                    solid: coll2.Solid()
-                                });
+                                COLLIDED[coll2] = coll1;
                             }
                         } catch (err) {
                             lx.GAME.LOG.ERROR('ColliderUpdateError', err);

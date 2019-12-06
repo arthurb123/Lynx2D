@@ -32,8 +32,11 @@ this.Animation = class extends Showable {
     */
     
     ShowAmount(layer, amount) {
-        if (amount != undefined) 
-            this.MAX_AMOUNT = amount;
+        if (amount != undefined) {
+            this.MAX_AMOUNT = amount-1;
+            if (this.MAX_AMOUNT < 0)
+                this.MAX_AMOUNT = 0;
+        }
         
         return super.Show(layer);
     };
