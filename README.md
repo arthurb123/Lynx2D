@@ -1,7 +1,6 @@
 ![alt text](https://github.com/arthurb123/lynx2d/raw/master/resources/logo_dark.ico "Lynx2D Logo Dark")<br>
 # Lynx2D
-The Lynx2D game framework,<br>
-for fast and easy 2D canvas rendering!
+The Lynx2D game framework, for fast and easy 2D canvas rendering!
 
 ## Features
 - Mouse and touch support
