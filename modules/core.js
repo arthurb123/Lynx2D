@@ -59,7 +59,9 @@ this.GAME = {
                 return;
 
             this.RECORDED[TYPE] = true;
-            console.log('%c' + TYPE + ':%c ' + MESSAGE.stack, 'color: red;', '');
+            
+            let CONTENT = (MESSAGE.stack != undefined ? MESSAGE.stack : MESSAGE);
+            console.log('%c' + TYPE + ':%c ' + CONTENT, 'color: red;', '');
         }
     },
     SETTINGS: {
@@ -309,12 +311,7 @@ this.GAME = {
         if (this.DRAW_COLLIDERS) 
             this.COLLIDERS.forEach(function(obj) {
                 if (obj != undefined) 
-                    lx.CONTEXT.GRAPHICS.strokeRect(
-                        lx.GAME.TRANSLATE_FROM_FOCUS(obj.POS).X, 
-                        lx.GAME.TRANSLATE_FROM_FOCUS(obj.POS).Y, 
-                        obj.SIZE.W*lx.GAME.SCALE, 
-                        obj.SIZE.H*lx.GAME.SCALE
-                    ); 
+                    obj.RENDER();
             });
         
         //User Interface

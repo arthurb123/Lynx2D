@@ -54,16 +54,16 @@
                it to a GameObject, let's do this
                for the Player GO */
 
-            /* When creating a collider we have
+            /* When creating a box collider we have
                to specify a x and y position, the
-               width and height of the collider
+               width and height of the box collider
                and a boolean indicating if the collider
                is static or not. Once again we 
                could also specify a callback method,
                but we leave that to be undefined
                for now */
 
-            let playerColl = new lx.Collider(
+            let playerColl = new lx.BoxCollider(
                 8, 0,
                 48, 64,
                 false

@@ -32,7 +32,7 @@ this.UITexture = class extends UIElement {
      * Get/Set the Texture size.
      * @param {number} width - Sets width if specified, also sets height if the height is not specified.
      * @param {number} height - Sets height if specified.
-     * @return {object} Gets { W, H } if left empty.
+     * @return {Object} Gets { W, H } if left empty.
     */
     
     Size(width, height) {

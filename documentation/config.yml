@@ -1,6 +1,8 @@
 toc:
    - GameObject
    - Sprite
+   - BoxCollider
+   - CircleCollider
    - Collider
    - Emitter
    - Animation
@@ -10,8 +12,9 @@ toc:
    - Ray
    - Noise
    - Showable
+   - Collidable
    - UIText
-   - UIRichText
+   - UIMultiText
    - UITexture
    - UIButton
    - UIElement

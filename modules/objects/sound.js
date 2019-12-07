@@ -99,7 +99,7 @@ this.Sound = class {
      * Get/Set the Sound's Position.
      * @param {number} x - Sets x position if specified.
      * @param {number} y - Sets y position if specified.
-     * @return {object} Gets { X, Y } if left empty.
+     * @return {Object} Gets { X, Y } if left empty.
     */
     
     Position(x, y) {

@@ -1,8 +1,8 @@
 /**
- * Lynx2D UI Rich Text
+ * Lynx2D UI Multi Text
  * @extends UIElement
  * @constructor
- * @param {string[]} text_array - The rich text string array.
+ * @param {string[]} text_array - The multitext string array.
  * @param {number} x - The text x position (can be undefined, default is 0).
  * @param {number} y - The text y position (can be undefined, default is 0).
  * @param {number} size - The font size (can be undefined, default is 14px).
@@ -10,7 +10,7 @@
  * @param {string} font - The font family (can be undefined, default is Verdana).
  */
 
-this.UIRichText = class extends UIElement {
+this.UIMultiText = class extends UIElement {
     constructor(text_array, x, y, size, color, font) {
         super(x, y);
 
@@ -190,3 +190,20 @@ this.UIRichText = class extends UIElement {
             this.LOOPS();
     };
 };
+
+//Older framework support
+
+this.UIRichText = class {
+    constructor(text_array, x, y, size, color, font) {
+        lx.GAME.LOG.ERROR(
+            'OldMultiTextError', 'The RichText ' +
+            'user interface object has been renamed ' +
+            'to MultiText. For now a MultiText object has ' +
+            'been created, but to hide this error you should ' +
+            'change this. Please check the documentation ' +
+            'for updated objects and methods.'
+        );
+
+        return new lx.UIMultiText(text_array, x, y, size, color, font);
+    }
+}

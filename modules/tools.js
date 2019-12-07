@@ -81,3 +81,59 @@ this.MoveToPosition = function(gameobject, x, y, time) {
         }
     });
 };
+
+//Private methods
+
+this.ROTATE_AROUND = function(POS, AROUND_POS, ANGLE) {
+    //Check if rotation is necessary
+
+    if (ANGLE === 0 || (POS.X === AROUND_POS.X && POS.Y === AROUND_POS.Y))
+        return POS;
+
+    //Calculate angles
+
+    let S = Math.sin(ANGLE);
+    let C = Math.cos(ANGLE);
+
+    //Get delta of points
+
+    let DELTA = {
+        X: POS.X - AROUND_POS.X,
+        Y: POS.Y - AROUND_POS.Y
+    };
+
+    //Translate point back to origin
+
+    let NEW_POS = {
+        X: AROUND_POS.X,
+        Y: AROUND_POS.Y
+    };
+
+    //Rotate point and add to new position
+
+    NEW_POS.X += DELTA.X * C - DELTA.Y * S;
+    NEW_POS.Y += DELTA.X * S + DELTA.Y * C;
+
+    //Return new position
+
+    return NEW_POS;
+};
+
+this.NORMALIZE = function(POS) {
+    //Calculate magnitude
+
+    let MAG = Math.sqrt(POS.X*POS.X + POS.Y*POS.Y);
+
+    //Normalize (divide by magnitude) and return
+    
+    return {
+        X: POS.X / MAG,
+        Y: POS.Y / MAG
+    };
+};
+
+this.DOT_PRODUCT = function(POS1, POS2) {
+    //Calculate dot product and return
+
+    return POS1.X * POS2.X + POS1.Y * POS2.Y;
+};

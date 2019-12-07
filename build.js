@@ -21,7 +21,9 @@ const buildOrder = [
     'tools.js',
     
     'objects/showable.js',
+    'objects/collidable.js',
     '~objects',
+    '~objects/colliders',
     
     'ui/element.js',
     '~ui'
@@ -285,7 +287,7 @@ const minify = (build) => {
     //Set headers
 
     req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-    req.setHeader('Content-Length', query.length);
+    req.setHeader('Content-length', query.length);
 
     //Send build query
 

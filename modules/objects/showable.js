@@ -1,5 +1,5 @@
 /**
- * Lynx2D Showable base object (cannot be instantiated)
+ * Lynx2D Showable base class (cannot be instantiated)
  * @constructor
  * @param {number} x - The x position (can be undefined, default is 0).
  * @param {number} y - The y position (can be undefined, default is 0).

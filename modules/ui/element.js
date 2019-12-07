@@ -48,7 +48,7 @@ class UIElement {
      * Get/Set the UI element's position.
      * @param {number} x - Sets the x position if specified.
      * @param {number} y - Sets the y position if specified.
-     * @return {object} Gets {X,Y} if left empty.
+     * @return {Object} Gets {X,Y} if left empty.
     */
 
     Position(x, y) {

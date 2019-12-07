@@ -22,7 +22,7 @@ this.Ray = class {
      * Get/Set the Ray's position.
      * @param {number} x - Sets x position if specified.
      * @param {number} y - Sets y position if specified.
-     * @return {object} Gets { X, Y } if left empty.
+     * @return {Object} Gets { X, Y } if left empty.
     */
     
     Position(x, y) {
@@ -41,7 +41,7 @@ this.Ray = class {
      * Get/Set the Ray's direction (does not have to be a unit vector).
      * @param {number} x - Sets x direction if specified.
      * @param {number} y - Sets y direction if specified.
-     * @return {object} Gets { X, Y } if left empty.
+     * @return {Object} Gets { X, Y } if left empty.
     */
 
     Direction(x, y) {

@@ -82,7 +82,7 @@ this.Animation = class extends Showable {
     /** 
      * Get/Set the Animation's rotation (in radians).
      * @param {number} angle - Sets rotation angle if specified.
-     * @return {object} Gets rotation angle if specified.
+     * @return {Object} Gets rotation angle if specified.
     */
 
     Rotation(angle) {

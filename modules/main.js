@@ -129,7 +129,7 @@ this.Scale = function(scale) {
 
 /** 
  * Gets the dimensions of the canvas.
- * @return {object} Gets {width, height}.
+ * @return {Object} Gets {width, height}.
 */
 
 this.GetDimensions = function() {

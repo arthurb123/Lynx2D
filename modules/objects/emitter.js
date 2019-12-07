@@ -67,7 +67,7 @@ this.Emitter = class extends Showable {
      * Get/set the Emitter's emission range.
      * @param {number} x_range - Sets the x range if specified.
      * @param {number} y_range - Sets the y range if specified.
-     * @return {object} Gets {X,Y} if left empty.
+     * @return {Object} Gets {X,Y} if left empty.
     */
 
     Range(x_range, y_range) {

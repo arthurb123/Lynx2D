@@ -1,28 +1,33 @@
 ![alt text](https://github.com/arthurb123/lynx2d/raw/master/resources/logo_dark.ico "Lynx2D Logo Dark")<br>
 # Lynx2D
-The (new and improved) Lynx2D game framework,<br>
+The Lynx2D game framework,<br>
 for fast and easy 2D canvas rendering!
 
 ## Features
 - Mouse and touch support
 - Audio support
-- Scene support
 - Classic perlin noise support
 - Raycasting support
-- Collision support (box)
-- Tilesheet support for sprites
 - Cached drawing support
 - Vertical sync support
-- User interface support
+- Easy-to-use scene system
+- Fast and expendable collision system
+  * Box colliders
+  * Circle colliders
+  * Polygon colliders
+- User interface elements
   * Text
-  * RichText
+  * MultiText
   * Textures
-  * Button
-  
+  * Buttons
+- Various tools
+  * Tilesheet cutting methods
+  * Smooth move objects
+
 ## Planned Features
-- Circle colliders
 - More UI elements
   * ProgressBar
+  * TextBox
 
 ### Support Lynx2D
 If you want to support me, please donate<br>

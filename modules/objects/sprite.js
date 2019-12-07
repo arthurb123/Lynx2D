@@ -45,7 +45,7 @@ this.Sprite = class {
 
     /** 
      * Get the Sprite's size or current clipped size.
-     * @return {object} Gets { W, H }.
+     * @return {Object} Gets { W, H }.
     */
     
     Size() {
@@ -119,7 +119,7 @@ this.Sprite = class {
      * @param {number} c_y - Sets clip y position if specified.
      * @param {number} c_w - Sets clip width if specified.
      * @param {number} c_h - Sets clip height if specified.
-     * @return {object} Gets { X, Y, W, H } if left empty.
+     * @return {Object} Gets { X, Y, W, H } if left empty.
     */
     
     Clip(c_x, c_y, c_w, c_h) {
@@ -142,7 +142,7 @@ this.Sprite = class {
     /** 
      * Get/Set the Sprite's rotation (in radians).
      * @param {number} angle - Sets rotation angle if specified.
-     * @return {object} Gets rotation angle if specified.
+     * @return {Object} Gets rotation angle if specified.
     */
     
     Rotation(angle) {

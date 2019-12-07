@@ -191,6 +191,9 @@ this.GameObject = class extends Showable {
                 this.SPRITE.Rotation(angle);
             else if (this.ANIMATION != undefined)
                 this.ANIMATION.Rotation(angle);
+
+            if (this.COLLIDER != undefined)
+                this.COLLIDER.Rotation(angle);
         }
         
         return this;
@@ -217,7 +220,7 @@ this.GameObject = class extends Showable {
      * @param {number} c_y - Sets clip y position if specified.
      * @param {number} c_w - Sets clip width if specified.
      * @param {number} c_h - Sets clip height if specified.
-     * @return {object} Gets { X, Y, W, H } if left empty.
+     * @return {Object} Gets { X, Y, W, H } if left empty.
     */
     
     Clip(c_x, c_y, c_w, c_h) {
@@ -262,7 +265,7 @@ this.GameObject = class extends Showable {
      * Get/Set the GameObject's movement velocity. (can exceed max velocity upon set)
      * @param {number} vx - Sets x velocity if specified.
      * @param {number} vy - Sets y velocity if specified.
-     * @return {object} Gets { VX, VY } if left empty.
+     * @return {Object} Gets { VX, VY } if left empty.
     */
     
     Movement(vx, vy) {
@@ -295,7 +298,7 @@ this.GameObject = class extends Showable {
      * Get/Set the GameObject's max velocities.
      * @param {number} max_vel_x - Sets max x velocity if specified. (Max x velocity also applies to the max y velocity if it is undefined) 
      * @param {number} max_vel_y - Sets max y velocity if specified. 
-     * @return {object} Gets { VX, VY } if left empty.
+     * @return {Object} Gets { VX, VY } if left empty.
     */
     
     MaxVelocity(max_vel_x, max_vel_y) {
@@ -382,7 +385,7 @@ this.GameObject = class extends Showable {
     };
     
     /** 
-     * Creates a standard collider based on the GameObject's size.
+     * Creates a standard box collider based on the GameObject's size.
      * @param {boolean} is_static - If static is true the collider can not be moved.
      * @param {function} callback - The collision callback, provides collision data as an object. (can be undefined)
     */
@@ -391,7 +394,12 @@ this.GameObject = class extends Showable {
         let pos = this.Position(),
             size = this.Size();
 
-        this.COLLIDER = new lx.Collider(pos.X, pos.Y, size.W, size.H, is_static, callback);
+        this.COLLIDER = new lx.BoxCollider(
+            pos.X, pos.Y, 
+            size.W, size.H, 
+            is_static, 
+            callback
+        );
         this.COLLIDER.OFFSET = {
             X: 0,
             Y: 0
