@@ -2,8 +2,8 @@
  * Lynx2D UI Button
  * @extends UIElement
  * @constructor
- * @param {UIText} text - The button text (can be undefined).
- * @param {UITexture} texture - The button texture (can be undefined).
+ * @param {UIText} text - The button Text (can be undefined).
+ * @param {UITexture} texture - The button Texture (can be undefined).
  * @param {number} x - The button x position (can be undefined, default is 0).
  * @param {number} y - The button y position (can be undefined, default is 0).
  * @param {number} w - The button width (can be undefined, default is 128).
@@ -35,7 +35,7 @@ this.UIButton = class extends UIElement {
         if (text == undefined && texture == undefined)
             lx.GAME.LOG.ERROR(
                 'ButtonCreationError',
-                'Created a button without either a text or texture, or both.'
+                'Created a button without a text and texture.'
             );
     }
 

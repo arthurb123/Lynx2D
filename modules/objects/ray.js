@@ -68,27 +68,59 @@ this.Ray = class {
     */
 
     Cast(target) {
-        if (target.COLLIDER == undefined)
+        if (target.BUFFER_ID === -1)
             return false;
 
-        return this.CHECK_INTERSECTION_BOX(target.COLLIDER);
+        return this.CHECK_INTERSECTION(target);
+    };
+
+    /**
+     * Cast rays to the targets, and if intersection(s) occured returns the target with the closest cast distance.
+     * @param {GameObject[]} targets - The array of targets to check.
+     * @return {GameObject} Returns the intersected target with the closest cast distance, undefined if no intersection occurred.
+    */
+    CastClosest(targets) {
+        let closest;
+        let closestIntersection = Infinity;
+
+        for (let t = 0; t < targets.length; t++) {
+            if (target.BUFFER_ID === -1)
+                continue;
+
+            let intersection = this.GET_INTERSECTION(targets[t]);
+
+            if (intersection == undefined ||
+                intersection.TMAX < 0 || 
+                intersection.TMIN > intersection.TMAX)
+                continue;
+
+            if (intersection.TMIN < closestIntersection) {
+                closest = targets[t];
+                closestIntersection = intersection.TMIN;
+            }
+        }
+
+        return closest;
     };
 
     //Private methods
 
-    SAME_SIGN(N1, N2) {
-        return (N1 >= 0 && N2 >= 0 || N1 <= 0 && N2 <= 0);
+    CHECK_INTERSECTION(TARGET) {
+        let INTERSECTION = this.GET_INTERSECTION(TARGET);
+
+        if (INTERSECTION == undefined ||
+            INTERSECTION.TMAX < 0 || 
+            INTERSECTION.TMIN > INTERSECTION.TMAX)
+            return false;
+
+        return true;
     };
 
-    CHECK_INTERSECTION_BOX(TARGET) {
+    GET_INTERSECTION(TARGET) {
         let END = {
-                X: TARGET.POS.X+TARGET.SIZE.W,
-                Y: TARGET.POS.Y+TARGET.SIZE.H
-            },
-            DY = -this.POS.Y - TARGET.POS.Y;
-
-        if (!this.SAME_SIGN(DY, -this.DIR.Y))
-            return false;
+            X: TARGET.POS.X+TARGET.SIZE.W,
+            Y: TARGET.POS.Y+TARGET.SIZE.H
+        };
 
         let T1 = (TARGET.POS.X - this.POS.X) * (1 / this.DIR.X),
             T2 = (END.X - this.POS.X) * (1 / this.DIR.X),
@@ -98,10 +130,9 @@ this.Ray = class {
         let TMIN = Math.max(Math.min(T1, T2), Math.min(T3, T4)),
             TMAX = Math.min(Math.max(T1, T2), Math.max(T3, T4));
 
-        if (TMAX < 0 || 
-            TMIN > TMAX)
-            return false;
-
-        return true;
+        return {
+            TMIN: TMIN,
+            TMAX: TMAX
+        };
     };
 };

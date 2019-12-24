@@ -6,7 +6,7 @@ const fs = require('fs');
 //Kind of hardcoded but it works!
 //Make sure to change this when adding classes.
 
-let amountOfClasses = 19;
+let amountOfClasses = 21;
 
 // -------- END -----------
 

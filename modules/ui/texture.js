@@ -2,7 +2,7 @@
  * Lynx2D UI Texture
  * @extends UIElement
  * @constructor
- * @param {Sprite} sprite - The Sprite for the Texture, or a color string.
+ * @param {Sprite | string} sprite - The texture Sprite, or a color string.
  * @param {number} x - The texture x position (can be undefined, default is 0).
  * @param {number} y - The texture y position (can be undefined, default is 0).
  * @param {number} w - The texture width (can be undefined, assumes Sprite or parent width).

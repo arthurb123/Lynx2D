@@ -3,6 +3,7 @@ toc:
    - Sprite
    - BoxCollider
    - CircleCollider
+   - TriangleCollider
    - Collider
    - Emitter
    - Animation
@@ -17,6 +18,7 @@ toc:
    - UIMultiText
    - UITexture
    - UIButton
+   - UIProgressBar
    - UIElement
    - Initialize
    - Start
