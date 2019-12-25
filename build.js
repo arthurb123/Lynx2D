@@ -64,7 +64,7 @@ let built = {};
 
 //Setup building functionality
 
-const buildFramework = async () => {
+const buildFramework = () => {
     built = {};
 
     log('Started building the framework');
@@ -79,7 +79,7 @@ const buildFramework = async () => {
         //Single module
 
         if (buildOrder[m].indexOf('~') === -1) 
-            build += await buildModule('modules/' + buildOrder[m], false);
+            build += buildModule('modules/' + buildOrder[m], false);
         
         //Directory (indicated with ~)
 
@@ -103,13 +103,13 @@ const buildFramework = async () => {
 
             //Grab all files
 
-            let files = await fs.readdirSync(dir);
+            let files = fs.readdirSync(dir);
 
             //Build files
 
             for (let f = 0; f < files.length; f++) 
                 if (files[f].indexOf('.js') !== -1)
-                    build += await buildModule(dir + files[f], actual.length > 0);
+                    build += buildModule(dir + files[f], actual.length > 0);
         }
     }
 
@@ -152,7 +152,7 @@ const buildFramework = async () => {
         minify(build);
 };
 
-const buildModule = async (src, isObject) => {
+const buildModule = (src, isObject) => {
     if (built[src])
         return '';
 
@@ -163,7 +163,7 @@ const buildModule = async (src, isObject) => {
         
         //Read JS module
 
-        let js = await fs.readFileSync(src, 'utf-8');
+        let js = fs.readFileSync(src, 'utf-8');
 
         //Trim comments if prefered
 
