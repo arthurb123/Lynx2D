@@ -183,24 +183,35 @@ this.GAME = {
         
         //GameObjects
 
-        for (let i = 0; i < this.BUFFER.length; i++) 
-            if (this.BUFFER[i] != undefined) {
+        for (let l = 0; l < this.BUFFER.length; l++) 
+            if (this.BUFFER[l] != undefined) {
                 let done = 0;
                 
-                this.BUFFER[i].forEach(function(obj) {
-                    if (obj != undefined) {
+                for (let o = 0; o < this.BUFFER[l].length; o++) {
+                    if (this.BUFFER[l][o] != undefined) {
                         try {
-                            obj.UPDATE();
-                            
+                            this.BUFFER[l][o].UPDATE();
                             done++;
                         } catch (err) {
                             lx.GAME.LOG.ERROR('GameObjectUpdateError', err);
                         };
                     }
-                });
+                    else {
+                        try {
+                            this.BUFFER[l].splice(o, 1);
+                            for (let n = o; n < this.BUFFER[l].length; n++)
+                                if (this.BUFFER[l][n] != undefined)
+                                    this.BUFFER[l][n].BUFFER_ID = n;
+                            o--;
+                        }
+                        catch (err) {
+                            lx.GAME.LOG.ERROR('BufferCleaningError', err);
+                        };
+                    }
+                };
                 
                 if (done == 0)
-                    this.BUFFER[i] = [];
+                    this.BUFFER[l] = [];
             }
     
         //Colliders
