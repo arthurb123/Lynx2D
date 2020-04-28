@@ -17,7 +17,13 @@ this.GAME = {
         //Setup metrics
 
         this.METRICS.DATE = new Date().getSeconds();
-        this.METRICS.DATA.COUNTER = new lx.UIText('0 FPS | 0 UPS', 25, 35, 16);
+        this.METRICS.DATA.COUNTER = new lx.UIMultiText(
+            [
+                new lx.UIText('FPS: 0 (0)'), 
+                new lx.UIText('UPS: 0 (60)')
+            ], 
+            25, 35, 16
+        );
 
         //Set FPS if provided
 
@@ -41,11 +47,47 @@ this.GAME = {
         },
         UPDATE: function() {
             if (this.DATE != new Date().getSeconds()) {
+                //Update to the current time (second)
+
                 this.DATE = new Date().getSeconds();
                 
-                this.DATA.COUNTER.Text(
-                    this.DATA.FRAMES + ' FPS | ' + this.DATA.UPDATES + ' UPS'
-                );
+                if (lx.GAME.DEBUG) {
+                    //Grab the text lines
+
+                    let fpsText = this.DATA.COUNTER.TextLine(0);
+                    let upsText = this.DATA.COUNTER.TextLine(1);
+
+                    //Set the new text lines
+
+                    fpsText.Text(
+                        'FPS: ' + this.DATA.FRAMES + ' (' + lx.GAME.SETTINGS.FPS + ')'
+                    );
+                    upsText.Text(
+                        'UPS: ' + this.DATA.UPDATES + ' (' + lx.GAME.SETTINGS.UPS + ')'
+                    );
+
+                    //Handle text coloring based on the
+                    //margin of missed frames or updates
+
+                    let FPS_DIFF = this.DATA.FRAMES  - lx.GAME.SETTINGS.FPS;
+                    let UPS_DIFF = this.DATA.UPDATES - lx.GAME.SETTINGS.UPS;
+
+                    if (FPS_DIFF < -lx.GAME.SETTINGS.FPS*.2) 
+                        fpsText.Color('#ff4d4d');
+                    else if (FPS_DIFF < -lx.GAME.SETTINGS.FPS*.1) 
+                        fpsText.Color('#ff8533');
+                    else 
+                        fpsText.Color('whitesmoke');
+                        
+                    if (UPS_DIFF < -lx.GAME.SETTINGS.UPS*.2) 
+                        upsText.Color('#ff4d4d');
+                    else if (UPS_DIFF < -lx.GAME.SETTINGS.UPS*.1) 
+                        upsText.Color('#ff8533');
+                    else 
+                        upsText.Color('whitesmoke');
+                }
+
+                //Reset recorded frame and update count
                 
                 this.DATA.FRAMES = 0;
                 this.DATA.UPDATES = 0;
@@ -66,6 +108,7 @@ this.GAME = {
     },
     SETTINGS: {
         FPS: 60,
+        UPS: 60,
         VSYNC: false,
         AA: true,
         LIMITERS: {
@@ -119,8 +162,7 @@ this.GAME = {
             //missed they need to be compensated
             //for
 
-            let UPDATE_STEP = 1/60;
-
+            let UPDATE_STEP = 1/lx.GAME.SETTINGS.UPS;
             while (lx.GAME.METRICS.DATA.U_DT >= UPDATE_STEP) {
                 lx.GAME.METRICS.DATA.U_DT -= UPDATE_STEP;
 

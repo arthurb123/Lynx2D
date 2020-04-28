@@ -1,3 +1,18 @@
+/**
+ * Get/Set if debugging is enabled.
+ * @param {boolean} debugging - Sets debugging if specified.
+ * @return {boolean} Gets if debugging if left empty.
+ */
+
+this.Debugging = function(debugging) {
+    if (debugging == undefined)
+        return this.GAME.DEBUG;
+    else
+        this.GAME.DEBUG = debugging;
+
+    return this;
+};
+
 /** 
  * Get/Set if image smoothing is enabled.
  * @param {boolean} smoothes - Sets image smoothing if specified.

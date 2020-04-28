@@ -93,6 +93,34 @@ this.ClearMouseMove = function() {
     return this;
 };
 
+/**
+ * Get the current mouse position in screen or optionally in world space.
+ * @param {boolean} toWorld - Get the mouse position in world space, by default false.
+ * @return {Object} Gets the mouse position as { X, Y } in screen or world space.
+ */
+
+this.GetMousePosition = function(toWorld) {
+    let mousePosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
+
+    if (toWorld) {
+        //Check if a focus exists, this is necessary for converting to
+        //screen space.
+
+        if (lx.GAME.FOCUS == undefined)
+            lx.GAME.LOG.ERROR(
+                'GetMousePositionError', 
+                'Cannot get the mouse position in world space when there is no focus target.'
+            );
+        else
+            mousePosition = lx.GAME.TRANSLATE_FROM_FOCUS({
+                X: lx.GAME.FOCUS.POS.X+mousePosition.X-lx.GetDimensions().width,
+                Y: lx.GAME.FOCUS.POS.Y+mousePosition.Y-lx.GetDimensions().height
+            });
+    } 
+    
+    return mousePosition;
+};
+
 /** 
  * Add an on resize callback right before the actual resizing.
  * @param {function} callback - The callback function which provides resize data (object).

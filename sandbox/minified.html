@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lynx2D Sandbox - Minified</title>
+        <link rel="icon" href="../resources/logo_dark.ico"/>
+    </head>
+    <body>
+        <script src="../build/lynx2d-min.js"></script>
+        <script>
+            if (lx == undefined)
+                document.innerHTML = 'Lynx2D-min could not be found, please build the project!';
+            else
+                lx.Initialize().Start();
+        </script>
+    </body>
+</html>

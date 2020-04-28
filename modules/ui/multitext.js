@@ -2,7 +2,7 @@
  * Lynx2D UI Multi Text
  * @extends UIElement
  * @constructor
- * @param {string[]} text_array - The multitext string array.
+ * @param {string[]|UIText[]} text_array - The array of text (strings, UIText), UIText elements do not comply to the styling of the MultiText.
  * @param {number} x - The text x position (can be undefined, default is 0).
  * @param {number} y - The text y position (can be undefined, default is 0).
  * @param {number} size - The font size (can be undefined, default is 14px).
@@ -14,11 +14,11 @@ this.UIMultiText = class extends UIElement {
     constructor(text_array, x, y, size, color, font) {
         super(x, y);
 
-        this.SIZE = (size == undefined ? 14 : size);
+        this.SIZE  = (size  == undefined ? 14 : size);
         this.COLOR = (color == undefined ? 'whitesmoke' : color);
-        this.FONT = (font == undefined ? 'Verdana' : font);
+        this.FONT  = (font  == undefined ? 'Verdana' : font);
 
-        this.TEXT = text_array;
+        this.TEXT  = text_array;
         this.ALIGN = 'left';
         this.LINE_HEIGHT = this.SIZE/4;
     }
@@ -54,9 +54,9 @@ this.UIMultiText = class extends UIElement {
     };
 
     /**
-     * Get/Set the Rich Text content.
-     * @param {string[]} text_array - Sets the text content if specified.
-     * @return {string[]} Gets the text content if left empty.
+     * Get/Set the multiline text content.
+     * @param {string[]|UIText[]} text_array - Sets the text content if specified.
+     * @return {string[]|UIText[]} Gets the text content if left empty.
     */
     
     Text(text_array) {
@@ -70,9 +70,9 @@ this.UIMultiText = class extends UIElement {
 
     /**
      * Get/Set a line of text.
-     * @param {number} line - The line of the text content.
-     * @param {string} text - Sets the text line if specified.
-     * @return {string} Gets the line of text if the new text is left empty.
+     * @param {number} line - The number of the text line.
+     * @param {string|UIText} text - Sets the text line if specified.
+     * @return {string|UIText} Gets the line of text if the new text is left empty.
     */
     
     TextLine(line, text) {
@@ -159,30 +159,60 @@ this.UIMultiText = class extends UIElement {
     //Private methods
     
     RENDER() {
-        let SCALE = (lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE * .75);
+        let SCALE    = (lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE * .75);
+        let GRAPHICS = lx.CONTEXT.GRAPHICS;
 
-        lx.CONTEXT.GRAPHICS.save();
-        lx.CONTEXT.GRAPHICS.font = this.SIZE * SCALE + 'px ' + this.FONT;
-        lx.CONTEXT.GRAPHICS.fillStyle = this.COLOR;
-        lx.CONTEXT.GRAPHICS.textAlign = this.ALIGN;
+        GRAPHICS.save();
+        GRAPHICS.font = this.SIZE * SCALE + 'px ' + this.FONT;
+        GRAPHICS.fillStyle = this.COLOR;
+        GRAPHICS.textAlign = this.ALIGN;
 
         if (this.SHADOW != undefined) {
-            lx.CONTEXT.GRAPHICS.shadowColor = this.SHADOW.C;
-            lx.CONTEXT.GRAPHICS.shadowOffsetX = this.SHADOW.X;
-            lx.CONTEXT.GRAPHICS.shadowOffsetY = this.SHADOW.Y;
+            GRAPHICS.shadowColor   = this.SHADOW.C;
+            GRAPHICS.shadowOffsetX = this.SHADOW.X;
+            GRAPHICS.shadowOffsetY = this.SHADOW.Y;
         }
+
+        let OFFSET_Y = 0;
+        const RENDER_TEXT = (LINE, X, Y) => {
+            switch (typeof LINE) {
+                case 'object':
+                    try {
+                        LINE.RENDER({ X: X, Y: Y+OFFSET_Y }, this.OPACITY);
+
+                        OFFSET_Y += this.LINE_HEIGHT + LINE.SIZE * SCALE;
+                    }
+                    catch {
+                        lx.GAME.LOG.ERROR(
+                            'MultiTextInvalidLineError', 
+                            'The text line #' + i + ' is not a valid UIText object.'
+                        );
+                    }
+                    break;
+                default:
+                    GRAPHICS.fillText(LINE, X, Y+OFFSET_Y);
+
+                    OFFSET_Y += this.LINE_HEIGHT + this.SIZE * SCALE;
+                    break;
+            }
+        };
         
         for (let i = 0; i < this.TEXT.length; i++) {
-            let offset = i * this.LINE_HEIGHT + i * this.SIZE * SCALE;
+            let LINE = this.TEXT[i];
             
             if (this.TARGET != undefined) {
-                let POS = lx.GAME.TRANSLATE_FROM_FOCUS({ X: this.TARGET.POS.X+this.OFFSET.X, Y: this.TARGET.POS.Y+this.OFFSET.Y });
-                lx.CONTEXT.GRAPHICS.fillText(this.TEXT[i], POS.X, POS.Y+offset);
+                let POS = lx.GAME.TRANSLATE_FROM_FOCUS({ 
+                    X: this.TARGET.POS.X+this.OFFSET.X, 
+                    Y: this.TARGET.POS.Y+this.OFFSET.Y
+                });
+
+                RENDER_TEXT(LINE, POS.X, POS.Y);
             }
-            else lx.CONTEXT.GRAPHICS.fillText(this.TEXT[i], this.POS.X, this.POS.Y+offset);
+            else 
+                RENDER_TEXT(LINE, this.POS.X, this.POS.Y);
         }
         
-        lx.CONTEXT.GRAPHICS.restore();
+        GRAPHICS.restore();
     };
     
     UPDATE() {
