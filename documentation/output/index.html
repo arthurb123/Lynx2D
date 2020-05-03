@@ -1,11 +1,12 @@
-<!doctype html><html><head>
-  <meta charset='utf-8' />
+<!doctype html><html lang="en">
+<head>
+  <meta charset='utf-8'>
   <title>Lynx2D - Documentation</title>
-  <title>Lynx2D - Documentation</title>
-  <link href='assets/bass.css' rel='stylesheet' />
-  <link href='assets/style.css' rel='stylesheet' />
-  <link href='assets/github.css' rel='stylesheet' />
-  <link href='assets/split.css' rel='stylesheet' />
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' rel='stylesheet'>
+  <link href='assets/style.css' rel='stylesheet'>
+  <link href='assets/github.css' rel='stylesheet'>
+  <link href='assets/split.css' rel='stylesheet'>
 </head>
 <body class='documentation m0'>
     <div class='flex'>
@@ -17,6 +18,9 @@
             placeholder='Filter'
             id='filter-input'
             class='col12 block input'
+            spellcheck='false'
+            autocapitalize='off'
+            autocorrect='off'
             type='text' />
           <div id='toc'>
             <ul class='list-reset h5 py1-ul'>
@@ -730,6 +734,12 @@
                       </a></li>
                       
                       <li><a
+                        href='#showablemove'
+                        class='regular pre-open'>
+                        #Move
+                      </a></li>
+                      
+                      <li><a
                         href='#showablefollows'
                         class='regular pre-open'>
                         #Follows
@@ -1297,6 +1307,16 @@
               
                 
                 <li><a
+                  href='#getmouseposition'
+                  class="">
+                  GetMousePosition
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
                   href='#onresize'
                   class="">
                   OnResize
@@ -1427,9 +1447,19 @@
               
                 
                 <li><a
-                  href='#resetcentering'
+                  href='#resetfocus'
                   class="">
-                  ResetCentering
+                  ResetFocus
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#debugging'
+                  class="">
+                  Debugging
                   
                 </a>
                 
@@ -1540,7 +1570,7 @@
 
   <p>Lynx2D GameObject</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.GameObject(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.GameObject(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
     <p>
@@ -1621,6 +1651,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -1675,6 +1707,8 @@
 
       
     
+  
+
   
 
   
@@ -1744,6 +1778,8 @@
 
       
     
+  
+
   
 
   
@@ -1835,6 +1871,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -1904,6 +1942,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -1960,6 +2000,8 @@
 
       
     
+  
+
   
 
   
@@ -2069,6 +2111,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2097,6 +2141,8 @@
   
   
   
+  
+
   
 
   
@@ -2194,6 +2240,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2247,6 +2295,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -2342,6 +2392,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2411,6 +2463,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2467,6 +2521,8 @@
 
       
     
+  
+
   
 
   
@@ -2568,6 +2624,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2621,6 +2679,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -2708,6 +2768,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2769,6 +2831,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2797,6 +2861,8 @@
   
   
   
+  
+
   
 
   
@@ -2877,6 +2943,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -2905,6 +2973,8 @@
   
   
   
+  
+
   
 
   
@@ -2994,6 +3064,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -3022,6 +3094,8 @@
   
   
   
+  
+
   
 
   
@@ -3102,6 +3176,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -3130,6 +3206,8 @@
   
   
   
+  
+
   
 
   
@@ -3210,6 +3288,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -3238,6 +3318,8 @@
   
   
   
+  
+
   
 
   
@@ -3327,6 +3409,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -3388,6 +3472,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -3416,6 +3502,8 @@
   
   
   
+  
+
   
 
   
@@ -3496,6 +3584,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -3557,6 +3647,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -3585,6 +3677,8 @@
   
   
   
+  
+
   
 
   
@@ -3651,6 +3745,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -3683,7 +3779,7 @@
 
   <p>Lynx2D Sprite</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Sprite(source: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement/Image">Image</a> | <a href="#canvas">Canvas</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement">HTMLCanvasElement</a>), c_x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, cb: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Sprite(source: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLImageElement/Image">Image</a> | <a href="#canvas">Canvas</a> | <a href="https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement">HTMLCanvasElement</a>), c_x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, c_h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, cb: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -3766,6 +3862,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -3806,6 +3904,8 @@
 
       
     
+  
+
   
 
   
@@ -3875,6 +3975,8 @@
 
       
     
+  
+
   
 
   
@@ -3984,6 +4086,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -4040,6 +4144,8 @@
 
       
     
+  
+
   
 
   
@@ -4130,6 +4236,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -4200,6 +4308,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -4228,6 +4338,8 @@
   
   
   
+  
+
   
 
   
@@ -4279,7 +4391,7 @@
 
   <p>Lynx2D Box Collider</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.BoxCollider(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.BoxCollider(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
     <p>
@@ -4369,6 +4481,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -4445,6 +4559,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -4477,7 +4593,7 @@
 
   <p>Lynx2D Circle Collider</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.CircleCollider(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, radius: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.CircleCollider(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, radius: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
     <p>
@@ -4558,6 +4674,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -4612,6 +4730,8 @@
 
       
     
+  
+
   
 
   
@@ -4694,6 +4814,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -4726,7 +4848,7 @@
 
   <p>Lynx2D Triangle Collider</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.TriangleCollider(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.TriangleCollider(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
     <p>
@@ -4816,6 +4938,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -4892,6 +5016,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -4924,7 +5050,7 @@
 
   <p>Lynx2D Polygon Collider</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Collider(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, vertices: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Collider(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, vertices: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
     <p>
@@ -5011,6 +5137,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -5031,7 +5159,7 @@
 
   <p>Lynx2D Emitter</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Emitter(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, amount: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, duration: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Emitter(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, amount: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, duration: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
     <p>
@@ -5099,6 +5227,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -5216,6 +5346,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -5281,6 +5413,8 @@
 
       
     
+  
+
   
 
   
@@ -5363,6 +5497,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -5419,6 +5555,8 @@
 
       
     
+  
+
   
 
   
@@ -5502,6 +5640,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -5534,7 +5674,7 @@
 
   <p>Lynx2D Animation</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Animation(sprite_collection: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#sprite">Sprite</a>>, speed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Animation(sprite_collection: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#sprite">Sprite</a>>, speed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
     <p>
@@ -5575,6 +5715,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -5639,6 +5781,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -5734,6 +5878,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -5790,6 +5936,8 @@
 
       
     
+  
+
   
 
   
@@ -5872,6 +6020,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -5904,7 +6054,7 @@
 
   <p>Lynx2D Sound</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Sound(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, channel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Sound(src: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, channel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -5938,6 +6088,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -6018,6 +6170,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -6071,6 +6225,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -6158,6 +6314,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -6186,6 +6344,8 @@
   
   
   
+  
+
   
 
   
@@ -6283,6 +6443,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -6315,7 +6477,7 @@
 
   <p>Lynx2D Scene</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Scene(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Scene(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -6353,6 +6515,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -6368,7 +6532,8 @@
 
   
 
-  <p>Saves the Scene's current state and content.</p>
+  <p>Saves the Scene's current state and content
+in memory.</p>
 
     <div class='pre p1 fill-light mt0'>Save()</div>
   
@@ -6379,6 +6544,8 @@
   
   
   
+  
+
   
 
   
@@ -6415,21 +6582,32 @@
 
   
 
-  <p>Restores the Scene's current state and content.</p>
+  <p>Restores the Scene's current state and content
+from memory.</p>
 
-    <div class='pre p1 fill-light mt0'>Restore()</div>
-  
-  
-
-  
-  
-  
-  
+    <div class='pre p1 fill-light mt0'>Restore(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
   
+  
+  
+  
+  
+  
 
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Indicates if the restoration was successful.
+
+      
+    
   
 
   
@@ -6477,7 +6655,7 @@
 
   <p>Lynx2D Canvas</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Canvas(width: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, height: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Canvas(width: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, height: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -6511,6 +6689,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -6564,6 +6744,8 @@
 
       
     
+  
+
   
 
   
@@ -6674,6 +6856,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -6735,6 +6919,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -6767,7 +6953,7 @@
 
   <p>Lynx2D Ray (Experimental)</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Ray(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Ray(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -6801,6 +6987,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -6877,6 +7065,8 @@
 
       
     
+  
+
   
 
   
@@ -6968,6 +7158,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -7024,6 +7216,8 @@
 
       
     
+  
+
   
 
   
@@ -7106,6 +7300,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -7138,7 +7334,7 @@
 
   <p>Lynx2D Classical Noise</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Noise(seed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Noise(seed: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -7163,6 +7359,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -7252,6 +7450,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -7284,7 +7484,7 @@
 
   <p>Lynx2D Showable base class (cannot be instantiated)</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Showable(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Showable(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -7318,6 +7518,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -7390,6 +7592,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -7418,6 +7622,8 @@
   
   
   
+  
+
   
 
   
@@ -7515,6 +7721,80 @@
   
 
   
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='showablemove'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Move(x, y)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Adjust the showable's position.</p>
+
+    <div class='pre p1 fill-light mt0'>Move(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>x</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The position x delta.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>y</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The position y delta.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 </section>
 
       </div>
@@ -7584,6 +7864,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -7612,6 +7894,8 @@
   
   
   
+  
+
   
 
   
@@ -7692,6 +7976,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -7720,6 +8006,8 @@
   
   
   
+  
+
   
 
   
@@ -7771,7 +8059,7 @@
 
   <p>Lynx2D Collidable base class (cannot be instantiated)</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.Collidable(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, vertices: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.Collidable(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, vertices: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>>, is_static: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -7847,6 +8135,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -7887,6 +8177,8 @@
 
       
     
+  
+
   
 
   
@@ -7969,6 +8261,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -8025,6 +8319,8 @@
 
       
     
+  
+
   
 
   
@@ -8116,6 +8412,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -8172,6 +8470,8 @@
 
       
     
+  
+
   
 
   
@@ -8254,6 +8554,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -8282,6 +8584,8 @@
   
   
   
+  
+
   
 
   
@@ -8348,6 +8652,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -8380,7 +8686,7 @@
 
   <p>Lynx2D UI Text</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.UIText(text: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, size: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, color: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, font: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.UIText(text: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, size: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, color: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, font: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
   
     <p>
@@ -8470,6 +8776,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -8524,6 +8832,8 @@
 
       
     
+  
+
   
 
   
@@ -8606,6 +8916,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -8662,6 +8974,8 @@
 
       
     
+  
+
   
 
   
@@ -8744,6 +9058,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -8800,6 +9116,8 @@
 
       
     
+  
+
   
 
   
@@ -8892,6 +9210,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -8920,6 +9240,8 @@
   
   
   
+  
+
   
 
   
@@ -8971,7 +9293,7 @@
 
   <p>Lynx2D UI Multi Text</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.UIMultiText(text_array: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, size: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, color: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, font: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.UIMultiText(text_array: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#uitext">UIText</a>>), x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, size: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, color: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, font: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
   
     <p>
@@ -8995,8 +9317,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>text_array</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)</code>
-	    The multitext string array.
+            <span class='code bold'>text_array</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#uitext">UIText</a>>))</code>
+	    The array of text (strings, UIText), UIText elements do not comply to the styling of the MultiText.
 
           </div>
           
@@ -9048,6 +9370,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -9115,6 +9439,8 @@
 
       
     
+  
+
   
 
   
@@ -9197,6 +9523,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -9214,9 +9542,9 @@
 
   
 
-  <p>Get/Set the Rich Text content.</p>
+  <p>Get/Set the multiline text content.</p>
 
-    <div class='pre p1 fill-light mt0'>Text(text_array: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
+    <div class='pre p1 fill-light mt0'>Text(text_array: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#uitext">UIText</a>>)): (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#uitext">UIText</a>>)</div>
   
   
 
@@ -9233,7 +9561,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>text_array</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>>)</code>
+            <span class='code bold'>text_array</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#uitext">UIText</a>>))</code>
 	    Sets the text content if specified.
 
           </div>
@@ -9248,11 +9576,13 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
+      <code>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#uitext">UIText</a>>)</code>:
         Gets the text content if left empty.
 
       
     
+  
+
   
 
   
@@ -9285,7 +9615,7 @@
 
   <p>Get/Set a line of text.</p>
 
-    <div class='pre p1 fill-light mt0'>TextLine(line: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, text: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    <div class='pre p1 fill-light mt0'>TextLine(line: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, text: (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="#uitext">UIText</a>)): (<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="#uitext">UIText</a>)</div>
   
   
 
@@ -9303,7 +9633,7 @@
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>line</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
-	    The line of the text content.
+	    The number of the text line.
 
           </div>
           
@@ -9311,7 +9641,7 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>text</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>text</span> <code class='quiet'>((<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="#uitext">UIText</a>))</code>
 	    Sets the text line if specified.
 
           </div>
@@ -9326,11 +9656,13 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>:
+      <code>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a> | <a href="#uitext">UIText</a>)</code>:
         Gets the line of text if the new text is left empty.
 
       
     
+  
+
   
 
   
@@ -9413,6 +9745,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -9482,6 +9816,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -9538,6 +9874,8 @@
 
       
     
+  
+
   
 
   
@@ -9630,6 +9968,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -9658,6 +9998,8 @@
   
   
   
+  
+
   
 
   
@@ -9709,7 +10051,7 @@
 
   <p>Lynx2D UI Texture</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.UITexture(sprite: (<a href="#sprite">Sprite</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>), x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.UITexture(sprite: (<a href="#sprite">Sprite</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>), x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
     <p>
@@ -9777,6 +10119,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -9866,6 +10210,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -9898,7 +10244,7 @@
 
   <p>Lynx2D UI Button</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.UIButton(text: <a href="#uitext">UIText</a>, texture: <a href="#uitexture">UITexture</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.UIButton(text: <a href="#uitext">UIText</a>, texture: <a href="#uitexture">UITexture</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
     <p>
@@ -9988,6 +10334,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -10042,6 +10390,8 @@
 
       
     
+  
+
   
 
   
@@ -10124,6 +10474,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -10188,6 +10540,8 @@
 
       
     
+  
+
   
 
   
@@ -10279,6 +10633,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -10311,7 +10667,7 @@
 
   <p>Lynx2D UI ProgressBar</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.UIProgressBar(background: (<a href="#uitexture">UITexture</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>), filling: (<a href="#uitexture">UITexture</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>), x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.UIProgressBar(background: (<a href="#uitexture">UITexture</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>), filling: (<a href="#uitexture">UITexture</a> | <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>), x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
     <p>
@@ -10401,6 +10757,8 @@
   
 
   
+
+  
     <div class='py1 quiet mt1 prose-big'>Instance Members</div>
     <div class="clearfix">
   
@@ -10464,6 +10822,8 @@
 
       
     
+  
+
   
 
   
@@ -10546,6 +10906,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -10602,6 +10964,8 @@
 
       
     
+  
+
   
 
   
@@ -10684,6 +11048,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -10716,7 +11082,7 @@
 
   <p>Lynx2D UI Base element (cannot be instantiated)</p>
 
-    <div class='pre p1 fill-light mt0'>new lx.lx.UIElement(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>new lx.UIElement(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -10750,6 +11116,8 @@
         </div>
       
     </div>
+  
+
   
 
   
@@ -10808,6 +11176,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -10836,6 +11206,8 @@
   
   
   
+  
+
   
 
   
@@ -10933,6 +11305,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -11002,6 +11376,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -11030,6 +11406,8 @@
   
   
   
+  
+
   
 
   
@@ -11110,6 +11488,8 @@
   
 
   
+
+  
 </section>
 
       </div>
@@ -11138,6 +11518,8 @@
   
   
   
+  
+
   
 
   
@@ -11189,7 +11571,7 @@
 
   <p>Initializes Lynx2D.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.Initialize(target: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.Initialize(target: <a href="https://developer.mozilla.org/docs/Web/API/Element">Element</a>)</div>
   
   
 
@@ -11231,6 +11613,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11251,7 +11635,7 @@
 
   <p>Starts the game loop.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.Start(fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.Start(fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -11293,6 +11677,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11313,7 +11699,7 @@
 
   <p>Add a drawing callback to a layer.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.OnLayerDraw(layer: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.OnLayerDraw(layer: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -11364,6 +11750,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11384,7 +11772,7 @@
 
   <p>Remove drawing callbacks on a layer.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ClearLayerDraw(layer: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.ClearLayerDraw(layer: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -11426,6 +11814,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11446,7 +11836,7 @@
 
   <p>Remove drawing callbacks on all layers.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ResetLayerDraw()</div>
+    <div class='pre p1 fill-light mt0'>lx.ResetLayerDraw()</div>
   
   
 
@@ -11455,6 +11845,8 @@
   
   
   
+  
+
   
 
   
@@ -11494,7 +11886,7 @@
 
   <p>Draw a sprite.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.DrawSprite(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.DrawSprite(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -11572,6 +11964,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11592,7 +11986,7 @@
 
   <p>Add a on key event callback.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.OnKey(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.OnKey(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -11643,6 +12037,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11663,7 +12059,7 @@
 
   <p>Clear on key event callbacks from a key.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ClearKey(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.ClearKey(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
   
 
@@ -11705,6 +12101,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11725,7 +12123,7 @@
 
   <p>Stop the on key event from being called, until the key is pressed again.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.StopKey(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.StopKey(key: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
   
 
@@ -11767,6 +12165,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11787,7 +12187,7 @@
 
   <p>Add a on mouse event callback.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.OnMouse(button: any, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>, mouse: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.OnMouse(button: any, callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>, mouse: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -11846,6 +12246,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11866,7 +12268,7 @@
 
   <p>Clear on mouse event callbacks from a button.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ClearMouse(button: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.ClearMouse(button: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -11908,6 +12310,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11928,7 +12332,7 @@
 
   <p>Stop the on mouse event from being called, until the button is pressed again.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.StopMouse(button: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.StopMouse(button: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -11970,6 +12374,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -11990,7 +12396,7 @@
 
   <p>Set the on mouse move event callback.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.OnMouseMove(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.OnMouseMove(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -12032,6 +12438,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12052,7 +12460,7 @@
 
   <p>Clear the on mouse move event callback.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ClearMouseMove()</div>
+    <div class='pre p1 fill-light mt0'>lx.ClearMouseMove()</div>
   
   
 
@@ -12065,6 +12473,80 @@
 
   
 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='getmouseposition'>
+      GetMousePosition
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Get the current mouse position in screen or optionally in world space.</p>
+
+    <div class='pre p1 fill-light mt0'>lx.GetMousePosition(toWorld: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>toWorld</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
+	    Get the mouse position in world space, by default false.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+        Gets the mouse position as { X, Y } in screen or world space.
+
+      
+    
   
 
   
@@ -12100,7 +12582,7 @@
 
   <p>Add an on resize callback right before the actual resizing.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.OnResize(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.OnResize(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -12142,6 +12624,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12162,7 +12646,7 @@
 
   <p>Clear all on resize event callbacks.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ClearResize()</div>
+    <div class='pre p1 fill-light mt0'>lx.ClearResize()</div>
   
   
 
@@ -12171,6 +12655,8 @@
   
   
   
+  
+
   
 
   
@@ -12210,7 +12696,7 @@
 
   <p>Add an update callback.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.Loops(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.Loops(callback: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">function</a>)</div>
   
   
 
@@ -12252,6 +12738,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12272,7 +12760,7 @@
 
   <p>Remove all update callbacks</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ClearLoops()</div>
+    <div class='pre p1 fill-light mt0'>lx.ClearLoops()</div>
   
   
 
@@ -12281,6 +12769,8 @@
   
   
   
+  
+
   
 
   
@@ -12320,7 +12810,7 @@
 
   <p>Find the GameObject with the specified Collider.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.FindGameObjectWithCollider(collider: <a href="#collider">Collider</a>): <a href="#gameobject">GameObject</a></div>
+    <div class='pre p1 fill-light mt0'>lx.FindGameObjectWithCollider(collider: <a href="#collider">Collider</a>): <a href="#gameobject">GameObject</a></div>
   
   
 
@@ -12370,6 +12860,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12390,7 +12882,7 @@
 
   <p>Find the GameObject with the specified identifier.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.FindGameObjectWithIdentifier(ID: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="#gameobject">GameObject</a></div>
+    <div class='pre p1 fill-light mt0'>lx.FindGameObjectWithIdentifier(ID: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="#gameobject">GameObject</a></div>
   
   
 
@@ -12440,6 +12932,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12460,7 +12954,7 @@
 
   <p>Find GameObjects with the specified identifier.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.FindGameObjectsWithIdentifier(ID: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#gameobject">GameObject</a>></div>
+    <div class='pre p1 fill-light mt0'>lx.FindGameObjectsWithIdentifier(ID: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#gameobject">GameObject</a>></div>
   
   
 
@@ -12510,6 +13004,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12530,7 +13026,7 @@
 
   <p>Get/Set the background color.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.Background(color: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
+    <div class='pre p1 fill-light mt0'>lx.Background(color: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></div>
   
   
 
@@ -12580,6 +13076,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12600,7 +13098,7 @@
 
   <p>Get/Set the rendering scale (default is 1).</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.Scale(scale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
+    <div class='pre p1 fill-light mt0'>lx.Scale(scale: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
   
   
 
@@ -12650,6 +13148,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12670,7 +13170,7 @@
 
   <p>Gets the dimensions of the canvas.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.GetDimensions(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+    <div class='pre p1 fill-light mt0'>lx.GetDimensions(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
   
   
 
@@ -12706,6 +13206,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12726,7 +13228,7 @@
 
   <p>Loads a Scene, executing it's callback.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.LoadScene(scene: any, color: <a href="#scene">Scene</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.LoadScene(scene: any, color: <a href="#scene">Scene</a>)</div>
   
   
 
@@ -12776,6 +13278,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12796,7 +13300,7 @@
 
   <p>Creates a new controller.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.CreateController()</div>
+    <div class='pre p1 fill-light mt0'>lx.CreateController()</div>
   
   
 
@@ -12805,6 +13309,8 @@
   
   
   
+  
+
   
 
   
@@ -12844,7 +13350,7 @@
 
   <p>Gets the current focus.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.GetFocus(): <a href="#gameobject">GameObject</a></div>
+    <div class='pre p1 fill-light mt0'>lx.GetFocus(): <a href="#gameobject">GameObject</a></div>
   
   
 
@@ -12880,6 +13386,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -12890,8 +13398,8 @@
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='resetcentering'>
-      ResetCentering
+    <h3 class='fl m0' id='resetfocus'>
+      ResetFocus
     </h3>
     
     
@@ -12900,7 +13408,7 @@
 
   <p>Resets the current focus.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ResetCentering()</div>
+    <div class='pre p1 fill-light mt0'>lx.ResetFocus()</div>
   
   
 
@@ -12913,6 +13421,80 @@
 
   
 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+          <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='debugging'>
+      Debugging
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Get/Set if debugging is enabled.</p>
+
+    <div class='pre p1 fill-light mt0'>lx.Debugging(debugging: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>debugging</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
+	    Sets debugging if specified.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>:
+        Gets if debugging if left empty.
+
+      
+    
   
 
   
@@ -12948,7 +13530,7 @@
 
   <p>Get/Set if image smoothing is enabled.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.Smoothing(smoothes: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
+    <div class='pre p1 fill-light mt0'>lx.Smoothing(smoothes: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></div>
   
   
 
@@ -12998,6 +13580,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -13018,7 +13602,7 @@
 
   <p>Get/Set the desired framerate.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.Framerate(fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
+    <div class='pre p1 fill-light mt0'>lx.Framerate(fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
   
   
 
@@ -13068,6 +13652,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -13088,7 +13674,7 @@
 
   <p>Get/Set if vertical sync is enabled.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.VerticalSync(vsync: any, fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
+    <div class='pre p1 fill-light mt0'>lx.VerticalSync(vsync: any, fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
   
   
 
@@ -13146,6 +13732,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -13166,7 +13754,7 @@
 
   <p>Get/Set the particle limit.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ParticleLimit(amount: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
+    <div class='pre p1 fill-light mt0'>lx.ParticleLimit(amount: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
   
   
 
@@ -13216,6 +13804,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -13236,7 +13826,7 @@
 
   <p>Get/Set the volume (0-1) of a channel.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.ChannelVolume(channel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, volume: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
+    <div class='pre p1 fill-light mt0'>lx.ChannelVolume(channel: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, volume: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
   
   
 
@@ -13295,6 +13885,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -13315,7 +13907,7 @@
 
   <p>Cuts a sprite horizontally into a tilesheet.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.CreateHorizontalTileSheet(sprite: <a href="#sprite">Sprite</a>, cw: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, ch: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#sprite">Sprite</a>></div>
+    <div class='pre p1 fill-light mt0'>lx.CreateHorizontalTileSheet(sprite: <a href="#sprite">Sprite</a>, cw: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, ch: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#sprite">Sprite</a>></div>
   
   
 
@@ -13370,6 +13962,8 @@
 
       
     
+  
+
   
 
   
@@ -13403,7 +13997,7 @@
 
   <p>Cuts a sprite vertically into a tilesheet.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.CreateVerticalTileSheet(sprite: <a href="#sprite">Sprite</a>, cw: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, ch: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#sprite">Sprite</a>></div>
+    <div class='pre p1 fill-light mt0'>lx.CreateVerticalTileSheet(sprite: <a href="#sprite">Sprite</a>, cw: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, ch: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>&#x3C;<a href="#sprite">Sprite</a>></div>
   
   
 
@@ -13471,6 +14065,8 @@
   
 
   
+
+  
 </section>
 
           
@@ -13491,7 +14087,7 @@
 
   <p>Move a GameObject to a new position.</p>
 
-    <div class='pre p1 fill-light mt0'>lx.lx.MoveToPosition(gameobject: <a href="#gameobject">GameObject</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, time: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>lx.MoveToPosition(gameobject: <a href="#gameobject">GameObject</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, time: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -13543,6 +14139,8 @@
         </div>
       
     </div>
+  
+
   
 
   

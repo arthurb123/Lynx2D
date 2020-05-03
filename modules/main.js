@@ -288,8 +288,23 @@ this.GetFocus = function() {
  * Resets the current focus.
 */
 
-this.ResetCentering = function() {
+this.ResetFocus = function() {
     this.GAME.FOCUS = undefined;  
     
     return this;
+};
+
+//Deprecated reset focus function
+
+this.ResetCentering = function() {
+    lx.GAME.LOG.ERROR(
+        'OldResetFocusError', 
+        'The ResetCentering method has ' + 
+        'been renamed to ResetFocus, for now ' +
+        'it will work but this should be ' +
+        'changed. Please check the documentation ' +
+        'for updated objects and methods.'
+    );
+
+    this.ResetFocus();
 };

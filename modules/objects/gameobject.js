@@ -704,8 +704,10 @@ this.GameObject = class extends Showable {
 
         this.MOVEMENT.UPDATE();
 
-        this.POS.X += this.MOVEMENT.VX;
-        this.POS.Y += this.MOVEMENT.VY;
+        this.Move(
+            this.MOVEMENT.VX,
+            this.MOVEMENT.VY
+        );
         
         if (this.COLLIDER != undefined) 
             this.COLLIDER.POS = {

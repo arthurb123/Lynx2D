@@ -11,49 +11,43 @@ this.Scene = class {
     };
     
     /** 
-     * Saves the Scene's current state and content.
+     * Saves the Scene's current state and content
+     * in memory.
     */
 
     Save() {
-        this.BUFFER = lx.GAME.BUFFER;
-        this.UI = lx.GAME.UI;
-        this.COLLIDERS = lx.GAME.COLLIDERS;
-        this.FOCUS = lx.GAME.FOCUS;
-        this.CONTROLLER_TARGET = lx.CONTEXT.CONTROLLER.TARGET;
-        this.EVENTS = lx.GAME.EVENTS;
-        this.LOOPS = lx.GAME.LOOPS;
-        this.GO_MOUSE_EVENTS = lx.GAME.GO_MOUSE_EVENTS;
-        this.LAYER_DRAW_EVENTS = lx.GAME.LAYER_DRAW_EVENTS;
-        this.AUDIO_CHANNELS = lx.GAME.AUDIO.CHANNELS;
-        this.AUDIO_SOUNDS = lx.GAME.AUDIO.SOUNDS;
+        //Create a snapshot of the current state
+
+        let snapshot = lx.GAME.CREATE_SNAPSHOT();
         
+        //Save to memory
+
+        this.SAVE_DATA = snapshot;
         this.SAVED_STATE_AVAILABLE = true;
     };
     
     /** 
-     * Restores the Scene's current state and content.
+     * Restores the Scene's current state and content
+     * from memory.
+     * @returns {boolean} - Indicates if the restoration was successful.
     */
     
     Restore() {
         //Check if a saved state is available
         
         if (!this.SAVED_STATE_AVAILABLE) 
-            return;
-        
-        //Restore saved state
+            return false;
+
+        //Reset game
 
         lx.GAME.RESET();
-        
-        lx.GAME.BUFFER = this.BUFFER;
-        lx.GAME.UI = this.UI;
-        lx.GAME.COLLIDERS = this.COLLIDERS;
-        lx.GAME.FOCUS = this.FOCUS;
-        lx.CONTEXT.CONTROLLER.TARGET = this.CONTROLLER_TARGET;
-        lx.GAME.EVENTS = this.EVENTS;
-        lx.GAME.LOOPS = this.LOOPS;
-        lx.GAME.GO_MOUSE_EVENTS = this.GO_MOUSE_EVENTS;
-        lx.GAME.LAYER_DRAW_EVENTS = this.LAYER_DRAW_EVENTS;
-        lx.GAME.AUDIO.CHANNELS = this.AUDIO_CHANNELS;
-        lx.GAME.AUDIO.SOUNDS = this.AUDIO_SOUNDS;
+
+        //Restore saved state
+
+        lx.GAME.RESTORE_SNAPSHOT(snapshot);
+
+        //Return successful
+
+        return true;
     };
 };

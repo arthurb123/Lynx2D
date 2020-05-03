@@ -786,5 +786,34 @@ this.GAME = {
                 this.ON_RESIZE_EVENTS[i] = CALLBACK;
                 break;
             }
+    },
+    CREATE_SNAPSHOT: function() {
+        return {
+            BUFFER: this.BUFFER,
+            UI: this.UI,
+            COLLIDERS: this.COLLIDERS,
+            FOCUS: this.FOCUS,
+            EVENTS: this.EVENTS,
+            LOOPS: this.LOOPS,
+            GO_MOUSE_EVENTS: this.GO_MOUSE_EVENTS,
+            LAYER_DRAW_EVENTS: this.LAYER_DRAW_EVENTS,
+            AUDIO_CHANNELS: this.AUDIO.CHANNELS,
+            AUDIO_SOUNDS: this.AUDIO.SOUNDS,
+            CONTROLLER_TARGET: lx.CONTEXT.CONTROLLER.TARGET
+        };
+    },
+    RESTORE_SNAPSHOT: function(SNAPSHOT) {
+        this.BUFFER = SNAPSHOT.BUFFER;
+        this.UI = SNAPSHOT.UI;
+        this.COLLIDERS = SNAPSHOT.COLLIDERS;
+        this.FOCUS = SNAPSHOT.FOCUS;
+        this.EVENTS = SNAPSHOT.EVENTS;
+        this.LOOPS = SNAPSHOT.LOOPS;
+        this.GO_MOUSE_EVENTS = SNAPSHOT.GO_MOUSE_EVENTS;
+        this.LAYER_DRAW_EVENTS = SNAPSHOT.LAYER_DRAW_EVENTS;
+        this.AUDIO.CHANNELS = SNAPSHOT.AUDIO_CHANNELS;
+        this.AUDIO.SOUNDS = SNAPSHOT.AUDIO_SOUNDS;
+
+        lx.CONTEXT.CONTROLLER.TARGET = SNAPSHOT.CONTROLLER_TARGET;
     }
 };

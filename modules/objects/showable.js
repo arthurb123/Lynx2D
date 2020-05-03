@@ -98,6 +98,29 @@ class Showable {
         return this;
     };
 
+    /**
+     * Adjust the showable's position.
+     * @param {number} x - The position x delta.
+     * @param {number} y - The position y delta.
+     */
+    Move(x, y) {
+        //Adjust offset if has a target
+
+        if (this.TARGET != undefined) {
+            this.OFFSET += x;
+            this.OFFSET += y;
+        }
+
+        //Otherwise adjust position
+
+        else {
+            this.POS.X += x;
+            this.POS.Y += y;
+        }
+
+        return this;
+    };
+
     /** 
      * Get/set the following target.
      * @param {GameObject} target - Sets following target if specified.
