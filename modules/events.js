@@ -72,23 +72,22 @@ this.StopMouse = function(button) {
 };
 
 /** 
- * Set the on mouse move event callback.
+ * Add a on mouse move event callback.
  * @param {function} callback - The callback function which provides event data (object).
 */
 
 this.OnMouseMove = function(callback) {
-    if (lx.CONTEXT.CONTROLLER != undefined) 
-        lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER = callback;
+    lx.GAME.MOVE_MOUSE_EVENTS.push(callback);
     
     return this;
 };
 
 /**
- * Clear the on mouse move event callback.
+ * Clear all on mouse move event callbacks.
 */
 
 this.ClearMouseMove = function() {
-    lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER = undefined;
+    lx.GAME.MOVE_MOUSE_EVENTS = [];
 
     return this;
 };

@@ -7,6 +7,7 @@ this.GAME = {
     UI: [],
     COLLIDERS: [],
     EVENTS: [],
+    MOVE_MOUSE_EVENTS: [],
     GO_MOUSE_EVENTS: [],
     UI_MOUSE_EVENTS: [],
     ON_RESIZE_EVENTS: [],

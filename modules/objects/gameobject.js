@@ -685,11 +685,13 @@ this.GameObject = class extends Showable {
     };
     
     UPDATE() {
-        if (this.TARGET != undefined) 
+        if (this.TARGET != undefined) {
+            let TARGET_POS = this.TARGET.Position();
             this.POS = {
-                X: this.TARGET.POS.X+this.OFFSET.X,
-                Y: this.TARGET.POS.Y+this.OFFSET.Y
+                X: TARGET_POS.X+this.OFFSET.X,
+                Y: TARGET_POS.Y+this.OFFSET.Y
             };
+        }
         
         if (this.ANIMATION != undefined) 
             this.ANIMATION.UPDATE();

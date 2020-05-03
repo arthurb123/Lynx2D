@@ -140,9 +140,9 @@ this.GetDimensions = function() {
         );
         
         return {
-            width: self.innerWidth,
-            height: self.innerHeight
-        }
+            width:  0,
+            height: 0
+        };
     }
     
     return {
@@ -193,7 +193,9 @@ this.CreateController = function() {
     };
     
     //Init/clear set game events
+
     this.GAME.EVENTS = [];
+    this.GAME.MOVE_MOUSE_EVENTS = [];
     
     //Append event listeners
     
@@ -201,26 +203,31 @@ this.CreateController = function() {
     
     document.addEventListener('keydown', function(EVENT) { 
         lx.GAME.AUDIO.CAN_PLAY = true; 
+
+        let KEY = String.fromCharCode(EVENT.keyCode).toLowerCase();
         
-        if (lx.CONTEXT.CONTROLLER.STOPPED_KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()]) return; 
+        if (lx.CONTEXT.CONTROLLER.STOPPED_KEYS[KEY]) 
+            return; 
         
         if (EVENT.keyCode === 27)
                 lx.CONTEXT.CONTROLLER.KEYS['escape'] = true;
         
-        lx.CONTEXT.CONTROLLER.KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()] = true;
+        lx.CONTEXT.CONTROLLER.KEYS[KEY] = true;
         lx.CONTEXT.CONTROLLER.KEYS[EVENT.keyCode] = true;
     });
     
     document.addEventListener('keyup', function(EVENT) { 
-        if (!lx.CONTEXT.CONTROLLER.STOPPED_KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()]) 
-            lx.GAME.INVALIDATE_EVENT('key', String.fromCharCode(EVENT.keyCode).toLowerCase());
+        let KEY = String.fromCharCode(EVENT.keyCode).toLowerCase();
+
+        if (!lx.CONTEXT.CONTROLLER.STOPPED_KEYS[KEY]) 
+            lx.GAME.INVALIDATE_EVENT('key', KEY);
         
-        lx.CONTEXT.CONTROLLER.STOPPED_KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()] = false; 
+        lx.CONTEXT.CONTROLLER.STOPPED_KEYS[KEY] = false; 
         
         if (EVENT.keyCode === 27)
             lx.CONTEXT.CONTROLLER.KEYS['escape'] = false;
         
-        lx.CONTEXT.CONTROLLER.KEYS[String.fromCharCode(EVENT.keyCode).toLowerCase()] = false;
+        lx.CONTEXT.CONTROLLER.KEYS[KEY] = false;
         lx.CONTEXT.CONTROLLER.KEYS[EVENT.keyCode] = false;
     });
     
@@ -229,7 +236,8 @@ this.CreateController = function() {
     this.CONTEXT.CANVAS.addEventListener('mousedown', function(EVENT) { 
         lx.GAME.AUDIO.CAN_PLAY = true; 
         
-        if (lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[EVENT.button]) return; 
+        if (lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[EVENT.button]) 
+            return; 
         
         lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[EVENT.button] = true; 
         lx.GAME.HANDLE_MOUSE_CLICK(EVENT.button); 
@@ -244,8 +252,27 @@ this.CreateController = function() {
     });
     
     document.addEventListener('mousemove', function(EVENT) { 
-        lx.CONTEXT.CONTROLLER.MOUSE.POS = { X: EVENT.pageX, Y: EVENT.pageY }; 
-        if (lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER != undefined) lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER(lx.CONTEXT.CONTROLLER.MOUSE.POS); 
+        lx.CONTEXT.CONTROLLER.MOUSE.POS = { 
+            X: EVENT.pageX, 
+            Y: EVENT.pageY 
+        }; 
+
+        let worldPosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
+                                
+        if (lx.GAME.FOCUS != undefined)
+            worldPosition = lx.GAME.TRANSLATE_FROM_FOCUS({
+                X: lx.GAME.FOCUS.POS.X+worldPosition.X-lx.GetDimensions().width,
+                Y: lx.GAME.FOCUS.POS.Y+worldPosition.Y-lx.GetDimensions().height
+            });
+
+        for (let i = 0; i < lx.GAME.MOVE_MOUSE_EVENTS.length; i++)
+            lx.GAME.MOVE_MOUSE_EVENTS[i]({
+                mousePos: lx.GAME.CONTROLLER.MOUSE.POS,
+                worldPos: worldPosition
+            });
+
+        if (lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER != undefined) 
+            lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER(lx.CONTEXT.CONTROLLER.MOUSE.POS); 
     });
     
     //Touch events
@@ -264,6 +291,7 @@ this.CreateController = function() {
         lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[0] = true;
         lx.GAME.HANDLE_MOUSE_CLICK(0);
     }, options);
+
     this.CONTEXT.CANVAS.addEventListener('touchend', function(EVENT) {
         if (!lx.CONTEXT.CONTROLLER.MOUSE.STOPPED_BUTTONS[0])
             lx.GAME.INVALIDATE_EVENT('mousebutton', 0);
