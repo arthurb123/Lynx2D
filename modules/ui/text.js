@@ -127,35 +127,36 @@ this.UIText = class extends UIElement {
     //Private methods
     
     RENDER(POS, OPACITY) {
-        if (OPACITY == undefined)
+        if (!POS)
+            POS = { X: 0, Y: 0 };
+        if (!OPACITY)
             OPACITY = 1;
 
         lx.CONTEXT.GRAPHICS.save();
-        lx.CONTEXT.GRAPHICS.font = this.SIZE*(lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE*.75) + 'px ' + this.FONT;
+        lx.CONTEXT.GRAPHICS.font = this.SIZE * (lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE * .75) + 'px ' + this.FONT;
         lx.CONTEXT.GRAPHICS.fillStyle = this.COLOR;
         lx.CONTEXT.GRAPHICS.textAlign = this.ALIGN;
         lx.CONTEXT.GRAPHICS.globalAlpha = OPACITY;
         
-        if (this.SHADOW != undefined) {
+        if (this.SHADOW) {
             lx.CONTEXT.GRAPHICS.shadowColor = this.SHADOW.C;
             lx.CONTEXT.GRAPHICS.shadowOffsetX = this.SHADOW.X;
             lx.CONTEXT.GRAPHICS.shadowOffsetY = this.SHADOW.Y;
         }
+
+        let SELF_POS = this.Position();
+        POS.X += SELF_POS.X;
+        POS.Y += SELF_POS.Y;
+
+        if (this.TARGET)
+            POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
         
-        if (POS == undefined)
-            if (this.TARGET != undefined) {
-                let POS = lx.GAME.TRANSLATE_FROM_FOCUS({ X: this.TARGET.POS.X+this.OFFSET.X, Y: this.TARGET.POS.Y+this.OFFSET.Y });
-                lx.CONTEXT.GRAPHICS.fillText(this.TEXT, POS.X, POS.Y);
-            }
-            else lx.CONTEXT.GRAPHICS.fillText(this.TEXT, this.POS.X, this.POS.Y);
-        else
-            lx.CONTEXT.GRAPHICS.fillText(this.TEXT, POS.X+this.POS.X, POS.Y+this.POS.Y);
-        
+        lx.CONTEXT.GRAPHICS.fillText(this.TEXT, POS.X, POS.Y);
         lx.CONTEXT.GRAPHICS.restore();
     };
     
     UPDATE() {
-        if (this.LOOPS != undefined)
+        if (this.LOOPS)
             this.LOOPS();
     };
 };

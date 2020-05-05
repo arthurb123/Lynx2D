@@ -80,19 +80,25 @@ class Showable {
     */
 
     Position(x, y) {
-        if (x == undefined || y == undefined) 
-            return this.POS;
-        else {
-            this.POS = {
-                X: x,
-                Y: y
-            };
+        if (!x || !y) {
+            if (this.TARGET) {
+                let TARGET_POS = this.TARGET.Position();
 
-            if (this.TARGET != undefined)
-                this.OFFSET = {
-                    X: x,
-                    Y: y
+                return {
+                    X: TARGET_POS.X+this.OFFSET.X,
+                    Y: TARGET_POS.Y+this.OFFSET.Y
                 };
+            }
+
+            return this.POS;
+        }
+        else {
+            let POS = this.Position();
+
+            let DX = x - POS.X;
+            let DY = y - POS.Y;
+            
+            this.Move(DX, DY);
         }
         
         return this;
@@ -103,10 +109,11 @@ class Showable {
      * @param {number} x - The position x delta.
      * @param {number} y - The position y delta.
      */
+
     Move(x, y) {
         //Adjust offset if has a target
 
-        if (this.TARGET != undefined) {
+        if (this.TARGET) {
             this.OFFSET += x;
             this.OFFSET += y;
         }

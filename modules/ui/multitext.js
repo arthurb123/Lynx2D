@@ -158,20 +158,30 @@ this.UIMultiText = class extends UIElement {
 
     //Private methods
     
-    RENDER() {
+    RENDER(POS, OPACITY) {
+        if (!POS)
+            POS = { X: 0, Y: 0 };
+        if (!OPACITY)
+            OPACITY = 1;
+
         let SCALE    = (lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE * .75);
         let GRAPHICS = lx.CONTEXT.GRAPHICS;
 
+        //Configure canvas state
+
         GRAPHICS.save();
-        GRAPHICS.font = this.SIZE * SCALE + 'px ' + this.FONT;
-        GRAPHICS.fillStyle = this.COLOR;
-        GRAPHICS.textAlign = this.ALIGN;
+        GRAPHICS.font        = this.SIZE * SCALE + 'px ' + this.FONT;
+        GRAPHICS.fillStyle   = this.COLOR;
+        GRAPHICS.textAlign   = this.ALIGN;
+        GRAPHICS.globalAlpha = OPACITY;
 
         if (this.SHADOW != undefined) {
             GRAPHICS.shadowColor   = this.SHADOW.C;
             GRAPHICS.shadowOffsetX = this.SHADOW.X;
             GRAPHICS.shadowOffsetY = this.SHADOW.Y;
         }
+
+        //Setup text rendering method
 
         let OFFSET_Y = 0;
         const RENDER_TEXT = (LINE, X, Y) => {
@@ -196,27 +206,40 @@ this.UIMultiText = class extends UIElement {
                     break;
             }
         };
+
+        //Repositioning
         
+        let SELF_POS = this.Position();
+        POS.X += SELF_POS.X;
+        POS.Y += SELF_POS.Y;
+
+        if (this.TARGET)
+            POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
+
+        //Render text lines
+
         for (let i = 0; i < this.TEXT.length; i++) {
             let LINE = this.TEXT[i];
-            
-            if (this.TARGET != undefined) {
-                let POS = lx.GAME.TRANSLATE_FROM_FOCUS({ 
-                    X: this.TARGET.POS.X+this.OFFSET.X, 
-                    Y: this.TARGET.POS.Y+this.OFFSET.Y
-                });
 
-                RENDER_TEXT(LINE, POS.X, POS.Y);
+            if (this.TARGET) {
+                let TARGET_POS = this.TARGET.Position();
+
+                POS = lx.GAME.TRANSLATE_FROM_FOCUS({ 
+                    X: TARGET_POS.X+POS.X, 
+                    Y: TARGET_POS.Y+POS.Y 
+                });
             }
-            else 
-                RENDER_TEXT(LINE, this.POS.X, this.POS.Y);
+
+            RENDER_TEXT(LINE, POS.X, POS.Y);
         }
         
+        //Restore canvas state
+
         GRAPHICS.restore();
     };
     
     UPDATE() {
-        if (this.LOOPS != undefined)
+        if (this.LOOPS)
             this.LOOPS();
     };
 };

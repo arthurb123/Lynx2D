@@ -2,8 +2,8 @@
  * Lynx2D UI Button
  * @extends UIElement
  * @constructor
- * @param {UIText} text - The button Text (can be undefined).
- * @param {UITexture} texture - The button Texture (can be undefined).
+ * @param {UIText | string} text - The button Text, if it is a string a standard UIText is created (can be undefined).
+ * @param {UITexture | string} texture - The button Texture, if it is a string a colored UITexture is created (can be undefined).
  * @param {number} x - The button x position (can be undefined, default is 0).
  * @param {number} y - The button y position (can be undefined, default is 0).
  * @param {number} w - The button width (can be undefined, default is 128).
@@ -18,23 +18,42 @@ this.UIButton = class extends UIElement {
             W: (w == undefined ? 128 : w),
             H: (h == undefined ? 32 : h)
         };
+
         this.CALLBACK = function() {            
-            if (this.ON_CLICK != undefined) {
+            if (this.ON_CLICK) {
                 lx.StopMouse(0);
 
                 this.ON_CLICK();
             }
         };
+
         this.WAS_FOCUSSED = false;
         this.OPACITY = 1;
 
-        //Text and texture handling
+        this.ON_CLICK       = () => {};
+        this.ON_MOUSE_OVER  = () => {};
+        this.ON_MOUSE_ENTER = () => {};
+        this.ON_MOUSE_LEAVE = () => {};
+
+        //Text handling
+
+        if (typeof text === 'string')
+            text = new lx.UIText(text);
 
         this.Text(text);
+
+        //Texture handling
+
+        if (typeof texture === 'string')
+            texture = new lx.UITexture(texture);
+
         this.Texture(texture);
+
+        //Check for violations
+
         if (text == undefined && texture == undefined)
-            lx.GAME.LOG.ERROR(
-                'ButtonCreationError',
+            lx.GAME.LOG.WARNING(
+                'ButtonViolation',
                 'Created a button without a text and texture.'
             );
     }
@@ -46,10 +65,55 @@ this.UIButton = class extends UIElement {
     */
 
     OnClick(callback) {
-        if (callback != undefined)
+        if (callback)
             this.ON_CLICK = callback;
         else
             return this.ON_CLICK;
+
+        return this;
+    };
+
+    /**
+     * Get/Set the on mouse over callback.
+     * @param {Function} callback - Sets the callback if specified.
+     * @return {Function} Gets the callback if left empty.
+     */
+
+    OnMouseOver(callback) {
+        if (callback)
+            this.ON_MOUSE_OVER = callback;
+        else
+            return this.ON_MOUSE_OVER;
+
+        return this;
+    };
+
+    /**
+     * Get/Set the on mouse enter callback.
+     * @param {Function} callback - Sets the callback if specified.
+     * @return {Function} Gets the callback if left empty.
+     */
+
+    OnMouseEnter(callback) {
+        if (callback)
+            this.ON_MOUSE_ENTER = callback;
+        else
+            return this.ON_MOUSE_ENTER;
+
+        return this;
+    };
+
+    /**
+     * Get/Set the on mouse leave callback.
+     * @param {Function} callback - Sets the callback if specified.
+     * @return {Function} Gets the callback if left empty.
+     */
+
+    OnMouseLeave(callback) {
+        if (callback)
+            this.ON_MOUSE_LEAVE = callback;
+        else
+            return this.ON_MOUSE_LEAVE;
 
         return this;
     };
@@ -112,50 +176,51 @@ this.UIButton = class extends UIElement {
     //Private methods
 
     RENDER() {
-        let POS = {
-            X: this.POS.X,
-            Y: this.POS.Y
-        };
+        let POS  = this.Position();
+        let SIZE = this.Size();
 
-        if (this.TARGET != undefined) 
-            POS = lx.GAME.TRANSLATE_FROM_FOCUS({ 
-                X: this.TARGET.POS.X+this.OFFSET.X, 
-                Y: this.TARGET.POS.Y+this.OFFSET.Y 
-            });
+        if (this.TARGET)
+            POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
 
-        if (this.TEXTURE != undefined)
-            this.TEXTURE.RENDER(POS, this.SIZE, this.OPACITY);
-        if (this.TEXT != undefined) {
+        if (this.TEXTURE)
+            this.TEXTURE.RENDER(POS, SIZE, this.OPACITY);
+        if (this.TEXT) {
             this.TEXT.RENDER({
-                X: POS.X + this.SIZE.W/2,
-                Y: POS.Y + this.SIZE.H/2 + this.TEXT.SIZE*(1/3)
+                X: POS.X + SIZE.W/2,
+                Y: POS.Y + SIZE.H/2 + this.TEXT.SIZE*(1/3)
             }, this.OPACITY);
         }
     };
 
     UPDATE() {
-        if (this.LOOPS != undefined)
+        if (this.LOOPS)
             this.LOOPS();
 
+        let POS  = this.Position();
+        let SIZE = this.Size();
+
         let HAS_TARGET = this.TARGET != undefined;
-        let POS = {
-            X: this.POS.X + (HAS_TARGET ? this.TARGET.POS.X : 0),
-            Y: this.POS.Y + (HAS_TARGET ? this.TARGET.POS.Y : 0)
-        };
+        if (HAS_TARGET)
+            POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
 
         //Check if mouse is over button
 
         let MOUSE_OVER = lx.GAME.GET_MOUSE_IN_BOX(
             POS,
-            this.SIZE,
+            SIZE,
             HAS_TARGET
         );
 
         if (MOUSE_OVER) {
+            if (!this.WAS_FOCUSSED)
+                this.ON_MOUSE_ENTER();
+
             this.OPACITY = .875;
             this.WAS_FOCUSSED = true;
 
             document.body.style.cursor = 'pointer';
+
+            this.ON_MOUSE_OVER();
 
             if (lx.CONTEXT.CONTROLLER.MOUSE.BUTTONS[0])
                 this.CALLBACK();
@@ -164,6 +229,8 @@ this.UIButton = class extends UIElement {
             this.WAS_FOCUSSED = false;
 
             document.body.style.cursor = 'default';
+
+            this.ON_MOUSE_LEAVE();
         }
     };
 };

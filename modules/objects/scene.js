@@ -44,7 +44,7 @@ this.Scene = class {
 
         //Restore saved state
 
-        lx.GAME.RESTORE_SNAPSHOT(snapshot);
+        lx.GAME.RESTORE_SNAPSHOT(this.SAVE_DATA);
 
         //Return successful
 

@@ -25,7 +25,7 @@ this.UITexture = class extends UIElement {
                 H: h
             };
         else if (typeof(sprite) !== 'string')
-            this.SIZE = sprite.SPRITE_SIZE;
+            this.SIZE = sprite.Size();
     }
 
     /** 
@@ -54,22 +54,22 @@ this.UITexture = class extends UIElement {
     //Private methods
     
     RENDER(POS, SIZE, OPACITY) {
-        if (OPACITY == undefined)
+        if (!POS)
+            POS = { X: 0, Y: 0 };
+        if (!OPACITY)
             OPACITY = 1;
-        if (SIZE == undefined)
+        if (!SIZE)
             SIZE = {
                 W: this.SIZE.W,
                 H: this.SIZE.H
             };
 
-        if (POS == undefined && this.TARGET != undefined) 
-            POS = lx.GAME.TRANSLATE_FROM_FOCUS({ X: this.TARGET.POS.X+this.OFFSET.X, Y: this.TARGET.POS.Y+this.OFFSET.Y });
-        else if (POS == undefined)
-            POS = this.POS;
-        else {
-            POS.X += this.POS.X;
-            POS.Y += this.POS.Y;
-        }
+        let SELF_POS = this.Position();
+        POS.X += SELF_POS.X;
+        POS.Y += SELF_POS.Y;
+
+        if (this.TARGET)
+            POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
         
         if (typeof this.SPRITE === 'string')
         {
@@ -84,7 +84,7 @@ this.UITexture = class extends UIElement {
     };
     
     UPDATE() {
-        if (this.LOOPS != undefined)
+        if (this.LOOPS)
             this.LOOPS();
     };
 };

@@ -104,23 +104,35 @@ this.Animation = class extends Showable {
         let FRAME = this.GET_CURRENT_FRAME();
         if (FRAME == undefined)
             return;
+
+        if (!POS)
+            POS = { X: 0, Y: 0 };
+        if (!SIZE)
+            SIZE = this.Size();
+        if (!OPACITY)
+            OPACITY = 1;
+
+        lx.CONTEXT.GRAPHICS.save();
+        lx.CONTEXT.GRAPHICS.globalAlpha = 1;
+
+        let SELF_POS = this.Position();
+        POS.X += SELF_POS.X;
+        POS.Y += SELF_POS.Y;
+
+        if (this.TARGET)
+            POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
             
         FRAME.ROTATION = this.ROTATION;
 
-        if (this.BUFFER_ID === -1) 
-            FRAME.RENDER(POS, SIZE, OPACITY);
-        else {
-            SIZE = this.SIZE;
-            if (SIZE.W === 0 && SIZE.H === 0)
-                SIZE = FRAME.SPRITE_SIZE;
+        if (SIZE.W === 0 && SIZE.H === 0)
+            SIZE = FRAME.Size();
 
-            if (lx.GAME.ON_SCREEN(this.POS, SIZE))
-                FRAME.RENDER(
-                    lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
-                    SIZE, 
-                    OPACITY
-                );
+        if (this.BUFFER_ID === -1 ||
+            lx.GAME.ON_SCREEN(POS, SIZE)) {
+            FRAME.RENDER(POS, SIZE, OPACITY);
         }
+
+        lx.CONTEXT.GRAPHICS.restore();
     };
     
     UPDATE() {

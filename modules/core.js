@@ -28,7 +28,7 @@ this.GAME = {
 
         //Set FPS if provided
 
-        if (FPS != undefined) 
+        if (!FPS) 
             this.SETTINGS.FPS = FPS;
 
         //Start game loop
@@ -97,14 +97,20 @@ this.GAME = {
     },
     LOG: {
         RECORDED: {},
+        WARNING: function(TYPE, MESSAGE) {
+            this.PRINT(TYPE, MESSAGE, 'orange');
+        },
         ERROR: function(TYPE, MESSAGE) {
+            this.PRINT(TYPE, MESSAGE, 'red');
+        },
+        PRINT: function(TYPE, MESSAGE, COLOR) {
             if (this.RECORDED[TYPE])
                 return;
 
             this.RECORDED[TYPE] = true;
-            
-            let CONTENT = (MESSAGE.stack != undefined ? MESSAGE.stack : MESSAGE);
-            console.log('%c' + TYPE + ':%c ' + CONTENT, 'color: red;', '');
+            let CONTENT = (MESSAGE.stack ? MESSAGE.stack : MESSAGE);
+            console.log('%c' + TYPE + ':%c ' + CONTENT, 'color: ' + COLOR + ';', '');
+
         }
     },
     SETTINGS: {
@@ -137,7 +143,12 @@ this.GAME = {
         this.COLLIDERS = [];
         this.LAYER_DRAW_EVENTS = [];
         this.LOOPS = [];
-        
+        this.GO_MOUSE_EVENTS = [];
+        this.UI_MOUSE_EVENTS = [];
+        this.ON_RESIZE_EVENTS = [];
+        this.MOVE_MOUSE_EVENTS = [];
+
+        delete lx.CONTEXT.CONTROLLER.TARGET;
         delete this.FOCUS;
     },
     LOOP: function() {
@@ -535,13 +546,30 @@ this.GAME = {
         }
     },
     ON_SCREEN: function(POS, SIZE) {
+        let DIM = lx.GetDimensions();
+
+        //If a focus exists, calculate the
+        //absolute distance towards the focus.
+        //If it exceeds half the screen size we
+        //can assume it is off-screen.
+
         if (this.FOCUS != undefined) {
-            if (Math.abs(this.FOCUS.Position().X-POS.X) <= lx.GetDimensions().width/2+SIZE.W && Math.abs(this.FOCUS.Position().Y-POS.Y) <= lx.GetDimensions().height/2+SIZE.H) return true;
-            else return false;
-        } else {
-            if (POS.X+SIZE.W > 0 && POS.X < lx.GetDimensions().width && POS.Y+SIZE.H > 0 && POS.Y < lx.GetDimensions().height) return true;
-            else return false;
+            let FOCUS_POS = this.FOCUS.Position();
+
+            let ABS_DIFF_X = Math.abs(FOCUS_POS.X-POS.X);
+            let ABS_DIFF_Y = Math.abs(FOCUS_POS.Y-POS.Y);
+
+            return ABS_DIFF_X <= DIM.width/2+SIZE.W
+                && ABS_DIFF_Y <= DIM.height/2+SIZE.H;
         }
+        
+        //Otherwise assume the default screen
+        //dimensions and check bounds
+
+        return POS.X+SIZE.W > 0
+            && POS.Y+SIZE.H > 0
+            && POS.X < DIM.width
+            && POS.Y < DIM.height;
     },
     ADD_LAYER_DRAW_EVENT: function(LAYER, CALLBACK) {
         if (this.BUFFER[LAYER] == undefined) 
@@ -797,6 +825,7 @@ this.GAME = {
             EVENTS: this.EVENTS,
             LOOPS: this.LOOPS,
             GO_MOUSE_EVENTS: this.GO_MOUSE_EVENTS,
+            MOVE_MOUSE_EVENTS: this.MOVE_MOUSE_EVENTS,
             LAYER_DRAW_EVENTS: this.LAYER_DRAW_EVENTS,
             AUDIO_CHANNELS: this.AUDIO.CHANNELS,
             AUDIO_SOUNDS: this.AUDIO.SOUNDS,
@@ -811,6 +840,7 @@ this.GAME = {
         this.EVENTS = SNAPSHOT.EVENTS;
         this.LOOPS = SNAPSHOT.LOOPS;
         this.GO_MOUSE_EVENTS = SNAPSHOT.GO_MOUSE_EVENTS;
+        this.MOVE_MOUSE_EVENTS = SNAPSHOT.MOVE_MOUSE_EVENTS;
         this.LAYER_DRAW_EVENTS = SNAPSHOT.LAYER_DRAW_EVENTS;
         this.AUDIO.CHANNELS = SNAPSHOT.AUDIO_CHANNELS;
         this.AUDIO.SOUNDS = SNAPSHOT.AUDIO_SOUNDS;

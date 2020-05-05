@@ -102,25 +102,19 @@ this.UIProgressBar = class extends UIElement {
     //Private methods
     
     RENDER(POS, SIZE, OPACITY) {
-        if (OPACITY == undefined)
+        if (!POS)
+            POS = { X: 0, Y: 0 };
+        if (!OPACITY)
             OPACITY = 1;
-        if (SIZE == undefined)
-            SIZE = {
-                W: this.SIZE.W,
-                H: this.SIZE.H
-            };
+        if (!SIZE)
+            SIZE = this.Size();
 
-        if (POS == undefined && this.TARGET != undefined) 
-            POS = lx.GAME.TRANSLATE_FROM_FOCUS({ 
-                X: this.TARGET.POS.X+this.OFFSET.X, 
-                Y: this.TARGET.POS.Y+this.OFFSET.Y 
-            });
-        else if (POS == undefined)
-            POS = this.POS;
-        else {
-            POS.X += this.POS.X;
-            POS.Y += this.POS.Y;
-        }
+        let SELF_POS = this.Position();
+        POS.X += SELF_POS.X;
+        POS.Y += SELF_POS.Y;
+
+        if (this.TARGET)
+            POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
         
         //Render background
 
@@ -150,7 +144,7 @@ this.UIProgressBar = class extends UIElement {
             this.FILLING.RENDER(
                 POS, 
                 {
-                    W: SIZE.W*FACTOR_PROGRESS,
+                    W: SIZE.W * FACTOR_PROGRESS,
                     H: SIZE.H
                 }, 
                 OPACITY

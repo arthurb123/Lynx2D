@@ -54,11 +54,18 @@ this.Sprite = class {
                 W: this.CLIP.W,
                 H: this.CLIP.H
             };
-        else 
-            return {
-                W: this.IMG.width,
-                H: this.IMG.height
-            };
+        
+        if (this.SPRITE_SIZE.W === 0 &&
+            this.SPRITE_SIZE.H === 0)
+            lx.GAME.LOG.WARNING(
+                'SpriteAccessViolation', 
+                'The size was requested of a ' +
+                'sprite that has not been fully ' +
+                'loaded yet. It is advised to ' +
+                'use a callback method to prevent bugs.'
+            );
+
+        return this.SPRITE_SIZE;
     };
 
     /** 

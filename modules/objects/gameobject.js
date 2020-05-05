@@ -30,10 +30,10 @@ this.GameObject = class extends Showable {
                 H: h
             };
         else if (sprite != undefined)
-            this.SIZE = sprite.SPRITE_SIZE;
+            this.SIZE = sprite.Size();
         else
-            lx.GAME.LOG.ERROR(
-                'GameObjectCreationError', 
+            lx.GAME.LOG.WARNING(
+                'GameObjectViolation', 
                 'Created a GameObject without a proper size.'
             );
 
@@ -635,15 +635,18 @@ this.GameObject = class extends Showable {
 
     //Private methods
     
-    RENDER() {        
-        if (lx.GAME.ON_SCREEN(this.POS, this.SIZE)) {
+    RENDER() {
+        let POS  = this.Position();
+        let SIZE = this.Size();
+
+        if (lx.GAME.ON_SCREEN(POS, SIZE)) {
             //Pre draws loop
                         
             if (this.PRE_DRAWS != undefined) 
                 this.PRE_DRAWS({
                     graphics: lx.CONTEXT.GRAPHICS,
-                    position: this.POS,
-                    size: this.SIZE
+                    position: POS,
+                    size: SIZE
                 });
 
             //Draw sprite or animation
@@ -651,26 +654,26 @@ this.GameObject = class extends Showable {
             if (this.ANIMATION == undefined) {
                 if (this.SPRITE != undefined)
                     this.SPRITE.RENDER(
-                        lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
-                        this.SIZE, 
+                        lx.GAME.TRANSLATE_FROM_FOCUS(POS), 
+                        SIZE, 
                         this.OPACITY
                     );
             }
             else
                 this.ANIMATION.RENDER(
-                    lx.GAME.TRANSLATE_FROM_FOCUS(this.POS), 
-                    this.SIZE, 
+                    lx.GAME.TRANSLATE_FROM_FOCUS(POS), 
+                    SIZE, 
                     this.OPACITY
                 );
             
             //Hover draw
             
             if (this.ON_HOVER_DRAW != undefined &&
-                lx.GAME.GET_MOUSE_IN_BOX(this.POS, this.SIZE))
+                lx.GAME.GET_MOUSE_IN_BOX(POS, SIZE))
                 this.ON_HOVER({
                     graphics: lx.CONTEXT.GRAPHICS,
-                    position: this.POS,
-                    size: this.SIZE
+                    position: POS,
+                    size: SIZE
                 });
             
             //Draws loop
@@ -678,30 +681,25 @@ this.GameObject = class extends Showable {
             if (this.DRAWS != undefined) 
                 this.DRAWS({
                     graphics: lx.CONTEXT.GRAPHICS,
-                    position: this.POS,
-                    size: this.SIZE
+                    position: POS,
+                    size: SIZE
                 });
         }
     };
     
     UPDATE() {
-        if (this.TARGET != undefined) {
-            let TARGET_POS = this.TARGET.Position();
-            this.POS = {
-                X: TARGET_POS.X+this.OFFSET.X,
-                Y: TARGET_POS.Y+this.OFFSET.Y
-            };
-        }
-        
+        let POS  = this.Position();
+        let SIZE = this.Size();
+
         if (this.ANIMATION != undefined) 
             this.ANIMATION.UPDATE();
         if (this.LOOPS != undefined) 
             this.LOOPS();
         if (this.ON_HOVER != undefined &&
-            lx.GAME.GET_MOUSE_IN_BOX(this.POS, this.SIZE))
+            lx.GAME.GET_MOUSE_IN_BOX(POS, SIZE))
             this.ON_HOVER({
-                position: this.POS,
-                size: this.SIZE
+                position: POS,
+                size: SIZE
             });
 
         this.MOVEMENT.UPDATE();
@@ -713,8 +711,8 @@ this.GameObject = class extends Showable {
         
         if (this.COLLIDER != undefined) 
             this.COLLIDER.POS = {
-                X: this.POS.X+this.COLLIDER.OFFSET.X,
-                Y: this.POS.Y+this.COLLIDER.OFFSET.Y
+                X: POS.X+this.COLLIDER.OFFSET.X,
+                Y: POS.Y+this.COLLIDER.OFFSET.Y
             };
     };
 };
