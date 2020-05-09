@@ -22,7 +22,7 @@ this.Sound = class {
             this.CHANNEL = 0;
     }
         
-    /** 
+    /**
      * Get/Set the Sound's Channel.
      * @param {number} channel - Sets the channel if specified.
      * @return {number} Gets current channel if left empty.

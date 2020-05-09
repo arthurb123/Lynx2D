@@ -143,14 +143,8 @@ this.Emitter = class extends Showable {
     };
     
     UPDATE() {
-        if (this.TARGET != undefined) {
-            let TARGET_POS = this.TARGET.Position();
-            this.POS = {
-                X: TARGET_POS.X+this.OFFSET.X,
-                Y: TARGET_POS.Y+this.OFFSET.Y
-            };
-        }
-        
+        let POS = this.Position();
+
         for (let i = 0; i < this.PARTICLES.length; i++) {
             if (this.PARTICLES[i].TIMER.CURRENT >= this.PARTICLES[i].TIMER.STANDARD) 
                 this.PARTICLES.splice(i, 1);
@@ -217,8 +211,8 @@ this.Emitter = class extends Showable {
                 
                 let PARTICLE_DATA = {
                     POS: {
-                        X: this.POS.X-this.SIZE.MAX/2+Math.random()*this.RANGE.X-Math.random()*this.RANGE.X,
-                        Y: this.POS.Y-this.SIZE.MAX/2+Math.random()*this.RANGE.Y-Math.random()*this.RANGE.Y
+                        X: POS.X-this.SIZE.MAX/2+Math.random()*this.RANGE.X-Math.random()*this.RANGE.X,
+                        Y: POS.Y-this.SIZE.MAX/2+Math.random()*this.RANGE.Y-Math.random()*this.RANGE.Y
                     },
                     MOVEMENT: {
                         VX: Math.random()*this.MOVEMENT.MIN_VX+Math.random()*this.MOVEMENT.MAX_VX,

@@ -255,24 +255,15 @@ this.CreateController = function() {
         lx.CONTEXT.CONTROLLER.MOUSE.POS = { 
             X: EVENT.pageX, 
             Y: EVENT.pageY 
-        }; 
+        };
 
-        let worldPosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
-                                
-        if (lx.GAME.FOCUS != undefined)
-            worldPosition = lx.GAME.TRANSLATE_FROM_FOCUS({
-                X: lx.GAME.FOCUS.POS.X+worldPosition.X-lx.GetDimensions().width,
-                Y: lx.GAME.FOCUS.POS.Y+worldPosition.Y-lx.GetDimensions().height
-            });
+        let worldPosition = lx.GetMousePosition(lx.GAME.FOCUS != undefined);
 
         for (let i = 0; i < lx.GAME.MOVE_MOUSE_EVENTS.length; i++)
             lx.GAME.MOVE_MOUSE_EVENTS[i]({
                 mousePos: lx.GAME.CONTROLLER.MOUSE.POS,
                 worldPos: worldPosition
             });
-
-        if (lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER != undefined) 
-            lx.CONTEXT.CONTROLLER.MOUSE.ON_HOVER(lx.CONTEXT.CONTROLLER.MOUSE.POS); 
     });
     
     //Touch events

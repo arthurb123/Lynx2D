@@ -52,7 +52,7 @@ class UIElement {
     */
 
     Position(x, y) {
-        if (!x || !y) {
+        if (x == undefined || y == undefined) {
             if (this.TARGET) {
                 let TARGET_POS = this.TARGET.Position();
 
@@ -77,24 +77,41 @@ class UIElement {
     };
 
     /**
-     * Adjust the UI element's position.
+     * Get/Set the UI element's offset. The offset is used when following.
+     * @param {number} x - The offset x delta.
+     * @param {number} y - The offset y delta.
+     */
+
+    Offset(x, y) {
+        if (x == undefined || y == undefined)
+            return this.OFFSET;
+        else
+            this.OFFSET = {
+                X: x,
+                Y: y
+            };
+
+        return this;
+    };
+
+    /**
+     * Adjust the UI element's position, or offset if following.
      * @param {number} x - The position x delta.
      * @param {number} y - The position y delta.
      */
+
     Move(x, y) {
-        //Adjust offset if has a target
+        //Adjust position if not following
 
-        if (this.TARGET != undefined) {
-            this.OFFSET += x;
-            this.OFFSET += y;
-        }
-
-        //Otherwise adjust position
-
-        else {
+        if (!this.TARGET) {
             this.POS.X += x;
             this.POS.Y += y;
         }
+
+        //Always adjust offset
+
+        this.OFFSET.X += x;
+        this.OFFSET.Y += y;
 
         return this;
     };
@@ -119,11 +136,7 @@ class UIElement {
     */
 
     StopFollowing() {
-        this.TARGET = undefined;
-        this.POS = {
-            X: this.OFFSET.X,
-            Y: this.OFFSET.Y
-        };
+        delete this.TARGET;
         
         return this;
     };

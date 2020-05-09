@@ -42,8 +42,10 @@ this.ResetLayerDraw = function() {
 
 this.DrawSprite = function(sprite, x, y, w, h) {
     if (w == undefined || h == undefined) {
-        w = sprite.Size().W;
-        h = sprite.Size().H;
+        let size = sprite.Size();
+
+        w = size.W;
+        h = size.H;
     };
     
     if (!lx.GAME.ON_SCREEN({

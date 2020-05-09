@@ -42,15 +42,22 @@ this.Animation = class extends Showable {
     };
 
     /** 
-     * Get/Set the Animation's size. If the size is { 0, 0 } the available Sprite size will be used.
+     * Get/Set the Animation's size. If the size is { 0, 0 } the available Sprite size of the current frame will be used.
      * @param {number} width - Sets width if specified, also sets height if the height is not specified.
      * @param {number} height - Sets height if specified.
      * @return {Object} Gets { W, H } if left empty.
     */
     
     Size(width, height) {
-        if (width == undefined && height == undefined) 
-            return this.SIZE;
+        if (width == undefined && height == undefined) {
+            let SIZE = this.SIZE;
+
+            if (SIZE.width === 0 &&
+                SIZE.height === 0)
+                SIZE = this.GET_CURRENT_FRAME().Size();
+
+            return SIZE;
+        }
         else {
             if (height == undefined)
                 height = width;
@@ -105,31 +112,26 @@ this.Animation = class extends Showable {
         if (FRAME == undefined)
             return;
 
-        if (!POS)
-            POS = { X: 0, Y: 0 };
-        if (!SIZE)
-            SIZE = this.Size();
-        if (!OPACITY)
-            OPACITY = 1;
-
-        lx.CONTEXT.GRAPHICS.save();
-        lx.CONTEXT.GRAPHICS.globalAlpha = 1;
-
-        let SELF_POS = this.Position();
-        POS.X += SELF_POS.X;
-        POS.Y += SELF_POS.Y;
-
-        if (this.TARGET)
-            POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
-            
         FRAME.ROTATION = this.ROTATION;
 
-        if (SIZE.W === 0 && SIZE.H === 0)
-            SIZE = FRAME.Size();
+        lx.CONTEXT.GRAPHICS.save();
 
-        if (this.BUFFER_ID === -1 ||
-            lx.GAME.ON_SCREEN(POS, SIZE)) {
+        if (OPACITY == undefined)
+            OPACITY = 1;
+        lx.CONTEXT.GRAPHICS.globalAlpha = OPACITY;
+
+        if (this.BUFFER_ID === -1) 
             FRAME.RENDER(POS, SIZE, OPACITY);
+        else {
+            POS  = this.Position();
+            SIZE = this.Size();
+
+            if (lx.GAME.ON_SCREEN(POS, SIZE))
+                FRAME.RENDER(
+                    lx.GAME.TRANSLATE_FROM_FOCUS(POS), 
+                    SIZE, 
+                    OPACITY
+                );
         }
 
         lx.CONTEXT.GRAPHICS.restore();

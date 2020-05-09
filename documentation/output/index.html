@@ -734,6 +734,12 @@
                       </a></li>
                       
                       <li><a
+                        href='#showableoffset'
+                        class='regular pre-open'>
+                        #Offset
+                      </a></li>
+                      
+                      <li><a
                         href='#showablemove'
                         class='regular pre-open'>
                         #Move
@@ -1149,6 +1155,12 @@
                         href='#uielementposition'
                         class='regular pre-open'>
                         #Position
+                      </a></li>
+                      
+                      <li><a
+                        href='#uielementoffset'
+                        class='regular pre-open'>
+                        #Offset
                       </a></li>
                       
                       <li><a
@@ -5841,7 +5853,7 @@
 
   
 
-  <p>Get/Set the Animation's size. If the size is { 0, 0 } the available Sprite size will be used.</p>
+  <p>Get/Set the Animation's size. If the size is { 0, 0 } the available Sprite size of the current frame will be used.</p>
 
     <div class='pre p1 fill-light mt0'>Size(width: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, height: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
   
@@ -6792,7 +6804,7 @@ from memory.</p>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
             <a class='icon pin-right py1 dark-link caret-right'>▸</a>
-            <span class='code strong strong truncate'>DrawSprite(sprite, x, y, w, h)</span>
+            <span class='code strong strong truncate'>DrawSprite(sprite, x, y, w, h, opacity)</span>
         </div>
       </div>
       <div class="clearfix display-none toggle-target">
@@ -6802,7 +6814,7 @@ from memory.</p>
 
   <p>Draw a Sprite on the canvas.</p>
 
-    <div class='pre p1 fill-light mt0'>DrawSprite(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+    <div class='pre p1 fill-light mt0'>DrawSprite(sprite: <a href="#sprite">Sprite</a>, x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, w: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, h: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, opacity: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   
   
 
@@ -6857,6 +6869,15 @@ from memory.</p>
           <div>
             <span class='code bold'>h</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
 	    The height, if left undefined will use the Sprite's height.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>opacity</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The opacity, if left undefined will use the Sprite's opacity.
 
           </div>
           
@@ -7684,7 +7705,7 @@ from memory.</p>
 
   
 
-  <p>Get/Set the showable's position.</p>
+  <p>Get/Set the showable's position, or offset if following.</p>
 
     <div class='pre p1 fill-light mt0'>Position(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
   
@@ -7732,6 +7753,78 @@ from memory.</p>
 
       
     
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='showableoffset'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Offset(x, y)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get/Set the UI element's offset. The offset is used when following.</p>
+
+    <div class='pre p1 fill-light mt0'>Offset(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>x</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The offset x delta.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>y</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The offset y delta.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
   
 
   
@@ -11549,6 +11642,78 @@ from memory.</p>
       </div>
     </div>
   
+    <div class='border-bottom' id='uielementoffset'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Offset(x, y)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get/Set the UI element's offset. The offset is used when following.</p>
+
+    <div class='pre p1 fill-light mt0'>Offset(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>x</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The offset x delta.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>y</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The offset y delta.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='uielementmove'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -11561,7 +11726,7 @@ from memory.</p>
 
   
 
-  <p>Adjust the UI element's position.</p>
+  <p>Adjust the UI element's position, or offset if following.</p>
 
     <div class='pre p1 fill-light mt0'>Move(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
   

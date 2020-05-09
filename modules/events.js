@@ -110,11 +110,15 @@ this.GetMousePosition = function(toWorld) {
                 'GetMousePositionError', 
                 'Cannot get the mouse position in world space when there is no focus target.'
             );
-        else
+        else {
+            let focusPos = lx.GAME.FOCUS.Position();
+            let dim      = lx.GetDimensions();
+
             mousePosition = lx.GAME.TRANSLATE_FROM_FOCUS({
-                X: lx.GAME.FOCUS.POS.X+mousePosition.X-lx.GetDimensions().width,
-                Y: lx.GAME.FOCUS.POS.Y+mousePosition.Y-lx.GetDimensions().height
+                X: focusPos.X+mousePosition.X-dim.width,
+                Y: focusPos.Y+mousePosition.Y-dim.height
             });
+        }
     } 
     
     return mousePosition;

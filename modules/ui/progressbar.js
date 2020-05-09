@@ -104,10 +104,10 @@ this.UIProgressBar = class extends UIElement {
     RENDER(POS, SIZE, OPACITY) {
         if (!POS)
             POS = { X: 0, Y: 0 };
-        if (!OPACITY)
-            OPACITY = 1;
         if (!SIZE)
             SIZE = this.Size();
+        if (OPACITY == undefined)
+            OPACITY = 1;
 
         let SELF_POS = this.Position();
         POS.X += SELF_POS.X;

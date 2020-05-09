@@ -28,7 +28,7 @@ this.GAME = {
 
         //Set FPS if provided
 
-        if (!FPS) 
+        if (FPS) 
             this.SETTINGS.FPS = FPS;
 
         //Start game loop
@@ -96,7 +96,8 @@ this.GAME = {
         }
     },
     LOG: {
-        RECORDED: {},
+        RECORDED: [],
+        MAX_RECORDS: 10,
         WARNING: function(TYPE, MESSAGE) {
             this.PRINT(TYPE, MESSAGE, 'orange');
         },
@@ -104,10 +105,14 @@ this.GAME = {
             this.PRINT(TYPE, MESSAGE, 'red');
         },
         PRINT: function(TYPE, MESSAGE, COLOR) {
-            if (this.RECORDED[TYPE])
-                return;
+            for (let R = 0; R < this.RECORDED.length; R++)
+                if (this.RECORDED[R] === MESSAGE)
+                    return;
 
-            this.RECORDED[TYPE] = true;
+            this.RECORDED.push(lx.HASH_CODE(MESSAGE));
+            if (this.RECORDED.length >= this.MAX_RECORDS)
+                this.RECORDED.splice(0, 1);
+
             let CONTENT = (MESSAGE.stack ? MESSAGE.stack : MESSAGE);
             console.log('%c' + TYPE + ':%c ' + CONTENT, 'color: ' + COLOR + ';', '');
 
@@ -219,11 +224,15 @@ this.GAME = {
                             try {
                                 let worldPosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
                                 
-                                if (lx.GAME.FOCUS != undefined)
+                                if (lx.GAME.FOCUS != undefined) {
+                                    let FOCUS_POS = lx.GAME.FOCUS.Position();
+                                    let DIM       = lx.GetDimensions();
+                                    
                                     worldPosition = lx.GAME.TRANSLATE_FROM_FOCUS({
-                                        X: lx.GAME.FOCUS.POS.X+worldPosition.X-lx.GetDimensions().width,
-                                        Y: lx.GAME.FOCUS.POS.Y+worldPosition.Y-lx.GetDimensions().height
+                                        X: FOCUS_POS.X+worldPosition.X-DIM.width,
+                                        Y: FOCUS_POS.Y+worldPosition.Y-DIM.height
                                     });
+                                }
                                 
                                 obj.CALLBACK[i]({ 
                                     mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS, 
@@ -461,11 +470,15 @@ this.GAME = {
                     if (this.EVENTS[i].CALLBACK[ii] != undefined) {
                         let worldPosition = lx.CONTEXT.CONTROLLER.MOUSE.POS;
                                 
-                        if (this.FOCUS != undefined)
+                        if (this.FOCUS != undefined) {
+                            let FOCUS_POS = this.FOCUS.Position();
+                            let DIM       = lx.GetDimensions();
+                            
                             worldPosition = this.TRANSLATE_FROM_FOCUS({
-                                X: this.FOCUS.POS.X+worldPosition.X-lx.GetDimensions().width,
-                                Y: this.FOCUS.POS.Y+worldPosition.Y-lx.GetDimensions().height
+                                X: FOCUS_POS.X+worldPosition.X-DIM.width,
+                                Y: FOCUS_POS.Y+worldPosition.Y-DIM.height
                             });
+                        }
                         
                         this.EVENTS[i].CALLBACK[ii]({
                             mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
@@ -508,40 +521,37 @@ this.GAME = {
         if (this.FOCUS == undefined) 
             return POS;
         else {
-            if (this.FOCUS.SIZE == undefined)
-                this.FOCUS.SIZE = {
-                    W: 0,
-                    H: 0
-                };
-            else if (this.FOCUS.SIZE.W == undefined || this.FOCUS.SIZE.H == undefined)
-            {
-                this.FOCUS.SIZE.W = 0;
-                this.FOCUS.SIZE.H = 0;
-            }
+            let FOCUS_POS  = this.FOCUS.Position();
+            let FOCUS_SIZE = this.FOCUS.Size();
+            let DIM        = lx.GetDimensions();
+
+            if (FOCUS_SIZE   == undefined ||
+                FOCUS_SIZE.W == undefined ||
+                FOCUS_SIZE.H == undefined)
+                this.FOCUS.Size(0, 0);
             
             return {
-                X: Math.floor(Math.round(POS.X)-Math.round(this.FOCUS.Position().X)+lx.GetDimensions().width/(2*this.SCALE)-this.FOCUS.SIZE.W/2) * this.SCALE,
-                Y: Math.floor(Math.round(POS.Y)-Math.round(this.FOCUS.Position().Y)+lx.GetDimensions().height/(2*this.SCALE)-this.FOCUS.SIZE.H/2) * this.SCALE
+                X: Math.floor(Math.round(POS.X)-Math.round(FOCUS_POS.X)+DIM.width/(2*this.SCALE)-FOCUS_SIZE.W/2) * this.SCALE,
+                Y: Math.floor(Math.round(POS.Y)-Math.round(FOCUS_POS.Y)+DIM.height/(2*this.SCALE)-FOCUS_SIZE.H/2) * this.SCALE
             };
         }
     },
     UNTRANSLATE_FROM_FOCUS: function(POS) {
-        if (this.FOCUS == undefined) return POS;
+        if (this.FOCUS == undefined) 
+            return POS;
         else {
-            if (this.FOCUS.SIZE == undefined)
-                this.FOCUS.SIZE = {
-                    W: 0,
-                    H: 0
-                };
-            else if (this.FOCUS.SIZE.W == undefined || this.FOCUS.SIZE.H == undefined)
-            {
-                this.FOCUS.SIZE.W = 0;
-                this.FOCUS.SIZE.H = 0;
-            }
+            let FOCUS_POS  = this.FOCUS.Position();
+            let FOCUS_SIZE = this.FOCUS.Size();
+            let DIM        = lx.GetDimensions();
+
+            if (FOCUS_SIZE   == undefined ||
+                FOCUS_SIZE.W == undefined ||
+                FOCUS_SIZE.H == undefined)
+                this.FOCUS.Size(0, 0);
             
             return {
-                X: Math.floor(Math.round(POS.X)+Math.round(this.FOCUS.Position().X)-lx.GetDimensions().width/2+this.FOCUS.SIZE.W/2),
-                Y: Math.floor(Math.round(POS.Y)+Math.round(this.FOCUS.Position().Y)-lx.GetDimensions().height/2+this.FOCUS.SIZE.H/2)
+                X: Math.floor(Math.round(POS.X)+Math.round(FOCUS_POS.X)-DIM.width/2+FOCUS_SIZE.W/2),
+                Y: Math.floor(Math.round(POS.Y)+Math.round(FOCUS_POS.Y)-DIM.height/2+FOCUS_SIZE.H/2)
             };
         }
     },
@@ -785,7 +795,7 @@ this.GAME = {
                     (EVENT.UI.TARGET != undefined)
                 )) {
                     EVENT.CALLBACK({
-                        mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
+                        mousePosition: lx.GetMousePosition(),
                         state: 1
                     });
                 }
@@ -800,11 +810,13 @@ this.GAME = {
             W: SIZE.W * this.SCALE,
             H: SIZE.H * this.SCALE
         };
+
+        let MOUSE = lx.GetMousePosition();
         
-        if (POS.X <= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && 
-            POS.X+SIZE.W >= lx.CONTEXT.CONTROLLER.MOUSE.POS.X && 
-            POS.Y <= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y && 
-            POS.Y+SIZE.H >= lx.CONTEXT.CONTROLLER.MOUSE.POS.Y)
+        if (POS.X <= MOUSE.X        && 
+            POS.X+SIZE.W >= MOUSE.X && 
+            POS.Y <= MOUSE.Y        && 
+            POS.Y+SIZE.H >= MOUSE.Y)
                 return true;
         
         return false;

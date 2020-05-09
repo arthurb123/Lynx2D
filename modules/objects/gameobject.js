@@ -581,15 +581,7 @@ this.GameObject = class extends Showable {
     */
     
     OnHover(callback) {
-        if (this.ON_HOVER != undefined) {
-            lx.GAME.LOG.ERROR(
-                'GameObjectHoverError', 
-                'GameObject already has a mouse hover handler.'
-            );
-
-            return this;
-        } else
-            this.ON_HOVER = callback;
+        this.ON_HOVER = callback;
 
         return this;
     };
@@ -600,15 +592,7 @@ this.GameObject = class extends Showable {
     */
 
     OnHoverDraw(callback) {
-        if (this.ON_HOVER_DRAW != undefined) {
-            lx.GAME.LOG.ERROR(
-                'GameObjectHoverDrawError', 
-                'GameObject already has a mouse hover draw handler.'
-            );
-
-            return this;
-        } else
-            this.ON_HOVER_DRAW = callback;
+        this.ON_HOVER_DRAW = callback;
 
         return this;
     };

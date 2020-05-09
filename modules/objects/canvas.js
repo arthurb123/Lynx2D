@@ -33,24 +33,29 @@
      * @param {number} y - The y position.
      * @param {number} w - The width, if left undefined will use the Sprite's width.
      * @param {number} h - The height, if left undefined will use the Sprite's height.
+     * @param {number} opacity - The opacity, if left undefined will use the Sprite's opacity.
     */
 
-    DrawSprite(sprite, x, y, w, h) {
-        let SIZE = sprite.Size();
+    DrawSprite(sprite, x, y, w, h, opacity) {
+        if (w == undefined && h == undefined) {
+            let spriteSize = sprite.Size();
+            w = spriteSize.W;
+            h = spriteSize.H;
+        }
 
-        if (w != undefined && h != undefined)
-            SIZE = {
-                W: w,
-                H: h
-            };
+        if (opacity == undefined)
+            opacity = sprite.Opacity();
 
         sprite.RENDER(
             {
                 X: x,
                 Y: y
             },
-            SIZE,
-            sprite.Opacity(),
+            {
+                W: w,
+                H: h
+            },
+            opacity,
             this.GRAPHICS
         );
     };

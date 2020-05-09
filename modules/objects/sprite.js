@@ -59,10 +59,11 @@ this.Sprite = class {
             this.SPRITE_SIZE.H === 0)
             lx.GAME.LOG.WARNING(
                 'SpriteAccessViolation', 
-                'The size was requested of a ' +
-                'sprite that has not been fully ' +
-                'loaded yet. It is advised to ' +
-                'use a callback method to prevent bugs.'
+                'The size was requested of the ' +
+                'sprite "' + this.IMG.src + '", which ' +
+                'has not fully loaded yet. ' +
+                'It is advised to use a callback ' +
+                'method to prevent bugs.'
             );
 
         return this.SPRITE_SIZE;
@@ -77,7 +78,10 @@ this.Sprite = class {
     Source(src) {
         if (src == undefined) {
             if (this.IMG.src == undefined) {
-                lx.GAME.LOG.ERROR('SpriteSourceError', 'Sprite has no source.');
+                lx.GAME.LOG.ERROR(
+                    'SpriteSourceError', 
+                    'Sprite has no available image source.'
+                );
                 return;
             }
 
@@ -107,13 +111,18 @@ this.Sprite = class {
             //or a HTML canvas or HTML image.
 
             else {
-                if (src.CANVAS != undefined) 
+                if (src.CANVAS != undefined) {
                     this.IMG = src.CANVAS;
-                else 
+
+                    this.SPRITE_SIZE.W = src.CANVAS.width;
+                    this.SPRITE_SIZE.H = src.CANVAS.height;
+                }
+                else {
                     this.IMG = src;
 
-                this.SPRITE_SIZE.W = src.width;
-                this.SPRITE_SIZE.H = src.height;
+                    this.SPRITE_SIZE.W = src.width;
+                    this.SPRITE_SIZE.H = src.height;
+                }
             }
         }
         
@@ -341,9 +350,18 @@ this.Sprite = class {
 
             if (this.ROTATION === 0) {
                 if (CLIP == undefined)
-                    TARGET.drawImage(IMG, POS.X, POS.Y, SIZE.W, SIZE.H);
+                    TARGET.drawImage(
+                        IMG, 
+                        POS.X, POS.Y, SIZE.W, SIZE.H
+                    );
                 else
-                    TARGET.drawImage(IMG, CLIP.X, CLIP.Y, CLIP.W, CLIP.H, POS.X, POS.Y, CLIP.W*lx.GAME.SCALE, CLIP.H*lx.GAME.SCALE);
+                    TARGET.drawImage(
+                        IMG, 
+                        CLIP.X, CLIP.Y, 
+                        CLIP.W, CLIP.H, 
+                        POS.X, POS.Y, 
+                        CLIP.W*lx.GAME.SCALE, CLIP.H*lx.GAME.SCALE
+                    );
             }
             else {
                 if (!CANVAS_SAVED) {
@@ -355,16 +373,32 @@ this.Sprite = class {
                 TARGET.rotate(this.ROTATION);
 
                 if (CLIP == undefined)
-                    TARGET.drawImage(IMG, -SIZE.W/2, -SIZE.H/2, SIZE.W, SIZE.H);
+                    TARGET.drawImage(
+                        IMG, 
+                        -SIZE.W/2, -SIZE.H/2, 
+                        SIZE.W, SIZE.H
+                    );
                 else
-                    TARGET.drawImage(IMG, CLIP.X, CLIP.Y, CLIP.W, CLIP.H, -CLIP.W*lx.GAME.SCALE/2, -CLIP.H*lx.GAME.SCALE/2, CLIP.W*lx.GAME.SCALE, CLIP.H*lx.GAME.SCALE);
+                    TARGET.drawImage(
+                        IMG, 
+                        CLIP.X, CLIP.Y, 
+                        CLIP.W, CLIP.H, 
+                        -CLIP.W*lx.GAME.SCALE/2, -CLIP.H*lx.GAME.SCALE/2, 
+                        CLIP.W*lx.GAME.SCALE, CLIP.H*lx.GAME.SCALE
+                    );
             }
         }
         else 
             //Clipped image
 
             if (this.ROTATION === 0) 
-                TARGET.drawImage(this.IMG, this.CLIP.X, this.CLIP.Y, this.CLIP.W, this.CLIP.H, POS.X, POS.Y, SIZE.W, SIZE.H);
+                TARGET.drawImage(
+                    this.IMG, 
+                    this.CLIP.X, this.CLIP.Y, 
+                    this.CLIP.W, this.CLIP.H, 
+                    POS.X, POS.Y, 
+                    SIZE.W, SIZE.H
+                );
             else {
                 if (!CANVAS_SAVED) {
                     TARGET.save();
@@ -373,7 +407,13 @@ this.Sprite = class {
                 
                 TARGET.translate(POS.X + SIZE.W/2, POS.Y + SIZE.H/2);
                 TARGET.rotate(this.ROTATION);
-                TARGET.drawImage(this.IMG, this.CLIP.X, this.CLIP.Y, this.CLIP.W, this.CLIP.H, -SIZE.W/2, -SIZE.H/2, SIZE.W, SIZE.H);
+                TARGET.drawImage(
+                    this.IMG, 
+                    this.CLIP.X, this.CLIP.Y, 
+                    this.CLIP.W, this.CLIP.H, 
+                    -SIZE.W/2, -SIZE.H/2, 
+                    SIZE.W, SIZE.H
+                );
             }
         
         //Restore canvas if necessary

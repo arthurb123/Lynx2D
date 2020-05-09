@@ -62,15 +62,15 @@ this.MoveToPosition = function(gameobject, x, y, time) {
     else
         gameobject.BEING_MOVED = true;
     
-    let frames = time / 1000 * 60,
-        dx = x-gameobject.Position().X,
-        dy = y-gameobject.Position().Y,
+    let pos = gameobject.Position(),
+        frames = time / 1000 * 60,
+        dx = x-pos.X,
+        dy = y-pos.Y,
         speedX = dx / frames,
         speedY = dy / frames;
 
     let updateIdentifier = lx.GAME.ADD_LOOPS(function() {
-        gameobject.POS.X += speedX;
-        gameobject.POS.Y += speedY;
+        gameobject.Move(speedX, speedY);
 
         frames--;
 
@@ -136,4 +136,17 @@ this.DOT_PRODUCT = function(POS1, POS2) {
     //Calculate dot product and return
 
     return POS1.X * POS2.X + POS1.Y * POS2.Y;
+};
+
+this.HASH_CODE = function(STRING) {
+    let HASH = 0;
+
+    for (let i = 0; i < STRING.length; i++) {
+        let CHAR = STRING.charCodeAt(i);
+
+        HASH = ((HASH << 5) - HASH) + CHAR;
+        HASH = HASH & HASH;
+    }
+
+    return HASH;
 };

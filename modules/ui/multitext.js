@@ -161,7 +161,7 @@ this.UIMultiText = class extends UIElement {
     RENDER(POS, OPACITY) {
         if (!POS)
             POS = { X: 0, Y: 0 };
-        if (!OPACITY)
+        if (OPACITY == undefined)
             OPACITY = 1;
 
         let SCALE    = (lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE * .75);
@@ -215,20 +215,11 @@ this.UIMultiText = class extends UIElement {
 
         if (this.TARGET)
             POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
-
+        
         //Render text lines
 
         for (let i = 0; i < this.TEXT.length; i++) {
             let LINE = this.TEXT[i];
-
-            if (this.TARGET) {
-                let TARGET_POS = this.TARGET.Position();
-
-                POS = lx.GAME.TRANSLATE_FROM_FOCUS({ 
-                    X: TARGET_POS.X+POS.X, 
-                    Y: TARGET_POS.Y+POS.Y 
-                });
-            }
 
             RENDER_TEXT(LINE, POS.X, POS.Y);
         }

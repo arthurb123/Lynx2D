@@ -191,7 +191,8 @@ class Collidable {
     */
     
     Disable() {
-        if (!this.ENABLED) return;
+        if (!this.ENABLED) 
+            return;
         
         lx.GAME.COLLIDERS[this.COLLIDER_ID] = undefined;
         this.COLLIDER_ID = undefined;

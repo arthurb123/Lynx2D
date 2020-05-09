@@ -73,14 +73,14 @@ class Showable {
     };
 
     /**
-     * Get/Set the showable's position.
+     * Get/Set the showable's position, or offset if following.
      * @param {number} x - Sets the x position if specified.
      * @param {number} y - Sets the y position if specified.
      * @return {object} Gets {X,Y} if left empty.
     */
 
     Position(x, y) {
-        if (!x || !y) {
+        if (x == undefined || y == undefined) {
             if (this.TARGET) {
                 let TARGET_POS = this.TARGET.Position();
 
@@ -105,25 +105,41 @@ class Showable {
     };
 
     /**
+     * Get/Set the UI element's offset. The offset is used when following.
+     * @param {number} x - The offset x delta.
+     * @param {number} y - The offset y delta.
+     */
+
+    Offset(x, y) {
+        if (x == undefined || y == undefined)
+            return this.OFFSET;
+        else
+            this.OFFSET = {
+                X: x,
+                Y: y
+            };
+
+        return this;
+    };
+
+    /**
      * Adjust the showable's position.
      * @param {number} x - The position x delta.
      * @param {number} y - The position y delta.
      */
 
     Move(x, y) {
-        //Adjust offset if has a target
+        //Adjust position if not following
 
-        if (this.TARGET) {
-            this.OFFSET += x;
-            this.OFFSET += y;
-        }
-
-        //Otherwise adjust position
-
-        else {
+        if (!this.TARGET) {
             this.POS.X += x;
             this.POS.Y += y;
         }
+
+        //Always adjust offset
+
+        this.OFFSET.X += x;
+        this.OFFSET.Y += y;
 
         return this;
     };
@@ -149,10 +165,6 @@ class Showable {
 
     StopFollowing() {
         delete this.TARGET;
-        this.POS = {
-            X: this.OFFSET.X,
-            Y: this.OFFSET.Y
-        };
         
         return this;
     };

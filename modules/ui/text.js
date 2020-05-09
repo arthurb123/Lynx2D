@@ -14,12 +14,12 @@ this.UIText = class extends UIElement {
     constructor(text, x, y, size, color, font) {
         super(x, y);
 
-        this.TEXT = text;
+        this.TEXT  = text;
         this.ALIGN = 'left';
     
-        this.SIZE = (size == undefined ? 14 : size);
+        this.SIZE  = (size  == undefined ? 14           : size);
         this.COLOR = (color == undefined ? 'whitesmoke' : color);
-        this.FONT = (font == undefined ? 'Verdana' : font);
+        this.FONT  = (font  == undefined ? 'Verdana'    : font);
     }
 
     /**
@@ -129,7 +129,7 @@ this.UIText = class extends UIElement {
     RENDER(POS, OPACITY) {
         if (!POS)
             POS = { X: 0, Y: 0 };
-        if (!OPACITY)
+        if (OPACITY == undefined)
             OPACITY = 1;
 
         lx.CONTEXT.GRAPHICS.save();
@@ -139,7 +139,7 @@ this.UIText = class extends UIElement {
         lx.CONTEXT.GRAPHICS.globalAlpha = OPACITY;
         
         if (this.SHADOW) {
-            lx.CONTEXT.GRAPHICS.shadowColor = this.SHADOW.C;
+            lx.CONTEXT.GRAPHICS.shadowColor   = this.SHADOW.C;
             lx.CONTEXT.GRAPHICS.shadowOffsetX = this.SHADOW.X;
             lx.CONTEXT.GRAPHICS.shadowOffsetY = this.SHADOW.Y;
         }
@@ -150,7 +150,7 @@ this.UIText = class extends UIElement {
 
         if (this.TARGET)
             POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
-        
+
         lx.CONTEXT.GRAPHICS.fillText(this.TEXT, POS.X, POS.Y);
         lx.CONTEXT.GRAPHICS.restore();
     };
