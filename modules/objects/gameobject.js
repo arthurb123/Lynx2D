@@ -654,7 +654,7 @@ this.GameObject = class extends Showable {
             
             if (this.ON_HOVER_DRAW != undefined &&
                 lx.GAME.GET_MOUSE_IN_BOX(POS, SIZE))
-                this.ON_HOVER({
+                this.ON_HOVER_DRAW({
                     graphics: lx.CONTEXT.GRAPHICS,
                     position: POS,
                     size: SIZE

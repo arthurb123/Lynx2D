@@ -813,13 +813,10 @@ this.GAME = {
 
         let MOUSE = lx.GetMousePosition();
         
-        if (POS.X <= MOUSE.X        && 
-            POS.X+SIZE.W >= MOUSE.X && 
-            POS.Y <= MOUSE.Y        && 
-            POS.Y+SIZE.H >= MOUSE.Y)
-                return true;
-        
-        return false;
+        return (POS.X <= MOUSE.X        && 
+                POS.X+SIZE.W >= MOUSE.X && 
+                POS.Y <= MOUSE.Y        && 
+                POS.Y+SIZE.H >= MOUSE.Y);
     },
     ADD_ON_RESIZE_EVENT: function(CALLBACK) {
         for (let i = 0; i < this.ON_RESIZE_EVENTS.length+1; i++)
