@@ -309,7 +309,7 @@ this.GAME = {
 
         this.LOOPS.forEach(function(loop) {
             try {
-                if (loop != undefined) 
+                if (loop && typeof loop === 'function') 
                     loop(); 
             } catch (err) {
                 lx.GAME.LOG.ERROR('LoopHandleError', err);
@@ -522,13 +522,13 @@ this.GAME = {
             return POS;
         else {
             let FOCUS_POS  = this.FOCUS.Position();
-            let FOCUS_SIZE = this.FOCUS.Size();
+            let FOCUS_SIZE = this.FOCUS.SIZE;
             let DIM        = lx.GetDimensions();
 
             if (FOCUS_SIZE   == undefined ||
                 FOCUS_SIZE.W == undefined ||
                 FOCUS_SIZE.H == undefined)
-                this.FOCUS.Size(0, 0);
+                this.FOCUS.SIZE = { W: 0, H: 0 };
             
             return {
                 X: Math.floor(Math.round(POS.X)-Math.round(FOCUS_POS.X)+DIM.width/(2*this.SCALE)-FOCUS_SIZE.W/2) * this.SCALE,
@@ -541,13 +541,13 @@ this.GAME = {
             return POS;
         else {
             let FOCUS_POS  = this.FOCUS.Position();
-            let FOCUS_SIZE = this.FOCUS.Size();
+            let FOCUS_SIZE = this.FOCUS.SIZE;
             let DIM        = lx.GetDimensions();
 
             if (FOCUS_SIZE   == undefined ||
                 FOCUS_SIZE.W == undefined ||
                 FOCUS_SIZE.H == undefined)
-                this.FOCUS.Size(0, 0);
+                this.FOCUS.SIZE = { W: 0, H: 0 };
             
             return {
                 X: Math.floor(Math.round(POS.X)+Math.round(FOCUS_POS.X)-DIM.width/2+FOCUS_SIZE.W/2),
@@ -813,10 +813,10 @@ this.GAME = {
 
         let MOUSE = lx.GetMousePosition();
         
-        return (POS.X <= MOUSE.X        && 
-                POS.X+SIZE.W >= MOUSE.X && 
-                POS.Y <= MOUSE.Y        && 
-                POS.Y+SIZE.H >= MOUSE.Y);
+        return (POS.X < MOUSE.X        && 
+                POS.X+SIZE.W > MOUSE.X && 
+                POS.Y < MOUSE.Y        && 
+                POS.Y+SIZE.H > MOUSE.Y);
     },
     ADD_ON_RESIZE_EVENT: function(CALLBACK) {
         for (let i = 0; i < this.ON_RESIZE_EVENTS.length+1; i++)

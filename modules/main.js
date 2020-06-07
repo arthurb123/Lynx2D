@@ -261,8 +261,8 @@ this.CreateController = function() {
 
         for (let i = 0; i < lx.GAME.MOVE_MOUSE_EVENTS.length; i++)
             lx.GAME.MOVE_MOUSE_EVENTS[i]({
-                mousePos: lx.GAME.CONTROLLER.MOUSE.POS,
-                worldPos: worldPosition
+                mousePosition: lx.CONTEXT.CONTROLLER.MOUSE.POS,
+                worldPosition: worldPosition
             });
     });
     
