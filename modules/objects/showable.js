@@ -189,4 +189,19 @@ class Showable {
         
         return this;
     };
+
+    /**
+     * Checks if the showable is visible on screen.
+     * @returns {boolean} - Indicates if the showable is visible on screen.
+     */
+
+    IsVisible() {
+        let pos = this.Position();
+        let size = { X: 0, Y: 0 };
+
+        if (this.Size != undefined)
+            size = this.Size();
+
+        return lx.GAME.ON_SCREEN(pos, size);
+    }
 };
