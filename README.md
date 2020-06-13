@@ -4,7 +4,7 @@ The Lynx2D game framework, for fast and easy 2D canvas rendering!
 
 ## Features
 - Mouse and touch support
-- Audio support
+- Audio with spatial playback support
 - Classic perlin noise support
 - Raycasting support
 - Cached drawing support
@@ -25,7 +25,8 @@ The Lynx2D game framework, for fast and easy 2D canvas rendering!
 
 ## Planned Features
 - More UI elements
-  * ProgressBar
+  * Checkbox
+  * Slider
   * TextBox
 
 ### Support Lynx2D
