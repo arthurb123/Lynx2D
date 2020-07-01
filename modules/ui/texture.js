@@ -65,6 +65,12 @@ this.UITexture = class extends UIElement {
         POS.X += SELF_POS.X;
         POS.Y += SELF_POS.Y;
 
+        let SCALE = lx.Scale();
+        let SCALED_SIZE = {
+            W: SIZE.W * SCALE,
+            H: SIZE.H * SCALE
+        };
+
         if (this.TARGET)
             POS = lx.GAME.TRANSLATE_FROM_FOCUS(POS);
         
@@ -73,7 +79,7 @@ this.UITexture = class extends UIElement {
             lx.CONTEXT.GRAPHICS.save();
             lx.CONTEXT.GRAPHICS.fillStyle = this.SPRITE;
             lx.CONTEXT.GRAPHICS.globalAlpha = OPACITY;
-            lx.CONTEXT.GRAPHICS.fillRect(POS.X, POS.Y, SIZE.W, SIZE.H);
+            lx.CONTEXT.GRAPHICS.fillRect(POS.X, POS.Y, SCALED_SIZE.W, SCALED_SIZE.H);
             lx.CONTEXT.GRAPHICS.restore();
         }
         else

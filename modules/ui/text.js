@@ -132,8 +132,10 @@ this.UIText = class extends UIElement {
         if (OPACITY == undefined)
             OPACITY = 1;
 
+        let SCALE = (lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE * .75);
+
         lx.CONTEXT.GRAPHICS.save();
-        lx.CONTEXT.GRAPHICS.font = this.SIZE * (lx.GAME.SCALE === 1 ? 1 : lx.GAME.SCALE * .75) + 'px ' + this.FONT;
+        lx.CONTEXT.GRAPHICS.font = this.SIZE * SCALE + 'px ' + this.FONT;
         lx.CONTEXT.GRAPHICS.fillStyle = this.COLOR;
         lx.CONTEXT.GRAPHICS.textAlign = this.ALIGN;
         lx.CONTEXT.GRAPHICS.globalAlpha = OPACITY;
