@@ -76,6 +76,14 @@ class UIElement {
         return this;
     };
 
+    /** Gets the UI element's position in screen space.
+     * @return {object} Gets {X,Y} position in screen space
+     */
+
+    ScreenPosition() {
+        return lx.GAME.TRANSLATE_FROM_FOCUS(this.Position());
+    };
+
     /**
      * Get/Set the UI element's offset. The offset is used when following.
      * @param {number} x - The offset x delta.

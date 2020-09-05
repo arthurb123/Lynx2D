@@ -73,7 +73,7 @@ class Showable {
     };
 
     /**
-     * Get/Set the showable's position, or offset if following.
+     * Get/Set the showable's position.
      * @param {number} x - Sets the x position if specified.
      * @param {number} y - Sets the y position if specified.
      * @return {object} Gets {X,Y} if left empty.
@@ -102,6 +102,14 @@ class Showable {
         }
         
         return this;
+    };
+
+    /** Gets the showable position in screen space.
+     * @return {object} Gets {X,Y} position in screen space
+     */
+
+    ScreenPosition() {
+        return lx.GAME.TRANSLATE_FROM_FOCUS(this.Position());
     };
 
     /**
