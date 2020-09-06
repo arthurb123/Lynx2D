@@ -213,6 +213,14 @@ this.Sprite = class {
 
         return this;
     };
+
+    /**
+     * Get the HTML image of the Sprite.
+     */
+    
+    Image() {
+        return this.IMG;
+    }
     
     //Private methods
 

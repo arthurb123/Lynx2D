@@ -68,3 +68,12 @@ this.DrawSprite = function(sprite, x, y, w, h) {
     
     return this;
 };
+
+/**
+ * Directly draw on the graphics context.
+ * @param {Function} cb - The callback method which gets the graphics context supplied.
+ */
+
+this.Draw = function(cb) {
+    cb(lx.CONTEXT.GRAPHICS);
+};
