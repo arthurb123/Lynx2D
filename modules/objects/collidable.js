@@ -242,10 +242,10 @@ class Collidable {
 
             //Position rotated vertex
 
-            let posRotVertex = {
-                X: rotVertex.X+this.POS.X,
-                Y: rotVertex.Y+this.POS.Y
-            };
+            let posRotVertex = new SAT.Vector(
+                rotVertex.X+this.POS.X,
+                rotVertex.Y+this.POS.Y
+            );
 
             //Add vertex to shape
 
@@ -254,11 +254,17 @@ class Collidable {
 
         //Return the new positioned shape array
 
-        return posShape;
+        return new SAT.Polygon(
+            new SAT.Vector(),
+            posShape
+        );
     };
 
     GET_COLLISION_DIRECTION(collider) {
         //Calculate center distance
+
+        let POS1 = this.Position(),
+            POS2 = collider.Position();
 
         let SIZE1 = this.Size(),
             SIZE2 = collider.Size();
@@ -268,19 +274,19 @@ class Collidable {
 
         let lowest, distances = [{
             tag: 'left',
-            actual: Math.abs(this.POS.X-collider.POS.X-SIZE2.W)
+            actual: Math.abs(POS1.X-POS2.X-SIZE2.W)
         },
         {
             tag: 'right',
-            actual: Math.abs(collider.POS.X-this.POS.X-SIZE1.W)
+            actual: Math.abs(POS2.X-POS1.X-SIZE1.W)
         },
         {
             tag: 'up',
-            actual: Math.abs(this.POS.Y-collider.POS.Y-SIZE2.H)
+            actual: Math.abs(POS1.Y-POS2.Y-SIZE2.H)
         },
         {
             tag: 'down',
-            actual: Math.abs(collider.POS.Y-this.POS.Y-SIZE1.H)
+            actual: Math.abs(POS2.Y-POS1.Y-SIZE1.H)
         }];
 
         //Check which directional distance is the smallest
@@ -323,61 +329,18 @@ class Collidable {
         if (this.STATIC && collider.STATIC)
             return;
 
-        //Check if collision occurred
+        //Get positioned shapes
 
         let shapeA = this.GET_POSITIONED_SHAPE();
         let shapeB = collider.GET_POSITIONED_SHAPE();
-        let overlap = Infinity;
         
-        //Check vertices of the A shape
+        //Perform SAT using SAT.js
 
-        for (let shape = 0; shape < 2; shape++) {
-            if (shape === 1) {
-                let oldShapeA = shapeA.splice(0);
-                shapeA = shapeB;
-                shapeB = oldShapeA;
-            }
+        let response = new SAT.Response();
+        let collided = SAT.testPolygonPolygon(shapeA, shapeB, response);
 
-            for (let a = 0; a < shapeA.length; a++)
-            {
-                //Calculate normalized axis projection
-
-                let b = (a + 1) % shapeA.length;
-                let axis = lx.NORMALIZE({
-                    X: -(shapeA[b].Y - shapeA[a].Y),
-                    Y: shapeA[b].X - shapeA[a].X
-                });
-
-                //Work out min and max 1D points for r1
-
-                let min_r1 = Infinity, max_r1 = -Infinity;
-                for (let p = 0; p < shapeA.length; p++)
-                {
-                    let q = lx.DOT_PRODUCT(shapeA[p], axis);
-                    min_r1 = Math.min(min_r1, q);
-                    max_r1 = Math.max(max_r1, q);
-                }
-
-                //Work out min and max 1D points for r2
-
-                let min_r2 = Infinity, max_r2 = -Infinity;
-                for (let p = 0; p < shapeB.length; p++)
-                {
-                    let q = lx.DOT_PRODUCT(shapeB[p], axis);
-                    min_r2 = Math.min(min_r2, q);
-                    max_r2 = Math.max(max_r2, q);
-                }
-
-                //Calculate actual overlap along projected axis, and store the minimum
-
-                overlap = Math.min(Math.min(max_r1, max_r2) - Math.max(min_r1, min_r2), overlap);
-
-                //Check if collision occurred
-
-                if (!(max_r2 >= min_r1 && max_r1 >= min_r2))
-                    return false;
-            }
-        }
+        if (!collided)
+            return false;
 
         //Calculate collision direction
 
@@ -389,32 +352,6 @@ class Collidable {
             case 'down':  n_direction = 'up';    break;
             case 'up':    n_direction = 'down';  break;
         }
-
-        //Handle collision(s)
-
-        this.ON_COLLISION(collider, direction);
-        collider.ON_COLLISION(this, n_direction);
-
-        //Calculate displacement
-
-        let displacement = {
-            X: overlap,
-            Y: overlap
-        };
-
-        //Based on collision direction, eliminate lowest
-        //axis of displacement
-
-        if (direction === 'right' || direction === 'left') {
-            displacement.Y = 0;
-            if (direction === 'left')
-                displacement.X *= -1;
-        }
-        else if (direction === 'up' || direction === 'down') {
-            displacement.X = 0;
-            if (direction === 'up') 
-                displacement.Y *= -1;
-        }
         
         //Handle solidity displacement
 
@@ -422,22 +359,27 @@ class Collidable {
         {
             let go = lx.FindGameObjectWithCollider(collider);
             if (go != undefined) {
-                go.POS.X += displacement.X;
-                go.POS.Y += displacement.Y;
-                collider.POS.X += displacement.X;
-                collider.POS.Y += displacement.Y;
+                go.POS.X += response.overlapV.x;
+                go.POS.Y += response.overlapV.y;
+                collider.POS.X += response.overlapV.x;
+                collider.POS.Y += response.overlapV.y;
             }
         }
         else if (this.SOLID && collider.SOLID && !this.STATIC)
         {
             let go = lx.FindGameObjectWithCollider(this);
             if (go != undefined) {
-                go.POS.X -= displacement.X;
-                go.POS.Y -= displacement.Y;
-                this.POS.X -= displacement.X;
-                this.POS.Y -= displacement.Y;
+                go.POS.X -= response.overlapV.x;
+                go.POS.Y -= response.overlapV.y;
+                this.POS.X -= response.overlapV.x;
+                this.POS.Y -= response.overlapV.y;
             }
         }
+
+        //Handle collision(s)
+
+        this.ON_COLLISION(collider, direction);
+        collider.ON_COLLISION(this, n_direction);
         
         //Return true
 

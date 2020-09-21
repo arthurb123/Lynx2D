@@ -116,6 +116,16 @@ const buildFramework = () => {
     build +=    '};\n' + 
             '};';
 
+    //Add includes
+
+    log('Including external packages');
+
+    build += '\n\n/* Included external packages */';
+
+    let includeFiles = fs.readdirSync('include');
+    for (let file in includeFiles)
+        build += includePackage('include/' + includeFiles[file]);
+
     //Add initialization
 
     build += '\n\n/* Create Lynx2D instance */\n\nconst lx = new Lynx2D();';
@@ -156,6 +166,9 @@ const buildModule = (src, isObject) => {
     if (built[src])
         return '';
 
+    let name = src.substr(src.lastIndexOf('/')+1, src.lastIndexOf('.')-src.lastIndexOf('/')-1);
+    name = name[0].toUpperCase() + name.substr(1, name.length-1);
+
     try {
         //Get start date
 
@@ -176,9 +189,6 @@ const buildModule = (src, isObject) => {
         
         //Create module comment
         
-        let name = src.substr(src.lastIndexOf('/')+1, src.lastIndexOf('.')-src.lastIndexOf('/')-1);
-        name = name[0].toUpperCase() + name.substr(1, name.length-1);
-        
         let comment = '/* ' + name + (isObject ? ' Object */' : ' */');
         
         //Output
@@ -192,6 +202,46 @@ const buildModule = (src, isObject) => {
         //Output
 
         error('Could not build "' + name + '" - ' + err);
+
+        //Return empty
+
+        return '';
+    }
+};
+
+const includePackage = (src) => {
+    let name = src.substr(src.lastIndexOf('/')+1, src.lastIndexOf('.')-src.lastIndexOf('/')-1);
+    name = name[0].toUpperCase() + name.substr(1, name.length-1);
+
+    try {
+        //Get start date
+
+        let startTime = new Date().getTime();
+        
+        //Read JS module
+
+        let js = fs.readFileSync(src, 'utf-8');
+
+        //Trim comments if prefered
+
+        if (buildPreferences.removeComments) 
+            js = trimComments(js);
+        
+        //Create module comment
+        
+        let comment = '/* External package: ' + name + ' */';
+        
+        //Output
+        
+        success('Included "' + name + '" (' + (new Date().getTime()-startTime) + ' ms)');
+
+        //Return JS module
+
+        return comment + '\n\n' + js + '\n\n';
+    } catch (err) {
+        //Output
+
+        error('Could not include "' + name + '" - ' + err);
 
         //Return empty
 
