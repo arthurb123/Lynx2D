@@ -389,15 +389,21 @@ class Collidable {
     RENDER() {
         //Get positioned shape
         
-        let SHAPE = this.GET_POSITIONED_SHAPE();
+        let SHAPE = this.GET_POSITIONED_SHAPE().calcPoints;
 
         //Draw all vertices
 
         for (let V = 0; V < SHAPE.length; V++) {
             //Calculate necessary positions
 
-            let START = lx.GAME.TRANSLATE_FROM_FOCUS(SHAPE[V]);
-            let END   = lx.GAME.TRANSLATE_FROM_FOCUS(SHAPE[(V+1) % SHAPE.length]);
+            let START = lx.GAME.TRANSLATE_FROM_FOCUS({ 
+                X: SHAPE[V].x, 
+                Y: SHAPE[V].y 
+            });
+            let END   = lx.GAME.TRANSLATE_FROM_FOCUS({ 
+                X: SHAPE[(V+1) % SHAPE.length].x, 
+                Y: SHAPE[(V+1) % SHAPE.length].y 
+            });
 
             //Stroke line from start to end
 
