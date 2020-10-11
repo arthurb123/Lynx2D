@@ -834,6 +834,18 @@
                       </a></li>
                       
                       <li><a
+                        href='#collidablemove'
+                        class='regular pre-open'>
+                        #Move
+                      </a></li>
+                      
+                      <li><a
+                        href='#collidablescreenposition'
+                        class='regular pre-open'>
+                        #ScreenPosition
+                      </a></li>
+                      
+                      <li><a
                         href='#collidablerotation'
                         class='regular pre-open'>
                         #Rotation
@@ -8733,6 +8745,135 @@ from memory.</p>
       </div>
     </div>
   
+    <div class='border-bottom' id='collidablemove'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>Move(x, y)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Adjust the collider's position.</p>
+
+    <div class='pre p1 fill-light mt0'>Move(x: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>, y: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>x</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The position x delta.
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>y</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The position y delta.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='collidablescreenposition'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ScreenPosition()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Gets the collider position in screen space.</p>
+
+    <div class='pre p1 fill-light mt0'>ScreenPosition(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></code>:
+        Gets {X,Y} position in screen space
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
     <div class='border-bottom' id='collidablerotation'>
       <div class="clearfix small pointer toggle-sibling">
         <div class="py1 contain">
@@ -14464,7 +14605,8 @@ from memory.</p>
   </div>
   
 
-  <p>Get/Set if vertical sync is enabled.</p>
+  <p>Get/Set if vertical sync is enabled.
+This is an experimental setting and might not work properly across all browsers.</p>
 
     <div class='pre p1 fill-light mt0'>lx.VerticalSync(vsync: any, fps: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></div>
   

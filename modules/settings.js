@@ -44,7 +44,8 @@ this.Framerate = function(fps) {
 };
 
 /** 
- * Get/Set if vertical sync is enabled.
+ * Get/Set if vertical sync is enabled. 
+ * This is an experimental setting and might not work properly across all browsers.
  * @param {number} fps - Sets vertical sync if specified.
  * @return {number} Gets vertical sync if left empty.
 */

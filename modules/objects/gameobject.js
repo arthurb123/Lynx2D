@@ -620,7 +620,10 @@ this.GameObject = class extends Showable {
     //Private methods
     
     RENDER() {
-        let POS  = this.Position();
+        let POS  = {
+            X: Math.round(this.Position().X),
+            Y: Math.round(this.Position().Y)
+        };
         let SIZE = this.Size();
 
         if (lx.GAME.ON_SCREEN(POS, SIZE)) {
@@ -693,7 +696,7 @@ this.GameObject = class extends Showable {
             this.MOVEMENT.VY
         );
         
-        if (this.COLLIDER != undefined) 
+        if (this.COLLIDER != undefined)
             this.COLLIDER.POS = {
                 X: POS.X+this.COLLIDER.OFFSET.X,
                 Y: POS.Y+this.COLLIDER.OFFSET.Y

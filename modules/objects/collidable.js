@@ -141,6 +141,27 @@ class Collidable {
         return this;
     };
 
+    /**
+     * Adjust the collider's position.
+     * @param {number} x - The position x delta.
+     * @param {number} y - The position y delta.
+     */
+
+    Move(x, y) {
+        this.POS.X += x;
+        this.POS.Y += y;
+
+        return this;
+    };
+
+    /** Gets the collider position in screen space.
+     * @return {object} Gets {X,Y} position in screen space
+     */
+
+    ScreenPosition() {
+        return lx.GAME.TRANSLATE_FROM_FOCUS(this.Position());
+    };
+
     /** 
      * Get/Set the collider rotation (in radians).
      * @param {number} angle - Sets new rotation if specified.
@@ -243,8 +264,8 @@ class Collidable {
             //Position rotated vertex
 
             let posRotVertex = new SAT.Vector(
-                rotVertex.X+this.POS.X,
-                rotVertex.Y+this.POS.Y
+                rotVertex.X,
+                rotVertex.Y
             );
 
             //Add vertex to shape
@@ -255,9 +276,22 @@ class Collidable {
         //Return the new positioned shape array
 
         return new SAT.Polygon(
-            new SAT.Vector(),
+            new SAT.Vector(this.POS.X, this.POS.Y),
             posShape
         );
+    };
+
+    ON_COLLISION(collider, direction) {
+        //Callback on collision
+
+        this.OnCollide({
+            self: this,
+            trigger: collider,
+            direction: direction,
+            gameObject: lx.FindGameObjectWithCollider(collider),
+            static: collider.STATIC,
+            solid: collider.SOLID
+        });
     };
 
     GET_COLLISION_DIRECTION(collider) {
@@ -301,19 +335,6 @@ class Collidable {
         
         return lowest.tag;
     };
-
-    ON_COLLISION(collider, direction) {
-        //Callback on collision
-
-        this.OnCollide({
-            self: this,
-            trigger: collider,
-            direction: direction,
-            gameObject: lx.FindGameObjectWithCollider(collider),
-            static: collider.STATIC,
-            solid: collider.SOLID
-        });
-    };
     
     CHECK_COLLISION(collider) {
         //If the collider has not been fully initialized yet, stop collision detection.
@@ -345,6 +366,9 @@ class Collidable {
         //Calculate collision direction
 
         let direction = this.GET_COLLISION_DIRECTION(collider);
+
+        //Invert direction for other collider
+
         let n_direction;
         switch (direction) {
             case 'right': n_direction = 'left';  break;
@@ -359,20 +383,28 @@ class Collidable {
         {
             let go = lx.FindGameObjectWithCollider(collider);
             if (go != undefined) {
-                go.POS.X += response.overlapV.x;
-                go.POS.Y += response.overlapV.y;
-                collider.POS.X += response.overlapV.x;
-                collider.POS.Y += response.overlapV.y;
+                go.Move(
+                    response.overlapV.x, 
+                    response.overlapV.y
+                );
+                collider.Move(
+                    response.overlapV.x,
+                    response.overlapV.y
+                );
             }
         }
         else if (this.SOLID && collider.SOLID && !this.STATIC)
         {
             let go = lx.FindGameObjectWithCollider(this);
             if (go != undefined) {
-                go.POS.X -= response.overlapV.x;
-                go.POS.Y -= response.overlapV.y;
-                this.POS.X -= response.overlapV.x;
-                this.POS.Y -= response.overlapV.y;
+                go.Move(
+                    -response.overlapV.x,
+                    -response.overlapV.y
+                );
+                this.Move(
+                    -response.overlapV.x,
+                    -response.overlapV.y
+                );
             }
         }
 
